@@ -3,9 +3,11 @@ import cors from 'cors';
 import config from './dbConfig.js';
 import UsuariosRoutes from './routes.js'
 import db from './db.js'
+import cookieParser from 'cookie-parser';
 const app = express()
 
 app.use(cors())
+app.use(cookieParser());
 app.set('trust proxy', true);
 app.use((req, res, next) => {
     const clientIp = req.headers['x-forwarded-for'] || req.remoteAddress;

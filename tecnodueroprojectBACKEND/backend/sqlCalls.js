@@ -8,7 +8,7 @@ export const getAllUsuarios = async (req, res) => {
         const usuarios =  await UsuariosModel.findAll({
             attributes: atributos
         })
-        
+      
         res.json(usuarios)
         
     } catch (error) {
@@ -30,7 +30,20 @@ export const getUsuario = async (req, res)=>{
         res.json( {message: error.message} )
     }
 }
-
+//Mostrar un usuario nombre
+export const getUsuarioNombre = async(req,res) =>{
+    try{
+        const usuario = await UsuariosModel.findAll({
+            attributes: atributos,
+            where:{
+                username:req.params.username
+            }
+        })
+        res.json(usuario[0])
+    }catch(error){
+        res.json({message: error.message})
+    }
+}
 //Crear un aviso
 export const createUsuario = async (req,res)=>{
     try {

@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [passWord, setPassword] = useState('');
-    
+
     const handleLogin = () => {
-    // Agrega lógica de autenticación aquí (puede ser un llamado a una API)
+        axios.get(`http://localhost:8000/usuarios/username/${username}`)
+            .then(function (response) {
+            const datosUsuario = response.data;
+            if(datosUsuario.password === passWord){
+                console.log("Login correcto")
+                axios.post(`http://localhost:8000/usuarios/cookie/${datosUsuario}`).then(function(response){
+                    console.log(response.data)
+                })
+                console.log(response.data);
+            }
+            else{
+                console.log("creedenciales incorrectas")
+            }
+          
+        })
+            .catch(function (error) {
+          // Maneja los errores de la solicitud aquí
+          console.error('Login incorrecto:', error);
+        });
     console.log(`Username: ${username}, Password: ${passWord}`);
     }
     return(
