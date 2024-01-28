@@ -1,34 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-const Login = () => {
-    const [username, setUsername] = useState('');
-    const [passWord, setPassword] = useState('');
 
-    const handleLogin = () => {
-        axios.get(`http://localhost:8000/usuarios/username/${username}`)
-            .then(function (response) {
-            const datosUsuario = response.data;
-            if(datosUsuario.password === passWord){
-                console.log("Login correcto")
-                axios.post(`http://localhost:8000/usuarios/cookie/${datosUsuario}`).then(function(response){
-                    console.log(response.data)
-                })
-                console.log(response.data);
-            }
-            else{
-                console.log("creedenciales incorrectas")
-            }
-          
-        })
-            .catch(function (error) {
-          // Maneja los errores de la solicitud aquí
-          console.error('Login incorrecto:', error);
-        });
-    console.log(`Username: ${username}, Password: ${passWord}`);
-    }
+import Notification from './Notification'
+
+const Login = ({handleLogin, setPassword, setUsername, errorMessage, username, passWord}) => {
+   
     return(
         <div className='h-75 d-flex justify-content-center align-items-center'>
+            <Notification message={errorMessage}></Notification>
             <div className='row border '>
                 <div className='d-flex justify-content-center align-items-center '>
                 <img
@@ -36,7 +15,7 @@ const Login = () => {
                 alt="Descripción de la imagen" 
                 className="logo-tecnoduero "></img>
                 
-                    <form className='row border-start '>
+                    <form onSubmit={handleLogin} className='row border-start '>
                     <h2>Iniciar sesión</h2>
                         <label
                             className='mb-3 mt-3'>
@@ -69,6 +48,7 @@ const Login = () => {
                 </div>
             </div>
         </div>
+        //HOMEPAGE
     )
 }
 export default Login

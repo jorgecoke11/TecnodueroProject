@@ -3,7 +3,7 @@ import { getAllUsuarios, updateUsuario, deleteUsuario, getUsuario, createUsuario
 import {createCookie} from './Controller.js'
 export const routerUsuarios = express.Router()
 
-routerUsuarios.get('/', getAllUsuarios)
+routerUsuarios.post('/', getAllUsuarios)
 routerUsuarios.get('/:id', getUsuario )
 routerUsuarios.post('/', createUsuario)
 routerUsuarios.put('/:id', updateUsuario)

@@ -1,0 +1,11 @@
+POST http://localhost:8000/usuarios/
+Content-Type: application/json
+
+{
+  "nombre": "NombreUsuario",
+  "apellido_1": "Apellido1",
+  "apellido_2": "Apellido2",
+  "password": "clave1234",
+  "username": "nombredeusuario",
+  "tipo_usuario": 0
+}

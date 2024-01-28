@@ -1,10 +1,30 @@
 import UsuariosModel from "./model.js";
-
+import bcrypt from 'bcrypt';
+import { request } from "https";
+import jwt from 'jsonwebtoken'
 //** METODOS **//
 const atributos = ['id_usuario', 'nombre', 'apellido_1', 'apellido_2', 'password', 'username', 'tipo_usuario']
 //Mostrar registros
 export const getAllUsuarios = async (req, res) => {
+    let decodedToken = {}
     try {
+        const authorization = req.get('authorization')
+        let token = ''
+        
+        if(authorization && authorization.toLowerCase().startsWith('bearer')){
+            token = authorization.substring(7)
+            
+        }
+        try{
+            decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA)
+        }catch{}
+        console.log(decodedToken)
+        if(!token || !decodedToken){
+            return res.status(401).json({
+                error:'token missing or invalid'
+            })
+        }
+        
         const usuarios =  await UsuariosModel.findAll({
             attributes: atributos
         })
@@ -47,7 +67,22 @@ export const getUsuarioNombre = async(req,res) =>{
 //Crear un aviso
 export const createUsuario = async (req,res)=>{
     try {
-        await UsuariosModel.create(req.body)
+        // Extraer la contraseña del cuerpo de la solicitud
+        console.log('Cuerpo de la solicitud:', req.body); // Agrega esta línea para depurar 
+        const saltRounds  = 10;
+        // Generar el hash de la contraseña
+        const { password, ...userData } = req.body;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+        // Crear un nuevo objeto de usuario con la contraseña encriptada
+        const userWithHashedPassword = {
+            ...userData,
+            password: hashedPassword,
+        };
+        console.log('Cuerpo de la solicitud:', userWithHashedPassword); // Agrega esta línea para depurar 
+        await UsuariosModel.create(userWithHashedPassword,{
+            fields: atributos,
+        })
         res.json({
             "message": "Usuario creado correctamente"
         })

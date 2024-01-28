@@ -1,3 +1,4 @@
-const Constantes = {
-    URI: 'http://ip/avisos/'
+export const Constantes = {
+    URI: 'http://localhost:8000/'
 }
+export default Constantes
