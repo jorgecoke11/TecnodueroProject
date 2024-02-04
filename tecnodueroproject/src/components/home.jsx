@@ -1,12 +1,11 @@
 import React from "react";
-
-const Home = () => {
+import MainMenu from './MainMenu'
+import Notification from "./Notification";
+const Home = (user) => {
+    console.log(user)
     return (
-        <div className="h-75 d-flex justify-content-center align-items-center">
-            <div className="row">
-                <button className="btn btn-primary mb-3">Avisos</button>
-                <button className="btn btn-primary">Robots</button>
-            </div>
+        <div className='App'>
+            {user ? <MainMenu/> : <Notification message={'Sesion no iniciada'}></Notification>}
         </div>
     );
 };
