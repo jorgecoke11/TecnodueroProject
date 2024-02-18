@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const InputComponent = (props) =>{
+const InputNumberComponent = (props) =>{
     const {placeHolder, setInputText} = props
     const handleInputChange = (event)=>{
         setInputText(event.target.value);
@@ -12,9 +12,10 @@ const InputComponent = (props) =>{
                 placeholder={placeHolder} 
                 className='form-control'
                 onChange={handleInputChange}
+                type='number'
                 >
             </input>
         </div>
     )
 }
-export default InputComponent
+export default InputNumberComponent
