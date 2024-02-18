@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import  DropDownComponent  from './DropDown'
 import Button from "./Button";
+import RobotPrecios from "./Robot";
 const MainMenu = (user) =>{
     const [componenteActual, setComponenteActual] = useState('')
     const optionsRobots = ['Robot precios']
     const handleAvisos = () => {
         setComponenteActual(null);
       };
-    
+
     const handleRobots = () => {
         // Agrega lógica para el botón "Robots" si es necesario
         setComponenteActual(()=>{return(
             <div>
-                <DropDownComponent label={'Robots'} options={optionsRobots} />
-                
+                <RobotPrecios></RobotPrecios>
             </div>
-            )}); // Esto limpiaría el componente actual
+            )}); 
                             
   
     };
@@ -25,10 +25,8 @@ const MainMenu = (user) =>{
         <div className="row">
           <button className="btn btn-primary mb-3" onClick={handleAvisos}>Avisos</button>
           <button className="btn btn-primary" onClick={handleRobots}>Robots</button>
-
         </div>
       )}
-
     </div>
     )
 }

@@ -3,12 +3,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import  Button  from './Button'
 
 const DropDownComponent = (props) => {
-  const { options, label } = props;
+  const { options, label, onSelectChange} = props;
   const [selectedOption, setSelectedOption] = useState('');
-  const [boton, setBoton ] = useState('')
-  const handleSelectChange = (event) => {
+  const handleSelect = (event) => {
     setSelectedOption(event.target.value);
-    setBoton(<Button></Button>)
+    onSelectChange(event.target.value)
   };
 
   return (
@@ -18,7 +17,7 @@ const DropDownComponent = (props) => {
       <select
         className='form-control'
         id='dropdown'
-        onChange={handleSelectChange}
+        onChange={handleSelect}
         value={selectedOption}
       >
         <option value="" disabled></option>
@@ -29,7 +28,6 @@ const DropDownComponent = (props) => {
       <div className="mt-3">
         <p>Opción seleccionada: {selectedOption}</p>
       </div>
-      {boton}
     </div>
   );
 };
