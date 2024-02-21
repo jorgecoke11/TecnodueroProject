@@ -1,0 +1,7 @@
+POST http://localhost:8000/api/robots/preciosrobot/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTm9tYnJlVXN1YXJpbyIsInVzZXJuYW1lIjoibm9tYnJlZGV1c3VhcmlvIiwiaWF0IjoxNzA4NTI3MzE0LCJleHAiOjE3MDkxMzIxMTR9.Bqu9j44sXjEbCszLA0kzSfclrOVJD1uEOPrS9El0Dd8
+
+{
+    "argumentos": ["Balay", "21", "10", "JNK","Hornos"]
+}

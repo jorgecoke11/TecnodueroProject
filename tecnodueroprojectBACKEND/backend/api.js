@@ -5,6 +5,7 @@ import UsuariosRoutes from './routes.js'
 import db from './db.js'
 import cookieParser from 'cookie-parser';
 import loginRouter from './controllers/login.js'
+import scriptPrecios from './controllers/Robots.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use((req, res, next) => {
 app.use(express.json())
 app.use('/usuarios', UsuariosRoutes) 
 app.use('/api/login', loginRouter)
+app.use('/api/robots',scriptPrecios)
 
 try {
     await db.authenticate()
