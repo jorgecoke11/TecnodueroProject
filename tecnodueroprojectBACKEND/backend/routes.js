@@ -5,7 +5,7 @@ export const routerUsuarios = express.Router()
 
 routerUsuarios.post('/', getAllUsuarios)
 routerUsuarios.get('/:id', getUsuario )
-routerUsuarios.post('/', createUsuario)
+routerUsuarios.post('/createuser', createUsuario)
 routerUsuarios.put('/:id', updateUsuario)
 routerUsuarios.delete('/:id', deleteUsuario)
 routerUsuarios.get('/username/:username', getUsuarioNombre)

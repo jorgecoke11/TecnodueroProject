@@ -1,4 +1,4 @@
-import UsuariosModel from "./model.js";
+import UsuariosModel from "../backend/models/model.js";
 import bcrypt from 'bcrypt';
 import { request } from "https";
 import jwt from 'jsonwebtoken'

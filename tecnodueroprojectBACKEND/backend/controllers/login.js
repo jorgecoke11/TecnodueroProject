@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
 import express from 'express';
-import UserModel from '../model.js';
+import UserModel from '../models/model.js';
 
 const loginRouter = express.Router();
 const attributes =  ['id_usuario', 'nombre', 'apellido_1', 'apellido_2', 'password', 'username', 'tipo_usuario']

@@ -1,11 +1,11 @@
-POST http://localhost:8000/usuarios/
+POST http://localhost:8000/usuarios/createuser
 Content-Type: application/json
 
 {
-  "nombre": "NombreUsuario",
-  "apellido_1": "Apellido1",
-  "apellido_2": "Apellido2",
-  "password": "clave1234",
-  "username": "nombredeusuario",
+  "nombre": "Socorro",
+  "apellido_1": "Carnero",
+  "apellido_2": "Centeno",
+  "password": "Tecnoduero2024*",
+  "username": "carnerocentenos",
   "tipo_usuario": 0
 }

@@ -5,7 +5,6 @@ import Home from './components/home';
 import MainMenu from './components/MainMenu'
 import loginService from '../src/services/login';
 import sessionData from './js/sessionData';
-
 function App() {
   const [username, setUsername] = useState('');
   const [passWord, setPassword] = useState('');
@@ -16,7 +15,9 @@ function App() {
     if(loggedUserJson){
       const user = JSON.parse(loggedUserJson)
       setUser(user)
-
+      if(!sessionData.getToken){
+        sessionData(user.token)
+      }
     }
   },[])
 

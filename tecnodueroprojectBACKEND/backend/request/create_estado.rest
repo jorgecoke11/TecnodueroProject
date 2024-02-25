@@ -1,0 +1,7 @@
+POST http://localhost:8000/api/robots/create-estados
+Content-Type: application/json
+
+{
+  "Nombre": "Extrayendo precios",
+  "final": 0
+}

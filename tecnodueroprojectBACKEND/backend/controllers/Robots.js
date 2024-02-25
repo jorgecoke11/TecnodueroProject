@@ -9,10 +9,16 @@ scriptPrecios.post('/preciosrobot', async (req, res) => {
     let decodedToken = {}
     try {
         const authorization = req.get('authorization')
-        const { argumentos } = req.body;
-        console.log(argumentos)
+        const  argumentos  =req.body;
         let token = ''
-
+        const args = [
+            argumentos.proveedor,
+            argumentos.iva,
+            argumentos.beneficio,
+            argumentos.cupon,
+            ...argumentos.producto // Si producto es un array, se agregan sus elementos como argumentos individuales
+          ];
+          console.log(args)
         if(authorization && authorization.toLowerCase().startsWith('bearer')){
             token = authorization.substring(7)
         }
@@ -28,7 +34,7 @@ scriptPrecios.post('/preciosrobot', async (req, res) => {
 
             // Lanzar el programa .exe con los argumentos
             const { stdout, stderr } = await new Promise((resolve, reject) => {
-                execFile(path, argumentos, (error, stdout, stderr) => {
+                execFile(path, args, (error, stdout, stderr) => {
                     if (error) {
                         console.error('Error al ejecutar el programa:', error);
                         reject(error);

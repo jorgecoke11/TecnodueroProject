@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputComponent from './InputComponent';
-import Button from './Button';
 import SelectComponent from './SelectComponent';
 import InputNumberComponent from './InputNumberComponent';
 import SelectMultipleComponent from './SelectMultipleComponent';
+import robotPrecios from '../services/robotPrecios';
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
     const [iva, setIva] = useState('')
@@ -53,13 +53,21 @@ const InputRobotPrecios = () =>{
     'Bolsas De Aspiradores',
     'Filtros De Carbón Activo Para Campanas']
     const proveedoresOptions = ['Balay', 'Bosch', 'Siemens']
-    const handleLanzar = ()=>{
-        console.log(proveedor)
-        console.log(iva)
-        console.log(beneficio)
-        console.log(cupon)
-        console.log(producto)
+    const handleLanzar = async (event)=>{
+        try {
+            event.preventDefault();
+            const respuesta = await robotPrecios.lanzarRobot({
+              proveedor,
+              iva,
+              beneficio,
+              cupon,
+              producto
+            });
+            console.log(respuesta)
+    } catch(exc){
+        console.log(exc)
     }
+}
     return(
         <div className='container mt-5'>
             <div>

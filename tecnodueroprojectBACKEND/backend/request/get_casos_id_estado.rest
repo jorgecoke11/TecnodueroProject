@@ -1,0 +1,7 @@
+POST http://localhost:8000/api/robots/get-casos-id-estado
+Content-Type: application/json
+
+{
+    "idEstadoFK": 5
+}
+

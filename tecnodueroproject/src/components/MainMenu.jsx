@@ -1,14 +1,19 @@
-import React, { useState } from "react";
-import  DropDownComponent  from './DropDown'
-import Button from "./Button";
+import React, { useState, useEffect } from "react";
+import sessionData from '../js/sessionData'
 import RobotPrecios from "./Robot";
+import Monitorizacion from "./Monitorizacion";
 const MainMenu = (user) =>{
     const [componenteActual, setComponenteActual] = useState('')
-    const optionsRobots = ['Robot precios']
     const handleAvisos = () => {
         setComponenteActual(null);
       };
-
+    const handleMonitorizacion = () =>{
+      setComponenteActual(()=>{return(
+        <div>
+            <Monitorizacion></Monitorizacion>
+        </div>
+        )}); 
+    };
     const handleRobots = () => {
         // Agrega lógica para el botón "Robots" si es necesario
         setComponenteActual(()=>{return(
@@ -24,7 +29,8 @@ const MainMenu = (user) =>{
       {componenteActual || (
         <div className="row">
           <button className="btn btn-primary mb-3" onClick={handleAvisos}>Avisos</button>
-          <button className="btn btn-primary" onClick={handleRobots}>Robots</button>
+          <button className="btn btn-primary mb-3" onClick={handleRobots}>Robots</button>
+          <button className="btn btn-primary" onClick={handleMonitorizacion}>Monitorización</button>
         </div>
       )}
     </div>

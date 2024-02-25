@@ -1,0 +1,10 @@
+POST http://localhost:8000/api/robots/create-casos
+Content-Type: application/json
+
+{
+  "idEstadoFK": 5,
+  "idRobotFK": 1,
+  "nombre": "Balay Hornos",
+  "porcentaje": "0",
+  "datos": 0
+}

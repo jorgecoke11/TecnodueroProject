@@ -1,5 +1,5 @@
 //conexion a la base de datos
-import db from "./db.js";
+import db from "../db.js";
 import { DataTypes } from "sequelize";
 
 export default db.define('usuarios', {

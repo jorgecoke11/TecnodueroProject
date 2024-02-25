@@ -1,7 +1,11 @@
 // sessionData.js
 class SessionData {
     constructor() {
-      this.token = null;
+      const loggedUserJson = window.localStorage.getItem('loggedAppUser')
+      if(loggedUserJson){
+        const user = JSON.parse(loggedUserJson)
+        this.token = 'Bearer ' + user.token
+      }
     }
   
     setToken(newToken) {
