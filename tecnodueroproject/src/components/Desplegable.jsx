@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 
-function Dropdown({ children, label}) {
+function Dropdown({ children, label, onClick}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+    onClick()
   };
 
   return (

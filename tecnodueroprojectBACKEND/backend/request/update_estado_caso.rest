@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/robots/update-estado
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTm9tYnJlVXN1YXJpbyIsInVzZXJuYW1lIjoibm9tYnJlZGV1c3VhcmlvIiwiaWF0IjoxNzA2NDUyNDg3fQ.t0KCUGXWWr_3-JaDR_CPnQTjwDta1kwyA8x6EhmrszI
+
+{
+    "nuevoEstado": 5,
+    "idCaso": 2
+    
+}

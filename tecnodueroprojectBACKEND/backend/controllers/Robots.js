@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import express from 'express';
 import { execFile } from 'child_process';
 import { execPath } from 'process';
-
+import robotPreciosModel from '../models/robotPreciosModel.js';
 const scriptPrecios = express.Router();
 
 scriptPrecios.post('/preciosrobot', async (req, res) => {
@@ -61,5 +61,41 @@ scriptPrecios.post('/preciosrobot', async (req, res) => {
         res.json( {message: error.message} )
     }
 })
+scriptPrecios.post('/conmutar', async (req, res) => {
+    try{
+        checkToken(req, res)
+        const respuesta = await robotPreciosModel.update(
+            {conmutador: req.body.conmutador},
+            {where:{idRobot: req.body.idRobot}}
+        )
+        res.status(200).json({"message:": "Conmutador actualizado"})
+    } catch (error) {
+        res.json( {message: error.message} )
+    }
+})
+scriptPrecios.post('/get-conmutador', async (req, res) => {
+    try{
+        checkToken(req, res)
 
+        const respuesta = await robotPreciosModel.findOne({
+            attributes:['conmutador'],
+            where:{idRobot: req.body.idRobot}
+        })
+        
+        res.status(200).json(respuesta)
+    } catch (error) {
+        res.json( {message: error.message} )
+    }
+})
+function checkToken(req, res){
+    const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
+    if (!token) {
+        return res.status(401).json({ error: 'Token missing' });
+    }
+  
+    const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
+    if (!decodedToken) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+  }
 export default scriptPrecios;

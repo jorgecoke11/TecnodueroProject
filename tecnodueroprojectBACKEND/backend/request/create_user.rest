@@ -2,10 +2,10 @@ POST http://localhost:8000/usuarios/createuser
 Content-Type: application/json
 
 {
-  "nombre": "Socorro",
-  "apellido_1": "Carnero",
-  "apellido_2": "Centeno",
-  "password": "Tecnoduero2024*",
-  "username": "carnerocentenos",
+  "nombre": "Miren",
+  "apellido_1": "Otazu",
+  "apellido_2": "Extramiana",
+  "password": "MirenMeQuiere",
+  "username": "motazu72",
   "tipo_usuario": 0
 }

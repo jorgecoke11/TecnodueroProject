@@ -1,0 +1,6 @@
+POST http://localhost:8000/api/robots/casos-disponibles
+Content-Type: application/json
+
+{
+    "idEstado":5
+}

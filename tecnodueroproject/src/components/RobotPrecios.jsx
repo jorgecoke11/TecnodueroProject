@@ -5,6 +5,7 @@ import SelectComponent from './SelectComponent';
 import InputNumberComponent from './InputNumberComponent';
 import SelectMultipleComponent from './SelectMultipleComponent';
 import robotPrecios from '../services/robotPrecios';
+import ToggleSwitch from './ToggleSwitch';
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
     const [iva, setIva] = useState('')
@@ -67,10 +68,42 @@ const InputRobotPrecios = () =>{
     } catch(exc){
         console.log(exc)
     }
+
 }
+const handleCrearCaso = async(event) =>{
+    try{
+        event.preventDefault();
+        const jsonNegocio = {
+            "proveedor": proveedor,
+            "iva": iva,
+            "beneficio": beneficio,
+            "cupon": cupon,
+            "producto": producto
+        }
+        const idEstadoFK = 5
+        const idRobotFK = 1
+        const nombre = producto + ' ' + proveedor
+        const porcentaje = 0
+        const datos = 0
+        const idtipo = 1 
+        const respuesta = await robotPrecios.crearCaso({
+            idEstadoFK,
+            idRobotFK,
+            nombre,
+            porcentaje,
+            datos,
+            idtipo,
+            jsonNegocio
+        })
+    }catch(exc){
+
+    }
+    
+    }
     return(
         <div className='container mt-5'>
             <div>
+                <ToggleSwitch idRobot='1'></ToggleSwitch>
                 <label >Proveedor</label>
                 <SelectComponent 
                     placeHolder='Proveedor' 
@@ -93,6 +126,7 @@ const InputRobotPrecios = () =>{
                 </SelectMultipleComponent>
                 <div className='mt-3'>
                     <button type='submit' className='btn btn-primary' onClick={handleLanzar}>Lanzar</button>
+                    <button type='submit' className='btn btn-primary' onClick={handleCrearCaso}>Crear caso</button>
                 </div>
             </div>
         </div>    

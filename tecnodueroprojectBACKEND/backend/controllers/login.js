@@ -6,8 +6,10 @@ import UserModel from '../models/model.js';
 const loginRouter = express.Router();
 const attributes =  ['id_usuario', 'nombre', 'apellido_1', 'apellido_2', 'password', 'username', 'tipo_usuario']
 loginRouter.post('/', async(request, response)=> {
+  try{
     const{body} = request
     const {username, passWord} = body
+    console.log(body)
     const user = await UserModel.findOne({attributes, where: { username } });
 
     const passwordCorrect = user === null 
@@ -36,6 +38,11 @@ loginRouter.post('/', async(request, response)=> {
             token: token
         })
     }
+  }catch(exc){
+    console.log(exc)
+    return response.status(500).json({ error: 'Error al hacer login' });
+  }
+
 
         
 })

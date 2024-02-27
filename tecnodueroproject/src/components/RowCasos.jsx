@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
+import moment from 'moment'
 import { saveAs } from "file-saver";
 
 const TableComponent = ({ data }) => {
     const [caso, setCaso] = useState([]);
 
     useEffect(() => {
+        
         setCaso(data);
     }, [data]); // Actualiza el estado 'caso' cuando 'data' cambia
-const convertToCSV = (array) => {
-    console.log(array)
-    if (!Array.isArray(array) || array.length === 0) {
-        return ''; // Si el array es vacío o no es un array, devuelve una cadena vacía
-    }
-    
-    const header = Object.keys(array[0]).join(",");
-    const rows = array.map(obj => Object.values(obj).join(","));
-    return header + "\n" + rows.join("\n");
-};
+
     const handleDownload = (datos, nombre) => {
         const csvByteArray = Uint8Array.from(datos.data); // Convertir el arreglo de bytes en un Uint8Array
         const blobData = new Blob([csvByteArray], { type: 'text/csv' }); // Crear el Blob con el arreglo de bytes
@@ -24,7 +17,7 @@ const convertToCSV = (array) => {
     };
 
     return (
-        <div>
+        <div style={{ maxHeight: "300px", overflowY: "auto" }}> {/* Aplicar estilos CSS para hacer el componente desplazable */}    
             <table className="table">
                 <thead>
                     <tr>
@@ -32,6 +25,9 @@ const convertToCSV = (array) => {
                         <th>Estado</th>
                         <th>Nombre</th>
                         <th>Porcentaje</th>
+                        <th>Fecha creacion</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
                         <th>Datos</th>
                     </tr>
                 </thead>
@@ -42,7 +38,16 @@ const convertToCSV = (array) => {
                             <td>{caso.nombreEstado}</td>
                             <td>{caso.nombreCaso}</td>
                             <td>{caso.porcentaje}</td>
-                            <td><button className="btn btn-success" onClick={() => handleDownload(caso.datos, caso.nombreCaso)}>Download</button></td>
+                            <td>{moment(caso.fh_creacion).format('DD-MM-YYYY HH:mm:ss')}</td>
+                            <td>{moment(caso.fh_tramitacion).format('DD-MM-YYYY HH:mm:ss')}</td>
+                            <td>{moment(caso.fh_fin).format('DD-MM-YYYY HH:mm:ss')}</td>
+                            <td>
+                                {caso.datos.data.length !== 1 ? (
+                                    <button className="btn btn-success" onClick={() => handleDownload(caso.datos, caso.nombreCaso)}>Download</button>
+                                ) : (
+                                    <button className="btn btn-success" disabled>No disponible</button>
+                                )}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

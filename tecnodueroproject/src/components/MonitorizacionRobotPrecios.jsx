@@ -17,6 +17,8 @@ const MonitorizacionRobotPrecios = () =>{
     useEffect(() => {
 
         handleBalay()
+        handleBosch()
+        handleSiemens()
     }, []);
     const handleBalay = async()=>{
         const idtipo =1
@@ -25,17 +27,37 @@ const MonitorizacionRobotPrecios = () =>{
         })
         setCasosBalay(data)
     }
+    const handleBosch = async() =>{
+        const idtipo =2
+        const data = await caso.getCasos({
+            idtipo
+        })
+        setCasosBosch(data)
+    }
+    const handleSiemens = async() =>{
+        const idtipo =3
+        const data = await caso.getCasos({
+            idtipo
+        })
+        setCasosSiemens(data)
+    }
     const handleClickCasos = async(idEstado) =>{
-         const data = await caso.getCasosByIdEstado({
+       try{
+        const data = await caso.getCasosByIdEstado({
             idEstado
-         })
+        })
         setDataCasos(data)
         setShowModal(true); // Abrir el modal
+       }catch(err){
+
+       }
+
+        
     }
     return(
         <div>
             <h1>ROBOT PRECIOS</h1>
-            <Dropdown label= "Balay">
+            <Dropdown label= "Balay" onClick={handleBalay}>
                 <table className="table">
                     <thead>
                         <tr>
@@ -44,29 +66,55 @@ const MonitorizacionRobotPrecios = () =>{
                         </tr>
                     </thead>
                     <tbody>
-                    {casosBalay.map((caso, index) => (
-                        <tr key={index}>
-                            <td>{caso.nombre}</td>
-                            <td><button onClick={() => handleClickCasos(caso.idestado)}>{caso.numeroCasos}</button></td>
+                        
+                    {casosBalay.length > 0 ? (
+                        casosBalay.map((caso, index) => (
+                            <tr key={index}>
+                                <td>{caso.nombre}</td>
+                                <td>
+                                    <button onClick={() => handleClickCasos(caso.idestado)}>
+                                        {caso.numeroCasos}
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2">No hay casos</td>
                         </tr>
-                    ))}
+                    )}
                     </tbody>
                 </table>
             </Dropdown>
-            <Dropdown label= "Bosch">
+            <Dropdown label= "Bosch" onClick={handleBosch}>
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Estado</th>
+                            <th>Estado</th> 
                             <th>Numero de casos</th>
                         </tr>
                     </thead>
                     <tbody>
-
+                    {casosBosch.length > 0 ? (
+                        casosBalay.map((caso, index) => (
+                            <tr key={index}>
+                                <td>{caso.nombre}</td>
+                                <td>
+                                    <button onClick={() => handleClickCasos(caso.idestado)}>
+                                        {caso.numeroCasos}
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2">No hay casos</td>
+                        </tr>
+                    )}
                     </tbody>
                 </table>
             </Dropdown>
-            <Dropdown label= "Siemens">
+            <Dropdown label= "Siemens" onClick={handleSiemens}>
                 <table className="table">
                     <thead>
                         <tr>
@@ -75,7 +123,22 @@ const MonitorizacionRobotPrecios = () =>{
                         </tr>
                     </thead>
                     <tbody>
-
+                    {casosSiemens.length > 0 ? (
+                        casosBalay.map((caso, index) => (
+                            <tr key={index}>
+                                <td>{caso.nombre}</td>
+                                <td>
+                                    <button onClick={() => handleClickCasos(caso.idestado)}>
+                                        {caso.numeroCasos}
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="2">No hay casos</td>
+                        </tr>
+                    )}
                     </tbody>
                 </table>
             </Dropdown>

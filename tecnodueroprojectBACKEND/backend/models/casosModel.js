@@ -10,7 +10,10 @@ export default db.define('casos', {
     porcentaje: { type: DataTypes.INTEGER }, // Corregido a INTEGER
     datos: { type: DataTypes.BLOB },
     idtipo: { type: DataTypes.INTEGER },
-    jsonNegocio:{type: DataTypes.JSON} // Corregido a INTEGER
+    jsonNegocio:{type: DataTypes.JSON},
+    fh_creacion:{type: DataTypes.DATE},
+    fh_tramitacion:{type: DataTypes.DATE},
+    fh_fin:{type: DataTypes.DATE}// Corregido a INTEGER
 }, {
     timestamps: false, // Desactiva las columnas createdAt y updatedAt
     underscored: false, // Usa el estilo de nomenclatura snake_case para las columnas
