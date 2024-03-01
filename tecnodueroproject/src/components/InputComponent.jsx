@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const InputComponent = (props) =>{
-    const {placeHolder, setInputText} = props
+    const {placeHolder, setInputText, text} = props
     const handleInputChange = (event)=>{
         setInputText(event.target.value);
     }
@@ -13,6 +13,7 @@ const InputComponent = (props) =>{
                 className='form-control'
                 onChange={handleInputChange}
                 >
+                    {text}
             </input>
         </div>
     )

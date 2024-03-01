@@ -12,7 +12,7 @@ export default db.define('casos', {
     idtipo: { type: DataTypes.INTEGER },
     jsonNegocio:{type: DataTypes.JSON},
     fh_creacion:{type: DataTypes.DATE},
-    fh_tramitacion:{type: DataTypes.DATE},
+    fh_tramitacion:{type: DataTypes.STRING},
     fh_fin:{type: DataTypes.DATE}// Corregido a INTEGER
 }, {
     timestamps: false, // Desactiva las columnas createdAt y updatedAt

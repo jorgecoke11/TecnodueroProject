@@ -5,6 +5,7 @@ import Constantes from "../js/Constantes";
 import caso from "../services/casos";
 import ModalComponent from "./ModalComponent";
 import TableComponent from './RowCasos'
+import MyCalendar from "./MyCalendar";
 const MonitorizacionRobotPrecios = () =>{
     const URI = Constantes.URI
     const [screenComponent, setScreenComponent] = useState(null)
@@ -14,6 +15,15 @@ const MonitorizacionRobotPrecios = () =>{
     const [casosBosch, setCasosBosch] = useState([]);
     const [casosSiemens, setCasosSiemens] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+    const handleDateChange = (date) => {
+        date.setDate(date.getDate() + 1);
+      setSelectedDate(date);
+      handleBalay()
+      handleBosch()
+      handleSiemens() // Actualiza el estado de la fecha seleccionada
+    };
     useEffect(() => {
 
         handleBalay()
@@ -23,21 +33,24 @@ const MonitorizacionRobotPrecios = () =>{
     const handleBalay = async()=>{
         const idtipo =1
         const data = await caso.getCasos({
-            idtipo
+            idtipo,
+            fh_creacion: selectedDate
         })
         setCasosBalay(data)
     }
     const handleBosch = async() =>{
         const idtipo =2
         const data = await caso.getCasos({
-            idtipo
+            idtipo,
+            fh_creacion: selectedDate
         })
         setCasosBosch(data)
     }
     const handleSiemens = async() =>{
         const idtipo =3
         const data = await caso.getCasos({
-            idtipo
+            idtipo,
+            fh_creacion: selectedDate
         })
         setCasosSiemens(data)
     }
@@ -57,6 +70,7 @@ const MonitorizacionRobotPrecios = () =>{
     return(
         <div>
             <h1>ROBOT PRECIOS</h1>
+            <MyCalendar onDateChange={handleDateChange} ></MyCalendar>
             <Dropdown label= "Balay" onClick={handleBalay}>
                 <table className="table">
                     <thead>
@@ -96,7 +110,7 @@ const MonitorizacionRobotPrecios = () =>{
                     </thead>
                     <tbody>
                     {casosBosch.length > 0 ? (
-                        casosBalay.map((caso, index) => (
+                        casosBosch.map((caso, index) => (
                             <tr key={index}>
                                 <td>{caso.nombre}</td>
                                 <td>
@@ -124,7 +138,7 @@ const MonitorizacionRobotPrecios = () =>{
                     </thead>
                     <tbody>
                     {casosSiemens.length > 0 ? (
-                        casosBalay.map((caso, index) => (
+                        casosSiemens.map((caso, index) => (
                             <tr key={index}>
                                 <td>{caso.nombre}</td>
                                 <td>

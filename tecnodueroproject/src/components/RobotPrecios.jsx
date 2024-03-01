@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import InputComponent from './InputComponent';
 import SelectComponent from './SelectComponent';
@@ -6,12 +6,23 @@ import InputNumberComponent from './InputNumberComponent';
 import SelectMultipleComponent from './SelectMultipleComponent';
 import robotPrecios from '../services/robotPrecios';
 import ToggleSwitch from './ToggleSwitch';
+import cuponCalls from '../services/cupon.js'
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
     const [iva, setIva] = useState('')
+    const [cuponBD, setCuponBD] = useState('')
     const [beneficio, setBeneficio] = useState('')
     const [cupon, setCupon] = useState('')
     const [producto, setProducto] = useState('')
+    const handleCuponBD = async () =>{
+        const response = await cuponCalls.getCupones({
+            id: 1
+        })
+        setCuponBD(response);
+    }
+    useEffect(() => {
+        handleCuponBD()
+    }, [cuponBD]);
     const optionsCatalogoBalay = ['Hornos', 'Placas', 
     'Placa Con Extractor Integrado',
     'Microondas',
@@ -103,6 +114,7 @@ const handleCrearCaso = async(event) =>{
     return(
         <div className='container mt-5'>
             <div>
+                <InputComponent placeHolder='cuponBD' setInputText={setCuponBD}></InputComponent>
                 <ToggleSwitch idRobot='1'></ToggleSwitch>
                 <label >Proveedor</label>
                 <SelectComponent 

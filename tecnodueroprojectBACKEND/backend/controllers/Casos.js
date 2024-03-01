@@ -39,7 +39,7 @@ casosCalls.post('/get-casos', async (req, res) => {
 
         //estadosModel.hasMany(casosModel, { foreignKey: 'idEstadoFK' }); 
         const idtipo = req.body.idtipo; // Obtener idtipo del cuerpo de la solicitud
-
+        const fh_creacion = req.body.fh_creacion; 
         const casosPorEstado = await casosModel.findAll({
           attributes: [
             [Sequelize.literal('estado.nombre'), 'nombre'],
@@ -51,7 +51,11 @@ casosCalls.post('/get-casos', async (req, res) => {
             attributes: [],
           },
           where:{
-            idtipo: idtipo
+            idtipo: idtipo,
+            fh_creacion: Sequelize.where(
+              Sequelize.fn('DATE', Sequelize.col('fh_creacion')),
+              fh_creacion.slice(0,10).replace(/\//g, '-')
+            )
           },
           group: ['estado.nombre'],
         });
@@ -94,7 +98,7 @@ casosCalls.post('/get-casos-id-estado', async (req, res) => {
           attributes: [],
         },
         where:{
-          idEstadoFK: idestado
+          idEstadoFK: idestado,
         }
       });
       
