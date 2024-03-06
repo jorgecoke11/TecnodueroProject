@@ -52,10 +52,11 @@ const MonitorizacionRobotPrecios = () =>{
         })
         setCasosSiemens(data)
     }
-    const handleClickCasos = async(idEstado) =>{
+    const handleClickCasos = async(idEstado, idtipo) =>{
        try{
         const data = await caso.getCasosFecha({
             idEstado,
+            idtipo,
             fh_creacion: selectedDate
         })
         setDataCasos(data)
@@ -85,7 +86,7 @@ const MonitorizacionRobotPrecios = () =>{
                             <tr key={index}>
                                 <td>{caso.nombre}</td>
                                 <td>
-                                    <button onClick={() => handleClickCasos(caso.idestado)}>
+                                    <button onClick={() => handleClickCasos(caso.idestado,1)}>
                                         {caso.numeroCasos}
                                     </button>
                                 </td>
@@ -113,7 +114,7 @@ const MonitorizacionRobotPrecios = () =>{
                             <tr key={index}>
                                 <td>{caso.nombre}</td>
                                 <td>
-                                    <button onClick={() => handleClickCasos(caso.idestado)}>
+                                    <button onClick={() => handleClickCasos(caso.idestado, 2)}>
                                         {caso.numeroCasos}
                                     </button>
                                 </td>
@@ -141,7 +142,7 @@ const MonitorizacionRobotPrecios = () =>{
                             <tr key={index}>
                                 <td>{caso.nombre}</td>
                                 <td>
-                                    <button onClick={() => handleClickCasos(caso.idestado)}>
+                                    <button onClick={() => handleClickCasos(caso.idestado, 3)}>
                                         {caso.numeroCasos}
                                     </button>
                                 </td>

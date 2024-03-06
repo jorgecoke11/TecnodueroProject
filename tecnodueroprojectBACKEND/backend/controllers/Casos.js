@@ -4,7 +4,7 @@ import { execFile } from 'child_process';
 import { execPath } from 'process';
 import casosModel from '../models/casosModel.js';
 import estadosModel from '../models/estadosModel.js'
-import { Sequelize } from 'sequelize';
+import { INTEGER, Sequelize } from 'sequelize';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 const casosCalls = express.Router();
 
@@ -225,8 +225,10 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
 
   
   try {
-    //checkToken(req, res);
+    checkToken(req, res);
     const idEstado = req.body.idEstado; // Obtener idtipo del cuerpo de la solicitud
+    const idtipo = req.body.idtipo
+    console.log(idtipo)
     let fh_creacion = new Date(req.body.fh_creacion); 
     fh_creacion = fh_creacion.toLocaleDateString()
     let partes = fh_creacion.split("/"); // Divide la cadena en partes usando "/"
@@ -234,6 +236,7 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
     const resultado = await casosModel.findAll({
       where:{
         idEstadoFK: idEstado,
+        idtipo,
         fh_creacion: Sequelize.where(
           Sequelize.fn('DATE', Sequelize.col('fh_creacion')),
           formattedDate
