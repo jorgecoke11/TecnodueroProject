@@ -18,7 +18,7 @@ scriptPrecios.post('/preciosrobot', async (req, res) => {
             return res.status(401).json({ error: 'Invalid token' });
         }
 
-        let path = process.env.PATH_ROBOT_PRECIOS;
+        let path = process.env.PATH_ROBOT_PRECIOS_PC5;
         const processToCheck = 'Precios2023.exe';
 
         const processes = await psList();
