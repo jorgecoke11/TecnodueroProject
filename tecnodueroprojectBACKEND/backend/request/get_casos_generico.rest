@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/robots/get-generico
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9yZ2UiLCJ1c2VybmFtZSI6ImxvcGV6Y2FybmVyb2oiLCJpYXQiOjE3MDg5ODYzMzcsImV4cCI6MTcwOTU5MTEzN30.xk4M6Y_0bevv5CmERDDv63-tJYvPft_ThJNva-8FSpQ
+
+
+{
+    "idEstado": 1,
+    "fh_creacion": "2024-01-02"
+}

@@ -39,7 +39,10 @@ casosCalls.post('/get-casos', async (req, res) => {
 
         //estadosModel.hasMany(casosModel, { foreignKey: 'idEstadoFK' }); 
         const idtipo = req.body.idtipo; // Obtener idtipo del cuerpo de la solicitud
-        const fh_creacion = req.body.fh_creacion; 
+        let fh_creacion = new Date(req.body.fh_creacion); 
+        fh_creacion = fh_creacion.toLocaleDateString()
+        let partes = fh_creacion.split("/"); // Divide la cadena en partes usando "/"
+        let formattedDate = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
         const casosPorEstado = await casosModel.findAll({
           attributes: [
             [Sequelize.literal('estado.nombre'), 'nombre'],
@@ -54,7 +57,7 @@ casosCalls.post('/get-casos', async (req, res) => {
             idtipo: idtipo,
             fh_creacion: Sequelize.where(
               Sequelize.fn('DATE', Sequelize.col('fh_creacion')),
-              fh_creacion.slice(0,10).replace(/\//g, '-')
+              formattedDate
             )
           },
           group: ['estado.nombre'],
@@ -217,6 +220,30 @@ casosCalls.post('/update-generico', async (req, res) => {
       console.error('Error al actualizar el caso:', error);
       return res.status(500).json({ "message": "Error al actualizar el caso" });
     }
+});
+casosCalls.post('/get-casos-fecha', async (req, res) => {
+
+  
+  try {
+    //checkToken(req, res);
+    const idEstado = req.body.idEstado; // Obtener idtipo del cuerpo de la solicitud
+    const fh_creacion = req.body.fh_creacion; 
+    const resultado = await casosModel.findAll({
+      where:{
+        idEstadoFK: idEstado,
+        fh_creacion: Sequelize.where(
+          Sequelize.fn('DATE', Sequelize.col('fh_creacion')),
+          fh_creacion.slice(0,10).replace(/\//g, '-')
+        )
+      }
+
+    });
+    
+    res.status(200).json(resultado);
+  } catch (error) {
+    console.error('Error al actualizar el caso:', error);
+    return res.status(500).json({ "message": "Error al actualizar el caso" });
+  }
 });
 
 export default casosCalls;

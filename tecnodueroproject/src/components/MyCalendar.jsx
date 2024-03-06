@@ -7,9 +7,6 @@ const MyCalendar = ({ onDateChange }) => {
 
     const onChange = (selectedDate) => {
       setDate(selectedDate);
-      console.log(selectedDate)
-      console.log(date)
-
       onDateChange(selectedDate); // Llama a la función de devolución de llamada con la fecha seleccionada
     };
 

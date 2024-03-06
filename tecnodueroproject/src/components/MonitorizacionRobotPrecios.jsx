@@ -16,10 +16,8 @@ const MonitorizacionRobotPrecios = () =>{
     const [casosSiemens, setCasosSiemens] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
-
     const handleDateChange = (date) => {
-        date.setDate(date.getDate() + 1);
-      setSelectedDate(date);
+        setSelectedDate(date);
       handleBalay()
       handleBosch()
       handleSiemens() // Actualiza el estado de la fecha seleccionada
@@ -56,8 +54,9 @@ const MonitorizacionRobotPrecios = () =>{
     }
     const handleClickCasos = async(idEstado) =>{
        try{
-        const data = await caso.getCasosByIdEstado({
-            idEstado
+        const data = await caso.getCasosFecha({
+            idEstado,
+            fh_creacion: selectedDate
         })
         setDataCasos(data)
         setShowModal(true); // Abrir el modal
