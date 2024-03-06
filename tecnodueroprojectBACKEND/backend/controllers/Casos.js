@@ -233,7 +233,22 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
     fh_creacion = fh_creacion.toLocaleDateString()
     let partes = fh_creacion.split("/"); // Divide la cadena en partes usando "/"
     let formattedDate = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+    casosModel.belongsTo(estadosModel, { foreignKey: 'idEstadoFK', targetKey: 'idEstado' });
     const resultado = await casosModel.findAll({
+      attributes: [
+        [Sequelize.literal('casos.idCaso'), 'idCaso'],
+        [Sequelize.literal('estado.nombre'), 'nombreEstado'],
+        [Sequelize.literal('casos.nombre'), 'nombreCaso'],
+        [Sequelize.literal('casos.porcentaje'), 'porcentaje'],
+        [Sequelize.literal('casos.datos'), 'datos'],
+        [Sequelize.literal('casos.fh_creacion'), 'fh_creacion'],
+        [Sequelize.literal('casos.fh_tramitacion'), 'fh_tramitacion'],
+        [Sequelize.literal('casos.fh_fin'), 'fh_fin']
+      ],
+      include: {
+        model: estadosModel,
+        attributes: [],
+      },
       where:{
         idEstadoFK: idEstado,
         idtipo,
