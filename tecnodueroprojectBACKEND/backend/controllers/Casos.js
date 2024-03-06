@@ -228,12 +228,15 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
     //checkToken(req, res);
     const idEstado = req.body.idEstado; // Obtener idtipo del cuerpo de la solicitud
     const fh_creacion = req.body.fh_creacion; 
+    fh_creacion = fh_creacion.toLocaleDateString()
+    let partes = fh_creacion.split("/"); // Divide la cadena en partes usando "/"
+    let formattedDate = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
     const resultado = await casosModel.findAll({
       where:{
         idEstadoFK: idEstado,
         fh_creacion: Sequelize.where(
           Sequelize.fn('DATE', Sequelize.col('fh_creacion')),
-          fh_creacion.slice(0,10).replace(/\//g, '-')
+          formattedDate
         )
       }
 
