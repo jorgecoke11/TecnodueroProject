@@ -18,7 +18,6 @@ const SelectMultipleComponent = (props) => {
                 className='form-control'
                 onChange={handleInputChange}
                 value={selectedOptions}
-                multiple
             >
                 <option value="" disabled></option>
                 {options.map((option, index) => (

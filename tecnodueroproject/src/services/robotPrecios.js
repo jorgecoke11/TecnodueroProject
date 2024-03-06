@@ -8,9 +8,9 @@ const config = {
         Authorization: sessionData.token
     }
 }
-const lanzarRobot = argumentos =>{
+const lanzarRobot = () =>{
 
-    const request = axios.post(URI +'api/robots/preciosrobot', argumentos, config)
+    const request = axios.post(URI +'api/robots/preciosrobot', " ",config)
     return request.then(response => response.data)
 }
 const crearCaso = argumentos =>{

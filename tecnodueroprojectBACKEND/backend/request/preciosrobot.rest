@@ -1,7 +1,7 @@
 POST http://localhost:8000/api/robots/preciosrobot/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTm9tYnJlVXN1YXJpbyIsInVzZXJuYW1lIjoibm9tYnJlZGV1c3VhcmlvIiwiaWF0IjoxNzA4NTI3MzE0LCJleHAiOjE3MDkxMzIxMTR9.Bqu9j44sXjEbCszLA0kzSfclrOVJD1uEOPrS9El0Dd8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9yZ2UiLCJ1c2VybmFtZSI6ImxvcGV6Y2FybmVyb2oiLCJpYXQiOjE3MDg5ODYzMzcsImV4cCI6MTcwOTU5MTEzN30.xk4M6Y_0bevv5CmERDDv63-tJYvPft_ThJNva-8FSpQ
+
 
 {
-    "argumentos": ["Balay", "21", "10", "JNK", "Hornos"]
 }

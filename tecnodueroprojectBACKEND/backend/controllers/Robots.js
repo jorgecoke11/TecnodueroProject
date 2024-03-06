@@ -3,64 +3,78 @@ import express from 'express';
 import { execFile } from 'child_process';
 import { execPath } from 'process';
 import robotPreciosModel from '../models/robotPreciosModel.js';
+import psList from 'ps-list'
 const scriptPrecios = express.Router();
-
 scriptPrecios.post('/preciosrobot', async (req, res) => {
-    let decodedToken = {}
     try {
-        const authorization = req.get('authorization')
-        const  argumentos  =req.body;
-        let token = ''
-        const args = [
-            argumentos.proveedor,
-            argumentos.iva,
-            argumentos.beneficio,
-            argumentos.cupon,
-            ...argumentos.producto // Si producto es un array, se agregan sus elementos como argumentos individuales
-          ];
-          console.log(args)
-        if(authorization && authorization.toLowerCase().startsWith('bearer')){
-            token = authorization.substring(7)
+        const token = req.get('Authorization')?.split(' ')[1]; // Obtener token del encabezado
+
+        if (!token) {
+            return res.status(401).json({ error: 'Token missing' });
         }
 
-        try {
-            decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA)
-            let path = process.env.PATH_ROBOT_PRECIOS
-            console.log(path)
-
-            if (!argumentos) {
-                return res.status(400).json({ error: 'Se requieren los argumentos' });
-            }
-
-            // Lanzar el programa .exe con los argumentos
-            const { stdout, stderr } = await new Promise((resolve, reject) => {
-                execFile(path, args, (error, stdout, stderr) => {
-                    if (error) {
-                        console.error('Error al ejecutar el programa:', error);
-                        reject(error);
-                    } else {
-                        console.log('stdout:', stdout);
-                        console.error('stderr:', stderr);
-                        resolve({ stdout, stderr });
-                    }
-                });
-            });
-
-            res.status(200).json({ stdout, stderr });
-        } catch (error) {
-            return res.status(500).json({ error: 'Error al ejecutar el programa' });
+        const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
+        if (!decodedToken) {
+            return res.status(401).json({ error: 'Invalid token' });
         }
 
-        if(!token || !decodedToken){
-            return res.status(401).json({
-                error:'token missing or invalid'
-            })
+        let path = process.env.PATH_ROBOT_PRECIOS;
+        const processToCheck = 'Precios2023.exe';
+
+        const processes = await psList();
+        const matchingProcesses = processes.filter(process => process.name === processToCheck);
+      
+        if (matchingProcesses.length > 0) {
+            console.log(`El proceso ${processToCheck} está en ejecución.`);
+            // Obtener el ID del primer proceso coincidente (asumiendo que solo habrá uno)
+            const processId = matchingProcesses[0].pid;
+            process.kill(processId);
+            console.log(`Proceso ${processToCheck} terminado.`);
+
+            // Ejecutar el programa en segundo plano
+            ejecutarPrograma(path);
+            
+            // Esperar hasta que el proceso anterior esté completamente terminado
+            await waitForProcessToTerminate(processToCheck);
+
+            // El proceso anterior ha sido completamente terminado, ahora podemos responder al cliente
+            res.status(200).json({ message: 'Proceso terminado y programa ejecutado correctamente.' });
+        } else {
+            console.log(`El proceso ${processToCheck} no está en ejecución.`);
+            // Si el proceso no está en ejecución, simplemente ejecutamos el programa
+            await ejecutarPrograma(path);
+            res.status(200).json({ message: 'Programa ejecutado correctamente.' });
         }
 
     } catch (error) {
-        res.json( {message: error.message} )
+        console.error('Error al ejecutar el programa:', error);
+        res.status(500).json({ error: 'Error al ejecutar el programa' });
     }
-})
+});
+
+async function waitForProcessToTerminate(processToCheck) {
+    return new Promise(resolve => {
+        const intervalId = setInterval(async () => {
+            const processes = await psList();
+            const matchingProcesses = processes.filter(process => process.name === processToCheck);
+            if (matchingProcesses.length === 0) {
+                clearInterval(intervalId);
+                resolve();
+            }
+        }, 1000);
+    });
+}
+
+function ejecutarPrograma(path) {
+    execFile(path, (error, stdout, stderr) => {
+        if (error) {
+            console.error('Error al ejecutar el programa:', error);
+            return;
+        }
+        console.log('Programa ejecutado correctamente.');
+    });
+}
+
 scriptPrecios.post('/conmutar', async (req, res) => {
     try{
         checkToken(req, res)
@@ -98,4 +112,5 @@ function checkToken(req, res){
         return res.status(401).json({ error: 'Invalid token' });
     }
   }
+
 export default scriptPrecios;

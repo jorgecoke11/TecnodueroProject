@@ -6,23 +6,26 @@ import InputNumberComponent from './InputNumberComponent';
 import SelectMultipleComponent from './SelectMultipleComponent';
 import robotPrecios from '../services/robotPrecios';
 import ToggleSwitch from './ToggleSwitch';
+import ModalComponent from './ModalComponent.jsx';
 import cuponCalls from '../services/cupon.js'
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
     const [iva, setIva] = useState('')
     const [cuponBD, setCuponBD] = useState('')
     const [beneficio, setBeneficio] = useState('')
+    const [showModal, setShowModal] = useState(false);
     const [cupon, setCupon] = useState('')
     const [producto, setProducto] = useState('')
+    const [modalContent, setModalContent] = useState('')
     const handleCuponBD = async () =>{
         const response = await cuponCalls.getCupones({
             id: 1
         })
         setCuponBD(response);
     }
-    useEffect(() => {
-        handleCuponBD()
-    }, [cuponBD]);
+    // useEffect(() => {
+    //     handleCuponBD()
+    // }, [cuponBD]);
     const optionsCatalogoBalay = ['Hornos', 'Placas', 
     'Placa Con Extractor Integrado',
     'Microondas',
@@ -68,14 +71,15 @@ const InputRobotPrecios = () =>{
     const handleLanzar = async (event)=>{
         try {
             event.preventDefault();
-            const respuesta = await robotPrecios.lanzarRobot({
-              proveedor,
-              iva,
-              beneficio,
-              cupon,
-              producto
-            });
-            console.log(respuesta)
+            const respuesta = await robotPrecios.lanzarRobot();
+            if(respuesta.message == "Programa ejecutado correctamente."){
+                setModalContent(
+                    <div>
+                        <h1>{respuesta.message}</h1>
+                   </div>)
+                   setShowModal(true);
+            }
+            console.log(respuesta.message)
     } catch(exc){
         console.log(exc)
     }
@@ -89,7 +93,7 @@ const handleCrearCaso = async(event) =>{
             "iva": iva,
             "beneficio": beneficio,
             "cupon": cupon,
-            "producto": producto
+            "producto": producto[0]
         }
         const idEstadoFK = 5
         const idRobotFK = 1
@@ -106,6 +110,13 @@ const handleCrearCaso = async(event) =>{
             idtipo,
             jsonNegocio
         })
+        if(respuesta.message == "Caso creado correctamente"){
+            setModalContent(
+                <div>
+                    <h1>Caso creado correctamente</h1>
+               </div>)
+            setShowModal(true);
+        }
     }catch(exc){
 
     }
@@ -141,6 +152,9 @@ const handleCrearCaso = async(event) =>{
                     <button type='submit' className='btn btn-primary' onClick={handleCrearCaso}>Crear caso</button>
                 </div>
             </div>
+        <ModalComponent isOpen={showModal} onClose={() => setShowModal(false)}>
+            {modalContent}
+        </ModalComponent>
         </div>    
     )
 }
