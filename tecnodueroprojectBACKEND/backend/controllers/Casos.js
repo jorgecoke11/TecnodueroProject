@@ -227,7 +227,7 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
   try {
     //checkToken(req, res);
     const idEstado = req.body.idEstado; // Obtener idtipo del cuerpo de la solicitud
-    const fh_creacion = req.body.fh_creacion; 
+    let fh_creacion = new Date(req.body.fh_creacion); 
     fh_creacion = fh_creacion.toLocaleDateString()
     let partes = fh_creacion.split("/"); // Divide la cadena en partes usando "/"
     let formattedDate = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
