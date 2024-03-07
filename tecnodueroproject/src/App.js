@@ -15,7 +15,6 @@ function App() {
     if(loggedUserJson){
       const user = JSON.parse(loggedUserJson)
       setUser(user)
-      window.location.reload();
     }
   },[])
 
@@ -37,6 +36,7 @@ function App() {
       window.localStorage.setItem(
         'loggedAppUser', JSON.stringify(usuario)
       )
+      window.location.reload()
       // setUsername('');
       // setPassword('');
     } catch (e) {
