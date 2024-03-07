@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import express from 'express';
 const cuponesCalls = express.Router();
 function checkToken(req, res){
+  try{
     const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
     if (!token) {
         return res.status(401).json({ error: 'Token missing' });
@@ -11,6 +12,9 @@ function checkToken(req, res){
     if (!decodedToken) {
         return res.status(401).json({ error: 'Invalid token' });
     }
+    
+  }catch(error){
+  }
   }
   cuponesCalls.post('/get-cupones', async (req, res) => {
     try {

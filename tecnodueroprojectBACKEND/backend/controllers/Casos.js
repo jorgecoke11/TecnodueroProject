@@ -192,14 +192,18 @@ casosCalls.post('/update-documento', async (req, res) => {
   }
 });
 function checkToken(req, res){
-  const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
-  if (!token) {
-      return res.status(401).json({ error: 'Token missing' });
-  }
+  try{
+    const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
+    if (!token) {
+        return res.status(401).json({ error: 'Token missing' });
+    }
+  
+    const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
+    if (!decodedToken) {
+        return res.status(401).json({ error: 'Invalid token' });
+    }
+  }catch(error){
 
-  const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
-  if (!decodedToken) {
-      return res.status(401).json({ error: 'Invalid token' });
   }
 }
 casosCalls.post('/update-generico', async (req, res) => {
