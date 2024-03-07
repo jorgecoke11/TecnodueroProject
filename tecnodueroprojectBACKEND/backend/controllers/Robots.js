@@ -102,15 +102,20 @@ scriptPrecios.post('/get-conmutador', async (req, res) => {
     }
 })
 function checkToken(req, res){
-    const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
-    if (!token) {
-        return res.status(401).json({ error: 'Token missing' });
-    }
+    try{
+
+        const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
+        if (!token) {
+            return res.status(401).json({ error: 'Token missing' });
+        }
   
-    const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
-    if (!decodedToken) {
+        const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
+        if (!decodedToken) {
+            return res.status(401).json({ error: 'Invalid token' });
+        }
+    }catch(error){
         return res.status(401).json({ error: 'Invalid token' });
     }
-  }
+}
 
 export default scriptPrecios;

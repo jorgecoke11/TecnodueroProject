@@ -15,9 +15,7 @@ function App() {
     if(loggedUserJson){
       const user = JSON.parse(loggedUserJson)
       setUser(user)
-      if(!sessionData.getToken){
-        sessionData(user.token)
-      }
+      sessionData.setToken(user.token)
     }
   },[])
 
