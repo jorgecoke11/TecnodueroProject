@@ -50,7 +50,7 @@ const TableComponent = ({ data }) => {
                             <td>{caso.idCaso}</td>
                             <td>{caso.nombreEstado}</td>
                             <td>{caso.nombreCaso}</td>
-                            <td> <ProgressComponent>40</ProgressComponent> </td>
+                            <td> <ProgressComponent>{caso.porcentaje}</ProgressComponent> </td>
                             <td>{moment(caso.fh_creacion).format('DD-MM-YYYY HH:mm:ss')}</td>
                             <td>{moment(caso.fh_tramitacion).format('DD-MM-YYYY HH:mm:ss')}</td>
                             <td>{moment(caso.fh_fin).format('DD-MM-YYYY HH:mm:ss')}</td>
