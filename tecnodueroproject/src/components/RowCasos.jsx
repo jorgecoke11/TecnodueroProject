@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import moment from 'moment'
 import { saveAs } from "file-saver";
-
+import ProgressComponent from './ProgressComponent'
+import casos from "../services/casos";
 const TableComponent = ({ data }) => {
     const [caso, setCaso] = useState([]);
 
@@ -15,10 +16,21 @@ const TableComponent = ({ data }) => {
         const blobData = new Blob([csvByteArray], { type: 'text/csv' }); // Crear el Blob con el arreglo de bytes
         saveAs(blobData, nombre +'.csv');
     };
+    const handleRevivir = async (idCaso)=>{
+        try{
+            const response =  await casos.updateEstado({
+                idCaso,
+                nuevoEstado: 5
+            })
+            setCaso(prevCaso => prevCaso.map(c => c.idCaso === idCaso ? { ...c, nombreEstado: 'En cola' } : c));
+        }catch(error){
+            console.log('ERROR: error al revivir el caso')
+        }
+    }
 
     return (
         <div style={{ maxHeight: "300px", overflowY: "auto" }}> {/* Aplicar estilos CSS para hacer el componente desplazable */}    
-            <table className="table">
+            <table className="table table-striped">
                 <thead>
                     <tr>
                         <th>ID Caso</th>
@@ -29,15 +41,16 @@ const TableComponent = ({ data }) => {
                         <th>Fecha inicio</th>
                         <th>Fecha fin</th>
                         <th>Datos</th>
+                        <th>Acción</th>
                     </tr>
                 </thead>
                 <tbody>
                     {caso.map((caso, index) => (
-                        <tr key={index}>
+                        <tr key={index} className={caso.nombreEstado === 'En cola' ? 'encola' : ''}>
                             <td>{caso.idCaso}</td>
                             <td>{caso.nombreEstado}</td>
                             <td>{caso.nombreCaso}</td>
-                            <td>{caso.porcentaje}</td>
+                            <td> <ProgressComponent>40</ProgressComponent> </td>
                             <td>{moment(caso.fh_creacion).format('DD-MM-YYYY HH:mm:ss')}</td>
                             <td>{moment(caso.fh_tramitacion).format('DD-MM-YYYY HH:mm:ss')}</td>
                             <td>{moment(caso.fh_fin).format('DD-MM-YYYY HH:mm:ss')}</td>
@@ -47,6 +60,9 @@ const TableComponent = ({ data }) => {
                                 ) : (
                                     <button className="btn btn-success" disabled>No disponible</button>
                                 )}
+                            </td>
+                            <td>
+                                <button className="btn btn-primary" onClick={() => handleRevivir(caso.idCaso)}>Revivir</button>
                             </td>
                         </tr>
                     ))}

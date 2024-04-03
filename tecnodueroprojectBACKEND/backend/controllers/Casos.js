@@ -116,7 +116,6 @@ casosCalls.post('/update-estado', async (req, res) => {
       // Ejecutar la actualización
       checkToken(req, res);
       const body = req.body;
-      console.log(body.idCaso);
       const resultado = await casosModel.update(
           { idEstadoFK: body.nuevoEstado }, // Nuevos valores a actualizar
           { where: { idCaso: body.idCaso } } // Condición para seleccionar el caso a actualizar
@@ -242,6 +241,7 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
       attributes: [
         [Sequelize.literal('casos.idCaso'), 'idCaso'],
         [Sequelize.literal('estado.nombre'), 'nombreEstado'],
+        [Sequelize.literal('estado.idEstado'), 'idEstado'],
         [Sequelize.literal('casos.nombre'), 'nombreCaso'],
         [Sequelize.literal('casos.porcentaje'), 'porcentaje'],
         [Sequelize.literal('casos.datos'), 'datos'],

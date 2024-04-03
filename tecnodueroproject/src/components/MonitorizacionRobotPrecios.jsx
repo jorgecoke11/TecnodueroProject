@@ -6,6 +6,7 @@ import caso from "../services/casos";
 import ModalComponent from "./ModalComponent";
 import TableComponent from './RowCasos'
 import MyCalendar from "./MyCalendar";
+import Accordion from 'react-bootstrap/Accordion';
 const MonitorizacionRobotPrecios = () =>{
     const URI = Constantes.URI
     const [screenComponent, setScreenComponent] = useState(null)
@@ -22,6 +23,12 @@ const MonitorizacionRobotPrecios = () =>{
       handleBosch()
       handleSiemens() // Actualiza el estado de la fecha seleccionada
     };
+    const handleCloseModal = () =>{
+        setShowModal(false)
+        handleBalay()
+        handleBosch()
+        handleSiemens()
+    }
     useEffect(() => {
 
         handleBalay()
@@ -89,6 +96,7 @@ const MonitorizacionRobotPrecios = () =>{
                                     <button onClick={() => handleClickCasos(caso.idestado,1)}>
                                         {caso.numeroCasos}
                                     </button>
+                                    
                                 </td>
                             </tr>
                         ))
@@ -157,7 +165,7 @@ const MonitorizacionRobotPrecios = () =>{
                 </table>
             </Dropdown>
      {/* Componente Modal */}
-     <ModalComponent isOpen={showModal} onClose={() => setShowModal(false)}>
+     <ModalComponent isOpen={showModal} onClose={() => handleCloseModal()}>
        <TableComponent data={dataCasos}></TableComponent>
       </ModalComponent>
         </div>

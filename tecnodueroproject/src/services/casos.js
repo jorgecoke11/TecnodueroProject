@@ -8,6 +8,15 @@ const config = {
         Authorization: sessionData.token
     }
 };
+const updateEstado = async(where) =>{
+    try{
+        const response = await axios.post(Constantes.URI + 'api/robots/update-estado', where, config)
+        return response
+    }catch(error){
+        console.error('Error al cambiar de estado el caso')
+        throw error
+    }
+}
 const getCasos = async (where) => {
     try {
         const response = await axios.post(baseUrl, where, config);
@@ -39,4 +48,4 @@ const getCasosFecha = async (where) => {
     }
 };
 
-export default { getCasos, getCasosByIdEstado, getCasosFecha };
+export default { getCasos, getCasosByIdEstado, getCasosFecha,updateEstado };

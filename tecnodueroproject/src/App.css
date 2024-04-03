@@ -13,6 +13,9 @@ body > #root > div {
   height: 10%;
   margin-right: 6%;
 }
+.encola {
+  background-color: #101010 !important;/* Cambia el color de fondo a verde */
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {

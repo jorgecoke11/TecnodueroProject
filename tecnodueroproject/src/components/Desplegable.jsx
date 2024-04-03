@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Accordion from 'react-bootstrap/Accordion';
 function Dropdown({ children, label, onClick}) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -9,15 +9,16 @@ function Dropdown({ children, label, onClick}) {
   };
 
   return (
+    
     <div className='mt-3'>
-      <button onClick={toggleDropdown} className="btn btn-outline-success">
-      + { label}
-      </button>
-      {isOpen && (
-        <div className="dropdown-content">
-          {children}
-        </div>
-      )}
+      <Accordion onClick={toggleDropdown}>
+            <Accordion.Item eventKey="0">
+        <Accordion.Header>{label}</Accordion.Header>
+        <Accordion.Body>
+        {children}
+        </Accordion.Body>
+      </Accordion.Item>
+      </Accordion>
     </div>
   );
 }
