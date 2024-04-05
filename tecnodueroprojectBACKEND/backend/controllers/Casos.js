@@ -5,6 +5,7 @@ import { execPath } from 'process';
 import casosModel from '../models/casosModel.js';
 import estadosModel from '../models/estadosModel.js'
 import { INTEGER, Sequelize } from 'sequelize';
+import tipoCasoModel from '../models/tipoCasoModel.js';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 const casosCalls = express.Router();
 
@@ -13,8 +14,20 @@ casosCalls.post('/create-casos', async (req, res) => {
         checkToken(req,res)
         const {...caso} = req.body
         console.log(caso)
-        await casosModel.create(caso, {
-            fields: ['idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos', 'idtipo', 'jsonNegocio']
+        const idTipoCaso = await tipoCasoModel.findAll({
+          attributes: ['idtipo'],
+          where:{ 
+            Nombre: caso.jsonNegocio['proveedor'] 
+          }
+        })
+        const casoConTipo = 
+        {
+          ...caso,
+          idtipo: idTipoCaso[0].dataValues.idtipo,
+        }
+        console.log(casoConTipo)
+        await casosModel.create(casoConTipo, {
+            fields: ['idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos',  'jsonNegocio','idtipo']
           });
         res.json({
             "message": "Caso creado correctamente"

@@ -100,14 +100,12 @@ const handleCrearCaso = async(event) =>{
         const nombre = producto + ' ' + proveedor
         const porcentaje = 0
         const datos = 0
-        const idtipo = 1 
         const respuesta = await robotPrecios.crearCaso({
             idEstadoFK,
             idRobotFK,
             nombre,
             porcentaje,
             datos,
-            idtipo,
             jsonNegocio
         })
         if(respuesta.message == "Caso creado correctamente"){
