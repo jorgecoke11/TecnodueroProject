@@ -35,11 +35,19 @@ const MonitorizacionRobotPrecios = () =>{
     const handleCloseCalendarModal = () =>{
         setShowModalCalendar(false)
     }
-    useEffect(() => {
-
+    function actualizarProceso(){
+        console.log("jejeee")
         handleBalay()
         handleBosch()
         handleSiemens()
+    }
+    useEffect(() => {
+        const intervalo = setInterval(() => {
+            actualizarProceso()
+          }, 60000);
+      
+          // Cleanup function to clear the timeout if the component unmounts
+          return () => clearInterval(intervalo);
     }, []);
     const handleBalay = async()=>{
         const idtipo =1
