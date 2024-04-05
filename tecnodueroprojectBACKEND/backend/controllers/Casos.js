@@ -36,6 +36,7 @@ casosCalls.post('/create-casos', async (req, res) => {
         res.json( {message: error.message} )
     }
 })
+
 casosCalls.post('/get-casos', async (req, res) => {
     try {
         const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado

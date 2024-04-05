@@ -35,8 +35,7 @@ const MonitorizacionRobotPrecios = () =>{
     const handleCloseCalendarModal = () =>{
         setShowModalCalendar(false)
     }
-    function actualizarProceso(){
-        console.log("jejeee")
+    const actualizarProceso= () =>{
         handleBalay()
         handleBosch()
         handleSiemens()
@@ -48,7 +47,7 @@ const MonitorizacionRobotPrecios = () =>{
       
           // Cleanup function to clear the timeout if the component unmounts
           return () => clearInterval(intervalo);
-    }, []);
+    }, [selectedDate]);
     const handleBalay = async()=>{
         const idtipo =1
         const data = await caso.getCasos({
