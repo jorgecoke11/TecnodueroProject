@@ -260,7 +260,10 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
           Sequelize.fn('DATE', Sequelize.col('fh_creacion')),
           formattedDate
         )
-      }
+      },
+      order: [
+        ['fh_tramitacion', 'DESC'] 
+      ]
 
     });
     

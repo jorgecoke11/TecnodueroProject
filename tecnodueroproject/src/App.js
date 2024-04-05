@@ -5,6 +5,9 @@ import Home from './components/home';
 import MainMenu from './components/MainMenu'
 import loginService from '../src/services/login';
 import sessionData from './js/sessionData';
+import RobotPrecios from "./components/RobotPrecios";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Monitorizacion from './components/Monitorizacion';
 function App() {
   const [username, setUsername] = useState('');
   const [passWord, setPassword] = useState('');
@@ -50,7 +53,16 @@ function App() {
 
   return (
     <div className='App'>
-      {user ? <Home user={user}/> : <Login handleLogin={handleLogin} setPassword={setPassword} setUsername={setUsername} passWord={passWord} username={username} errorMessage={errorMessage} />}
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={user ? <Home user={user}/> : <Login handleLogin={handleLogin} setPassword={setPassword} setUsername={setUsername} passWord={passWord} username={username} errorMessage={errorMessage} />}>
+          </Route>
+          <Route path='/Robots' element={<RobotPrecios></RobotPrecios>}></Route>
+          <Route path='/Home' element={<MainMenu></MainMenu>}></Route>
+          <Route path='/Monitorizacion' element={<Monitorizacion></Monitorizacion>}></Route>
+        </Routes>
+      </BrowserRouter>
+      
     </div>
   );
 }

@@ -12,12 +12,10 @@ const MyCalendar = ({ onDateChange }) => {
 
   return (
     <div>
-      <div>
         <Calendar
           onChange={onChange}
           value={date}
         />
-      </div>
       <p>Fecha seleccionada: {date.toLocaleDateString()}</p>
     </div>
   );

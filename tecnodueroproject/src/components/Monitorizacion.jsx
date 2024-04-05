@@ -15,7 +15,7 @@ const Monitorizacion = () =>{
         }
       }
     return(
-        <div>
+      <div class="mx-auto">
             <DropDownComponent label={'Robots'} options={optionsRobots} onSelectChange={handleSelectChange}/>
             {screenComponent}
         </div>

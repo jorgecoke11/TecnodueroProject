@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import sessionData from '../js/sessionData'
 import RobotPrecios from "./Robot";
 import Monitorizacion from "./Monitorizacion";
+import { Link } from 'react-router-dom';
 const MainMenu = (user) =>{
     const [componenteActual, setComponenteActual] = useState('')
     const handleAvisos = () => {
@@ -29,8 +30,8 @@ const MainMenu = (user) =>{
       {componenteActual || (
         <div className="row">
           <button className="btn btn-primary mb-3" onClick={handleAvisos}>Avisos</button>
-          <button className="btn btn-primary mb-3" onClick={handleRobots}>Robots</button>
-          <button className="btn btn-primary" onClick={handleMonitorizacion}>Monitorización</button>
+          <Link to="/robots" className="btn btn-primary mb-3">Robots</Link>
+          <Link className="btn btn-primary" to='/monitorizacion'>Monitorización</Link>
         </div>
       )}
     </div>
