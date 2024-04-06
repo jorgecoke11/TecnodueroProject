@@ -8,6 +8,7 @@ export default db.define('cupon', {
     cupon: { type: DataTypes.STRING }, // Corregido a INTEGER
 
 }, {
+    tableName: 'cupon',
     timestamps: false, // Desactiva las columnas createdAt y updatedAt
     underscored: false, // Usa el estilo de nomenclatura snake_case para las columnas
 });

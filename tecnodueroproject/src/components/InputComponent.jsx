@@ -12,8 +12,8 @@ const InputComponent = (props) =>{
                 placeholder={placeHolder} 
                 className='form-control'
                 onChange={handleInputChange}
+                value={text}
                 >
-                    {text}
             </input>
         </div>
     )

@@ -29,7 +29,7 @@ app.use('/api/login', loginRouter)
 app.use('/api/robots',scriptPrecios)
 app.use('/api/robots', casosCalls)
 app.use('/api/robots',estadosCalls)
-app.use('api/robots/cupones',cuponesCalls)
+app.use('/api/robots/cupones',cuponesCalls)
 
 try {
     await db.authenticate()

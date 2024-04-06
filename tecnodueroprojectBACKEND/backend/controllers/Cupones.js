@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
+import cuponesModel from '../models/cuponesModel.js'
 const cuponesCalls = express.Router();
 function checkToken(req, res){
   try{
@@ -21,11 +22,27 @@ function checkToken(req, res){
         // Ejecutar la actualización
         checkToken(req, res);
         const body = req.body;
-        console.log(body.idEstado);
-        const resultado = await casosModel.findOne({
+        console.log(body);
+        const resultado = await cuponesModel.findOne({
           attributes: ['id', 'nombre', 'cupon'],
-          where: { id: body.id }
+          where: { nombre: body.nombre }
       });
+        res.json(resultado)
+    } catch (error) {
+        console.error('Error al obtener casos disponibles', error);
+        return res.status(500).json({ "message": "Error al obtener casos disponibles" });
+    }
+  });
+  cuponesCalls.post('/update-cupones', async (req, res) => {
+    try {
+        // Ejecutar la actualización
+        checkToken(req, res);
+        const body = req.body;
+        console.log(body);
+        const resultado = await cuponesModel.update(
+          { cupon:body.cuponBD }, // Nuevos valores a actualizar
+          { where: { nombre: body.nombre } } // Condición para seleccionar el caso a actualizar
+      );
         res.json(resultado)
     } catch (error) {
         console.error('Error al obtener casos disponibles', error);

@@ -189,7 +189,7 @@ const MonitorizacionRobotPrecios = () =>{
                 </table>
             </Dropdown>
      {/* Componente Modal */}
-     <ModalComponent isOpen={showModal} onClose={() => handleCloseModal()}>
+     <ModalComponent isOpen={showModal} onClose={() => handleCloseModal()} label={"Casos:"}>
        <TableComponent data={dataCasos}></TableComponent>
       </ModalComponent>
       <ModalComponent isOpen={showModalCalendar} onClose={() => handleCloseCalendarModal()}>

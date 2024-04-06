@@ -3,13 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import InputRobotPrecios from './RobotPrecios';
 import DropDownComponent from './DropDown';
 import atras from '../img/hacia-atras.png'
+import Cupones from './Cupones';
 const RobotPrecios = () =>{
     const [screenComponent, setScreenComponent] = useState(null)
     const optionsRobots =['Robot precios']
     const handleSelectChange = (selectOption) =>{
         switch(selectOption){
           case 'Robot precios':
-            setScreenComponent(<InputRobotPrecios></InputRobotPrecios>)
+            setScreenComponent(<Cupones></Cupones>)
             break
           default:
             setScreenComponent('')

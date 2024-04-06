@@ -17,4 +17,12 @@ const getCupones = async argumentos =>{
         throw error; // Puedes relanzar el error para manejarlo en otro lugar si es necesario
     }
 }
-export default {getCupones}
+const updateCupon = async argumentos =>{
+    try{
+        const response = await axios.post(Constantes.URI + 'api/robots/cupones/update-cupones', argumentos, config)
+        return response.data
+    }catch(error){
+        throw error
+    }
+}
+export default {getCupones, updateCupon}

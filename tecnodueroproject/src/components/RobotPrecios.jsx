@@ -123,8 +123,6 @@ const handleCrearCaso = async(event) =>{
     return(
         <div className='container mt-5'>
             <div>
-                <InputComponent placeHolder='cuponBD' setInputText={setCuponBD}></InputComponent>
-                <ToggleSwitch idRobot='1'></ToggleSwitch>
                 <label >Proveedor</label>
                 <SelectComponent 
                     placeHolder='Proveedor' 
