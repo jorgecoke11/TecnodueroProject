@@ -8,24 +8,15 @@ import robotPrecios from '../services/robotPrecios';
 import ToggleSwitch from './ToggleSwitch';
 import ModalComponent from './ModalComponent.jsx';
 import cuponCalls from '../services/cupon.js'
+import cuponesServices from '../services/cupon.js'
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
-    const [iva, setIva] = useState('')
-    const [cuponBD, setCuponBD] = useState('')
+    const [iva, setIva] = useState('21')
     const [beneficio, setBeneficio] = useState('')
     const [showModal, setShowModal] = useState(false);
     const [cupon, setCupon] = useState('')
     const [producto, setProducto] = useState('')
     const [modalContent, setModalContent] = useState('')
-    const handleCuponBD = async () =>{
-        const response = await cuponCalls.getCupones({
-            id: 1
-        })
-        setCuponBD(response);
-    }
-    // useEffect(() => {
-    //     handleCuponBD()
-    // }, [cuponBD]);
     const optionsCatalogoBalay = ['Hornos', 'Placas', 
     'Placa Con Extractor Integrado',
     'Microondas',
@@ -85,14 +76,25 @@ const InputRobotPrecios = () =>{
     }
 
 }
+const leerCupon = async()=>{
+    try{
+        const data = await cuponesServices.getCupones({
+            nombre: 'bsh'
+        })
+        setCupon(data)
+    }catch(error){
+
+    }
+}
 const handleCrearCaso = async(event) =>{
     try{
         event.preventDefault();
+        await leerCupon()
         const jsonNegocio = {
             "proveedor": proveedor,
             "iva": iva,
             "beneficio": beneficio,
-            "cupon": cupon,
+            "cupon": cupon.cupon,
             "producto": producto[0]
         }
         const idEstadoFK = 5
@@ -130,12 +132,8 @@ const handleCrearCaso = async(event) =>{
                     setOptionText={setProveedor}
                 >
                 </SelectComponent>
-                <label >IVA</label>
-                <InputNumberComponent placeHolder='IVA' setInputText={setIva}></InputNumberComponent>
                 <label >Beneficio</label>
                 <InputNumberComponent placeHolder='Beneficio' setInputText={setBeneficio}></InputNumberComponent>
-                <label >Cupón</label>
-                <InputComponent placeHolder='Cupón' setInputText={setCupon}></InputComponent>
                 <label>Catalogo de Productos</label>
                 <SelectMultipleComponent 
                     placeHolder='Producto' 
@@ -144,7 +142,6 @@ const handleCrearCaso = async(event) =>{
                 >
                 </SelectMultipleComponent>
                 <div className='mt-3'>
-                    <button type='submit' className='btn btn-primary' onClick={handleLanzar}>Lanzar</button>
                     <button type='submit' className='btn btn-primary' onClick={handleCrearCaso}>Crear caso</button>
                 </div>
             </div>

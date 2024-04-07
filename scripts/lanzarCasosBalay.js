@@ -20,10 +20,19 @@ const login = async () =>{
     };
 }
 
-function leerCupon() {
-    const documentosPath = path.join(require('os').homedir(), 'Documents');
-    const cuponFilePath = path.join(documentosPath, 'cupon.txt');
-    return fs.readFileSync(cuponFilePath, 'utf8').trim();
+async function leerCupon (){
+    // const documentosPath = path.join(require('os').homedir(), 'Documents');
+    // const cuponFilePath = path.join(documentosPath, 'cupon.txt');
+    // return fs.readFileSync(cuponFilePath, 'utf8').trim();
+    const payload = {
+        nombre: "bsh"
+    }
+    try{
+        const cupon = await axios.post('http://localhost:8000/api/robots/cupones/get-cupones',payload, config)
+        return cupon.data.cupon
+    }catch(error){
+
+    }
 }
 
 const optionsCatalogoBalay = [
@@ -57,10 +66,9 @@ const idtipo = 1;
 let token=''
 let config = ''
 // Ejecutar la función de login antes de crear casos
-login().then(() => {
+login().then( async() => {
     // Leer el cupón del archivo de texto
-    const cupon = leerCupon();
-
+    const cupon =  await leerCupon();
     // Crear casos para cada producto en optionsCatalogoBalay
     optionsCatalogoBalay.forEach(async (producto) => {
         const jsonNegocio = {
