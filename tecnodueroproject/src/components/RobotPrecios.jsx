@@ -82,6 +82,7 @@ const leerCupon = async()=>{
             nombre: 'bsh'
         })
         setCupon(data)
+        return data.cupon
     }catch(error){
 
     }
@@ -89,12 +90,13 @@ const leerCupon = async()=>{
 const handleCrearCaso = async(event) =>{
     try{
         event.preventDefault();
-        await leerCupon()
+        const cupones = await leerCupon()
+        console.log(cupones)
         const jsonNegocio = {
             "proveedor": proveedor,
             "iva": iva,
             "beneficio": beneficio,
-            "cupon": cupon.cupon,
+            "cupon": cupones,
             "producto": producto[0]
         }
         const idEstadoFK = 5
