@@ -9,6 +9,7 @@ import scriptPrecios from './controllers/Robots.js';
 import casosCalls from './controllers/Casos.js'
 import estadosCalls from './controllers/Estados.js'
 import cuponesCalls from './controllers/Cupones.js'
+import tiposCasoCalls from './controllers/TiposCaso.js'
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -30,6 +31,7 @@ app.use('/api/robots',scriptPrecios)
 app.use('/api/robots', casosCalls)
 app.use('/api/robots',estadosCalls)
 app.use('/api/robots/cupones',cuponesCalls)
+app.use('/api/robots/tiposcaso', tiposCasoCalls)
 
 try {
     await db.authenticate()

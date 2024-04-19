@@ -17,7 +17,7 @@ const RobotPrecios = () =>{
         }
       }
       const handleAtras = () =>{
-        
+        window.location= '/'
       }
     return(
         <div className="h-75 justify-content-center align-items-center">
