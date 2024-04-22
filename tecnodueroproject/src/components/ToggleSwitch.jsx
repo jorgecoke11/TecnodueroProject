@@ -1,14 +1,16 @@
 import React, { useState, useEffect} from 'react';
 import robotPrecios from '../services/robotPrecios';
+import useUser from '../hooks/useUser';
 function ToggleSwitch(idRobot) {
   // Definir el estado inicial del conmutador
   const [isOn, setIsOn] = useState(false);
+  const {jwt} = useUser()
   useEffect(() => {
     loadInitialToggleState();
   }, [])
   const loadInitialToggleState = async () => {
     try {
-        const respuesta = await robotPrecios.getConmutador({idRobot:1})
+        const respuesta = await robotPrecios.getConmutador(jwt,{idRobot:1})
         if(respuesta.conmutador == 1){
             setIsOn(true)
         }else{
@@ -29,7 +31,7 @@ function ToggleSwitch(idRobot) {
   };
   const conmutar = async(conmutador)=>{
     try{
-        const respuesta = await robotPrecios.conmutarRobot({conmutador, idRobot:1 })
+        const respuesta = await robotPrecios.conmutarRobot(jwt,{conmutador, idRobot:1 })
     }catch(exc){
 
     }

@@ -2,12 +2,24 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Notification from './Notification'
+import useUser from '../hooks/useUser';
+const Login = () => {
+    const {isLoginLoading, hasLoginError, isLogged,login} = useUser()
+    const [username, setUsername] = useState('');
+    const [passWord, setPassword] = useState('');
+    const [user, setUser] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const handleLogin = async (event) => {
+        try {
+         event.preventDefault();
+          login({username, passWord})
+        } catch (e) {
+          console.log(e)
 
-const Login = ({handleLogin, setPassword, setUsername, errorMessage, username, passWord}) => {
-   
+        }
+      };
     return(
         <div className='h-75 d-flex justify-content-center align-items-center'>
-            <Notification message={errorMessage}></Notification>
             <div className='row border '>
                 <div className='d-flex justify-content-center align-items-center '>
                 <img
@@ -17,6 +29,7 @@ const Login = ({handleLogin, setPassword, setUsername, errorMessage, username, p
                 
                     <form onSubmit={handleLogin} className='row border-start '>
                     <h2>Iniciar sesión</h2>
+                    {isLoginLoading && <strong> Comprobando creedenciales...</strong>}
                         <label
                             className='mb-3 mt-3'>
                             Usuario:
@@ -45,6 +58,8 @@ const Login = ({handleLogin, setPassword, setUsername, errorMessage, username, p
                         > Acceder
                         </button>
                     </form>
+                    
+            {hasLoginError && <strong>Credenciales incorrectas</strong>}
                 </div>
             </div>
         </div>

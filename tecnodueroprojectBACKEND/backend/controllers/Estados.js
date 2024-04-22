@@ -17,7 +17,7 @@ estadosCalls.post('/create-estados', async (req, res) => {
             "message": "estado creado correctamente"
         })
     } catch (error) {
-        res.json( {message: error.message} )
+       
     }
 })
 

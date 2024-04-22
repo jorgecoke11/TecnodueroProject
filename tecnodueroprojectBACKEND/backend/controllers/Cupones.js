@@ -46,7 +46,7 @@ function checkToken(req, res){
         res.json(resultado)
     } catch (error) {
         console.error('Error al obtener casos disponibles', error);
-        return res.status(500).json({ "message": "Error al obtener casos disponibles" });
+        
     }
   });
   export default cuponesCalls

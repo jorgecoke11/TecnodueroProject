@@ -4,6 +4,7 @@
     import cuponesCalls from "../services/cupon.js";
     import ModalComponent from './ModalComponent.jsx';
     import robotPrecios from '../services/robotPrecios';
+    import useUser from '../hooks/useUser.js'
     const Cupones = () => {
         const [proveedor, setProveedor] = useState('')
         const [iva, setIva] = useState('')
@@ -13,6 +14,7 @@
         const [producto, setProducto] = useState('')
         const [modalContent, setModalContent] = useState('')
         const [cuponBD, setCuponBD] = useState('')
+        const {jwt} = useUser()
         const handleLanzar = async (event)=>{
             try {
                 event.preventDefault();
@@ -33,7 +35,7 @@
         const CuponUpdate = async()=>{
             try{
                 const nombre = "bsh"
-                const data = await cuponesCalls.updateCupon({
+                const data = await cuponesCalls.updateCupon(jwt,{
                     cuponBD,
                     nombre
                 })
@@ -44,7 +46,7 @@
         const Cupon = async() =>{
             try{
                 const nombre = "bsh"
-                const data = await cuponesCalls.getCupones({
+                const data = await cuponesCalls.getCupones(jwt,{
                     nombre
                 })
                 console.log(data)

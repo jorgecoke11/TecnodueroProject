@@ -3,9 +3,10 @@ import moment from 'moment'
 import { saveAs } from "file-saver";
 import ProgressComponent from './ProgressComponent'
 import casos from "../services/casos";
+import useUser from "../hooks/useUser";
 const TableComponent = ({ data }) => {
     const [caso, setCaso] = useState([]);
-
+    const{jwt} = useUser()
     useEffect(() => {
         
         setCaso(data);
@@ -18,7 +19,7 @@ const TableComponent = ({ data }) => {
     };
     const handleRevivir = async (idCaso)=>{
         try{
-            const response =  await casos.updateEstado({
+            const response =  await casos.updateEstado(jwt,{
                 idCaso,
                 nuevoEstado: 5
             })

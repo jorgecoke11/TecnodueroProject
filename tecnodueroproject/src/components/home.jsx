@@ -1,11 +1,13 @@
 import React from "react";
 import MainMenu from './MainMenu'
 import Notification from "./Notification";
-const Home = (user) => {
-    console.log(user)
+import useUser from "../hooks/useUser";
+import Login from "../components/login";
+const Home = () => {
+    const {isLogged,login} = useUser()
     return (
         <div className='App'>
-            {user ? <MainMenu/> : <Notification message={'Sesion no iniciada'}></Notification>}
+            {isLogged ? <MainMenu/> : <Login></Login>}
         </div>
     );
 };

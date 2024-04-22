@@ -3,13 +3,15 @@ import Constantes from '../js/Constantes.js';
 import sessionData from '../js/sessionData';
 
 const baseUrl = Constantes.URI + 'api/robots/cupones/get-cupones';
-const config = {
-    headers:{
-        Authorization: sessionData.token
-    }
-}
-const getCupones = async argumentos =>{
+
+const getCupones = async (jwt,argumentos) =>{
     try {
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
+
         const response = await axios.post(baseUrl, argumentos, config);
         return response.data;
     } catch (error) {
@@ -17,8 +19,14 @@ const getCupones = async argumentos =>{
         throw error; // Puedes relanzar el error para manejarlo en otro lugar si es necesario
     }
 }
-const updateCupon = async argumentos =>{
+const updateCupon = async (jwt,argumentos) =>{
     try{
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
+
         const response = await axios.post(Constantes.URI + 'api/robots/cupones/update-cupones', argumentos, config)
         return response.data
     }catch(error){

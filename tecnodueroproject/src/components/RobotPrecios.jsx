@@ -9,6 +9,7 @@ import ToggleSwitch from './ToggleSwitch';
 import ModalComponent from './ModalComponent.jsx';
 import cuponCalls from '../services/cupon.js'
 import cuponesServices from '../services/cupon.js'
+import useUser from '../hooks/useUser.js';
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
     const [iva, setIva] = useState('21')
@@ -17,6 +18,7 @@ const InputRobotPrecios = () =>{
     const [cupon, setCupon] = useState('')
     const [producto, setProducto] = useState('')
     const [modalContent, setModalContent] = useState('')
+    const {jwt} =useUser()
     const optionsCatalogoBalay = ['Hornos', 'Placas', 
     'Placa Con Extractor Integrado',
     'Microondas',
@@ -62,7 +64,7 @@ const InputRobotPrecios = () =>{
     const handleLanzar = async (event)=>{
         try {
             event.preventDefault();
-            const respuesta = await robotPrecios.lanzarRobot();
+            const respuesta = await robotPrecios.lanzarRobot(jwt);
             if(respuesta.message == "Programa ejecutado correctamente."){
                 setModalContent(
                     <div>
@@ -78,7 +80,7 @@ const InputRobotPrecios = () =>{
 }
 const leerCupon = async()=>{
     try{
-        const data = await cuponesServices.getCupones({
+        const data = await cuponesServices.getCupones(jwt,{
             nombre: 'bsh'
         })
         setCupon(data)
@@ -104,7 +106,7 @@ const handleCrearCaso = async(event) =>{
         const nombre = producto + ' ' + proveedor
         const porcentaje = 0
         const datos = 0
-        const respuesta = await robotPrecios.crearCaso({
+        const respuesta = await robotPrecios.crearCaso(jwt,{
             idEstadoFK,
             idRobotFK,
             nombre,

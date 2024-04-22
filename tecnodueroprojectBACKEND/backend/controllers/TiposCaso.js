@@ -21,7 +21,6 @@ function checkToken(req, res){
 tiposCasoCalls.post('/get-tiposcaso', async(req, res)=>{
     try{
         const body = req.body
-        console.log(body)
         checkToken(req,res)
         const response = await tipoCasoModel.findAll({
             where:{
@@ -31,7 +30,7 @@ tiposCasoCalls.post('/get-tiposcaso', async(req, res)=>{
         res.json(response)
     }catch(error){
         console.log(error)
-        res.status(500).json({ message: error.message });
+    
     }
 })
 export default tiposCasoCalls

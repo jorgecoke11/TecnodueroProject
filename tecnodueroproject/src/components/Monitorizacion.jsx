@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import MonitorizacionRobotPrecios from "./MonitorizacionRobotPrecios";
 import MonitorizacionProceso from "./MonitorizacionProceso"
 import DropDownComponent from './DropDown';
 const Monitorizacion = () =>{
@@ -18,7 +17,7 @@ const Monitorizacion = () =>{
       <div class="mx-auto">
             <DropDownComponent label={'Robots'} options={optionsRobots} onSelectChange={handleSelectChange}/>
             {screenComponent}
-        </div>
+      </div>
     )
 }
 export default Monitorizacion

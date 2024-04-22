@@ -84,13 +84,13 @@ scriptPrecios.post('/conmutar', async (req, res) => {
         )
         res.status(200).json({"message:": "Conmutador actualizado"})
     } catch (error) {
-        res.json( {message: error.message} )
+        console.log(error)
     }
 })
 scriptPrecios.post('/get-conmutador', async (req, res) => {
     try{
         checkToken(req, res)
-
+        
         const respuesta = await robotPreciosModel.findOne({
             attributes:['conmutador'],
             where:{idRobot: req.body.idRobot}
@@ -98,7 +98,7 @@ scriptPrecios.post('/get-conmutador', async (req, res) => {
         
         res.status(200).json(respuesta)
     } catch (error) {
-        res.json( {message: error.message} )
+        console.log(error)
     }
 })
 function checkToken(req, res){
@@ -114,7 +114,7 @@ function checkToken(req, res){
             return res.status(401).json({ error: 'Invalid token' });
         }
     }catch(error){
-        return res.status(401).json({ error: 'Invalid token' });
+       
     }
 }
 

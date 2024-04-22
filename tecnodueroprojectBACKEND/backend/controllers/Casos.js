@@ -284,7 +284,7 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
     res.status(200).json(resultado);
   } catch (error) {
     console.error('Error al actualizar el caso:', error);
-    return res.status(500).json({ "message": "Error al actualizar el caso" });
+   
   }
 });
 

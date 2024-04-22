@@ -9,8 +9,13 @@ const config = {
         Authorization: sessionData.token
     }
 };
-const getTiposDeCaso = async where =>{
+const getTiposDeCaso = async (jwt,where) =>{
     try{
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
         const response = await axios.post(baseUrl +'get-tiposcaso', where, config)
         return response.data
     }catch(error){

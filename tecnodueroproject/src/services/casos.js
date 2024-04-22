@@ -1,15 +1,17 @@
 import axios from "axios";
 import Constantes from '../js/Constantes.js';
 import sessionData from '../js/sessionData';
+import { useUser } from "../hooks/useUser.js";
 
 const baseUrl = Constantes.URI + 'api/robots/get-casos';
-const config = {
-    headers: {
-        Authorization: sessionData.token
-    }
-};
-const updateEstado = async(where) =>{
+
+const updateEstado = async(jwt,where) =>{
     try{
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
         const response = await axios.post(Constantes.URI + 'api/robots/update-estado', where, config)
         return response
     }catch(error){
@@ -17,8 +19,13 @@ const updateEstado = async(where) =>{
         throw error
     }
 }
-const getCasos = async (where) => {
+const getCasos = async (jwt,where) => {
     try {
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
         const response = await axios.post(baseUrl, where, config);
         return response.data;
     } catch (error) {
@@ -26,9 +33,14 @@ const getCasos = async (where) => {
         throw error; // Puedes relanzar el error para manejarlo en otro lugar si es necesario
     }
 };
-const getCasosByIdEstado = async (where) => {
+const getCasosByIdEstado = async (jwt,where) => {
     const baseUrl = Constantes.URI + 'api/robots/get-casos-id-estado';
     try {
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
         const response = await axios.post(baseUrl, where, config);
         return response.data;
     } catch (error) {
@@ -36,10 +48,15 @@ const getCasosByIdEstado = async (where) => {
         throw error; // Puedes relanzar el error para manejarlo en otro lugar si es necesario
     }
 };
-const getCasosFecha = async (where) => {
+const getCasosFecha = async (jwt,where) => {
 
     const baseUrl = Constantes.URI + 'api/robots/get-casos-fecha';
     try {
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
         const response = await axios.post(baseUrl, where, config);
         return response.data;
     } catch (error) {

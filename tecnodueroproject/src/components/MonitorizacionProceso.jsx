@@ -9,6 +9,7 @@ import MyCalendar from "./MyCalendar";
 import Accordion from 'react-bootstrap/Accordion';
 import RobotPrecios from "../components/RobotPrecios";
 import tiposCasosCalls from "../services/tiposCasos";
+import useUser from "../hooks/useUser";
 const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
     const URI = Constantes.URI
     const [screenComponent, setScreenComponent] = useState(null)
@@ -22,6 +23,7 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
     const [showModalCreadorCaso, setShowModalCreadorCaso] = useState(false);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [casosPorTipo, setCasosPorTipo] = useState([])
+    const {jwt} = useUser()
     
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -38,15 +40,16 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
         handleTiposCasos()
     }
     const getCasos = async (tipoCaso) =>{
-        var casosData = await caso.getCasos({
-            idtipo: tipoCaso.idtipo,
-            fh_creacion: selectedDate
-        })
+        var casosData = await caso.getCasos(
+            jwt,{
+                idtipo: tipoCaso.idtipo,
+                fh_creacion: selectedDate
+            })
         return casosData
     }
     const handleTiposCasos = async () =>{
         try{
-            const data = await tiposCasosCalls.getTiposDeCaso({
+            const data = await tiposCasosCalls.getTiposDeCaso(jwt,{
                 id_proceso
             })
             const tiposCasoData = []
@@ -94,7 +97,7 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
 
     const handleClickCasos = async(idEstado, idtipo) =>{
        try{
-        const data = await caso.getCasosFecha({
+        const data = await caso.getCasosFecha(jwt,{
             idEstado,
             idtipo,
             fh_creacion: selectedDate
