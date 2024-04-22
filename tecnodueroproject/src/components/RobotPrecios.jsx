@@ -69,7 +69,8 @@ const leerCupon = async()=>{
         setCupon(data)
         return data.cupon
     }catch(error){
-
+        window.sessionStorage.clear()
+        window.location= '/'
     }
 }
 const handleCrearCaso = async(event) =>{
@@ -105,7 +106,8 @@ const handleCrearCaso = async(event) =>{
             setShowModal(true);
         }
     }catch(exc){
-
+        window.sessionStorage.clear()
+        window.location= '/'
     }
     
     }

@@ -33,21 +33,13 @@ casosCalls.post('/create-casos', async (req, res) => {
             "message": "Caso creado correctamente"
         })
     } catch (error) {
-        res.json( {message: error.message} )
+        res.send( {message: error.message} )
     }
 })
 
 casosCalls.post('/get-casos', async (req, res) => {
     try {
-        const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
-        if (!token) {
-            return res.status(401).json({ error: 'Token missing' });
-        }
-
-        const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
-        if (!decodedToken) {
-            return res.status(401).json({ error: 'Invalid token' });
-        }
+        checkToken(req, res);
         casosModel.belongsTo(estadosModel, { foreignKey: 'idEstadoFK', targetKey: 'idEstado' });
 
 
@@ -80,20 +72,11 @@ casosCalls.post('/get-casos', async (req, res) => {
         res.json(casosPorEstado);
     } catch (error) {
         console.log(error)
-        res.status(500).json({ message: error.message });
     }
 });
 casosCalls.post('/get-casos-id-estado', async (req, res) => {
   try {
-      const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
-      if (!token) {
-          return res.status(401).json({ error: 'Token missing' });
-      }
-
-      const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
-      if (!decodedToken) {
-          return res.status(401).json({ error: 'Invalid token' });
-      }
+      checkToken(req, res);
       casosModel.belongsTo(estadosModel, { foreignKey: 'idEstadoFK', targetKey: 'idEstado' });
 
 
@@ -122,7 +105,6 @@ casosCalls.post('/get-casos-id-estado', async (req, res) => {
       res.json(casosPorEstado);
   } catch (error) {
       console.log(error)
-      res.status(500).json({ message: error.message });
   }
 });
 casosCalls.post('/update-estado', async (req, res) => {
@@ -145,7 +127,6 @@ casosCalls.post('/update-estado', async (req, res) => {
       // }
   } catch (error) {
       console.error('Error al actualizar el caso:', error);
-      return res.status(500).json({ "message": "Error al actualizar el caso" });
   }
 });
 casosCalls.post('/casos-disponibles', async (req, res) => {
@@ -161,7 +142,6 @@ casosCalls.post('/casos-disponibles', async (req, res) => {
       res.json(resultado)
   } catch (error) {
       console.error('Error al obtener casos disponibles', error);
-      return res.status(500).json({ "message": "Error al obtener casos disponibles" });
   }
 });
 casosCalls.post('/update-fhtramitacion', async (req, res) => {
@@ -177,7 +157,6 @@ casosCalls.post('/update-fhtramitacion', async (req, res) => {
       res.status(200).json(resultado);
   } catch (error) {
       console.error('Error al actualizar el caso:', error);
-      return res.status(500).json({ "message": "Error al actualizar el caso" });
   }
 });
 casosCalls.post('/update-documento', async (req, res) => {
@@ -191,32 +170,29 @@ casosCalls.post('/update-documento', async (req, res) => {
           { where: { idCaso: body.idCaso } } // Condición para seleccionar el caso a actualizar
       );
       res.status(200).json(resultado);
-      // Verificar si se actualizó algún registro
-      // if (resultado > 0) {
-      //     console.log(`El caso con ID ${body.idCaso} se actualizó correctamente.`);
-      //     res.status(200).json({ "message": "Caso actualizado correctamente" });
-      // } else {
-      //     console.log(`No se encontró ningún caso con ID ${body.idCaso}.`);
-      //     res.status(500).json({ "message": `No se encontró ningún caso con ID ${body.idCaso}.` });
-      // }
   } catch (error) {
       console.error('Error al actualizar el caso:', error);
-      return res.status(500).json({ "message": "Error al actualizar el caso" });
   }
 });
 function checkToken(req, res){
   try{
     const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
     if (!token) {
-        return res.status(401).json({ error: 'Token missing' });
+        return res.status(401).send({ error: 'Token missing' });
     }
   
     const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
     if (!decodedToken) {
-        return res.status(401).json({ error: 'Invalid token' });
+        return res.status(401).send({ error: 'Invalid token' });
     }
   }catch(error){
-
+    if (error.name === 'TokenExpiredError') {
+      res.status(510).send({ error: 'Token expired. Please login again.' });
+    } else {
+      // Otros errores de JWT o de verificación de token
+      console.error('Error al verificar el token:', error.message);
+      return res.status(500).send({ error: 'Internal server error' });
+    }
   }
 }
 casosCalls.post('/update-generico', async (req, res) => {
@@ -235,7 +211,7 @@ casosCalls.post('/update-generico', async (req, res) => {
       res.status(200).json(resultado);
     } catch (error) {
       console.error('Error al actualizar el caso:', error);
-      return res.status(500).json({ "message": "Error al actualizar el caso" });
+      return res.status(500).send({ "message": "Error al actualizar el caso" });
     }
 });
 casosCalls.post('/get-casos-fecha', async (req, res) => {
@@ -284,7 +260,6 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
     res.status(200).json(resultado);
   } catch (error) {
     console.error('Error al actualizar el caso:', error);
-   
   }
 });
 

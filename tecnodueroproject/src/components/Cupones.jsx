@@ -27,8 +27,11 @@
                        setShowModal(true);
                 }
                 console.log(respuesta.message)
-        } catch(exc){
-            console.log(exc)
+        } catch(error){
+            if(error.response.status === 510){
+                window.sessionStorage.clear()
+                window.location= '/'
+            }
         }
     
     }
@@ -40,7 +43,10 @@
                     nombre
                 })
             }catch(error){
-                throw error
+                if(error.response.status === 510){
+                    window.sessionStorage.clear()
+                    window.location= '/'
+                }
             }
         }
         const Cupon = async() =>{
@@ -52,7 +58,10 @@
                 console.log(data)
                 setCuponBD(data)
             }catch(error){
-                throw error
+                if(error.response.status === 510){
+                    window.sessionStorage.clear()
+                    window.location= '/'
+                }
             }
         }
         useEffect(() => {

@@ -6,21 +6,28 @@ function checkToken(req, res){
   try{
     const token = req.get('authorization')?.split(' ')[1]; // Obtener token del encabezado
     if (!token) {
-        return res.status(401).json({ error: 'Token missing' });
+        return res.status(401).send({ error: 'Token missing' });
     }
   
     const decodedToken = jwt.verify(token, process.env.CLAVE_SECRETA);
     if (!decodedToken) {
-        return res.status(401).json({ error: 'Invalid token' });
+        return res.status(401).send({ error: 'Invalid token' });
     }
     
   }catch(error){
+    if (error.name === 'TokenExpiredError') {
+      res.status(510).send({ error: 'Token expired. Please login again.' });
+    } else {
+      // Otros errores de JWT o de verificación de token
+      console.error('Error al verificar el token:', error.message);
+      return res.status(500).send({ error: 'Internal server error' });
+    }
   }
   }
   cuponesCalls.post('/get-cupones', async (req, res) => {
     try {
         // Ejecutar la actualización
-        checkToken(req, res);
+       await checkToken(req, res);
         const body = req.body;
         console.log(body);
         const resultado = await cuponesModel.findOne({
@@ -29,8 +36,7 @@ function checkToken(req, res){
       });
         res.json(resultado)
     } catch (error) {
-        console.error('Error al obtener casos disponibles', error);
-        return res.status(500).json({ "message": "Error al obtener casos disponibles" });
+      console.log(error)
     }
   });
   cuponesCalls.post('/update-cupones', async (req, res) => {

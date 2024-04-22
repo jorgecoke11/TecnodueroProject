@@ -40,12 +40,19 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
         handleTiposCasos()
     }
     const getCasos = async (tipoCaso) =>{
-        var casosData = await caso.getCasos(
-            jwt,{
-                idtipo: tipoCaso.idtipo,
-                fh_creacion: selectedDate
-            })
-        return casosData
+        try{
+            var casosData = await caso.getCasos(
+                jwt,{
+                    idtipo: tipoCaso.idtipo,
+                    fh_creacion: selectedDate
+                })
+                return casosData
+        }catch(error){
+            if(error.response.status === 510){
+                window.sessionStorage.clear()
+                window.location= '/'
+            }
+        }
     }
     const handleTiposCasos = async () =>{
         try{
@@ -62,7 +69,10 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
             }
             setCasosPorTipo(tiposCasoData)
         }catch(error){
-            throw error
+            if(error.response.status === 510){
+                window.sessionStorage.clear()
+                window.location= '/'
+            }
         }
     }
     const handleActualizarTipoCaso = async (tipoCasoActualizado) =>{

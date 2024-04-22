@@ -47,8 +47,13 @@ scriptPrecios.post('/preciosrobot', async (req, res) => {
         }
 
     } catch (error) {
-        console.error('Error al ejecutar el programa:', error);
-        res.status(500).json({ error: 'Error al ejecutar el programa' });
+        if (error.name === 'TokenExpiredError') {
+            res.status(510).send({ error: 'Token expired. Please login again.' });
+          } else {
+            // Otros errores de JWT o de verificación de token
+            console.error('Error al verificar el token:', error.message);
+            return res.status(500).send({ error: 'Internal server error' });
+          }
     }
 });
 
@@ -89,7 +94,7 @@ scriptPrecios.post('/conmutar', async (req, res) => {
 })
 scriptPrecios.post('/get-conmutador', async (req, res) => {
     try{
-        checkToken(req, res)
+        await checkToken(req, res)
         
         const respuesta = await robotPreciosModel.findOne({
             attributes:['conmutador'],
@@ -114,7 +119,13 @@ function checkToken(req, res){
             return res.status(401).json({ error: 'Invalid token' });
         }
     }catch(error){
-       
+        if (error.name === 'TokenExpiredError') {
+            res.status(510).send({ error: 'Token expired. Please login again.' });
+          } else {
+            // Otros errores de JWT o de verificación de token
+            console.error('Error al verificar el token:', error.message);
+            return res.status(500).send({ error: 'Internal server error' });
+          }
     }
 }
 
