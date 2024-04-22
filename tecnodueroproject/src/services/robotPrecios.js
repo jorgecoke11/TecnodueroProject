@@ -1,6 +1,5 @@
 import axios from "axios";
 import Constantes from "../js/Constantes";
-import sessionData from '../js/sessionData'
 const URI = Constantes.URI
 
 

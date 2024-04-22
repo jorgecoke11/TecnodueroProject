@@ -18,7 +18,7 @@
         const handleLanzar = async (event)=>{
             try {
                 event.preventDefault();
-                const respuesta = await robotPrecios.lanzarRobot();
+                const respuesta = await robotPrecios.lanzarRobot(jwt);
                 if(respuesta.message == "Programa ejecutado correctamente."){
                     setModalContent(
                         <div>

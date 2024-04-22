@@ -61,23 +61,6 @@ const InputRobotPrecios = () =>{
     'Bolsas De Aspiradores',
     'Filtros De Carbón Activo Para Campanas']
     const proveedoresOptions = ['Balay', 'Bosch', 'Siemens']
-    const handleLanzar = async (event)=>{
-        try {
-            event.preventDefault();
-            const respuesta = await robotPrecios.lanzarRobot(jwt);
-            if(respuesta.message == "Programa ejecutado correctamente."){
-                setModalContent(
-                    <div>
-                        <h1>{respuesta.message}</h1>
-                   </div>)
-                   setShowModal(true);
-            }
-            console.log(respuesta.message)
-    } catch(exc){
-        console.log(exc)
-    }
-
-}
 const leerCupon = async()=>{
     try{
         const data = await cuponesServices.getCupones(jwt,{
