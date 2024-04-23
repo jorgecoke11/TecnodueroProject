@@ -20,7 +20,7 @@ function checkToken(req, res){
     } else {
       // Otros errores de JWT o de verificación de token
       console.error('Error al verificar el token:', error.message);
-      return res.status(500).send({ error: 'Internal server error' });
+      return res.status(510).send({ error: 'Internal server error' });
     }
   }
   }

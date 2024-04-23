@@ -4,7 +4,39 @@ import { execFile } from 'child_process';
 import { execPath } from 'process';
 import robotPreciosModel from '../models/robotPreciosModel.js';
 import psList from 'ps-list'
+import Utils from './Utils.js';
 const scriptPrecios = express.Router();
+
+scriptPrecios.post('/check-bsh', async(req,res)=>{
+    Utils.checkToken(req,res)
+    let path = process.env.PATH_ROBOT_PRECIOS_PC5;
+    const processToCheck = req.body.nombre;
+    console.log(req.body.nombre)
+    const processes = await psList();
+    const matchingProcesses = processes.filter(process => process.name === processToCheck);
+    if (matchingProcesses.length > 0) {
+        console.log(`El proceso ${processToCheck} está en ejecución.`);
+        // El proceso anterior ha sido completamente terminado, ahora podemos responder al cliente
+        res.status(200).json({ message: '1' });
+    }else{
+        res.status(200).json({ message: '0' });
+    }
+})
+scriptPrecios.post('/ejecutar-robot',async(req,res)=>{
+    Utils.checkToken(req,res)
+    let path = process.env.PATH_ROBOT_PRECIOS_PC5 + "\\"+ req.body.nombre;
+    // Si el proceso no está en ejecución, simplemente ejecutamos el programa
+    await ejecutarPrograma(path);
+    res.status(200).json({ message: 'Programa ejecutado correctamente.' });
+})
+scriptPrecios.post('/matar-robot',async(req,res)=>{
+    Utils.checkToken(req,res)
+    let path = process.env.PATH_ROBOT_PRECIOS_PC5 + "\\" + req.body.nombre;
+    const processToCheck = req.body.nombre
+
+    const processes = await psList();
+    const matchingProcesses = processes.filter(process => process.name === processToCheck);
+})
 scriptPrecios.post('/preciosrobot', async (req, res) => {
     try {
         const token = req.get('Authorization')?.split(' ')[1]; // Obtener token del encabezado
@@ -18,7 +50,7 @@ scriptPrecios.post('/preciosrobot', async (req, res) => {
             return res.status(401).json({ error: 'Invalid token' });
         }
 
-        let path = process.env.PATH_ROBOT_PRECIOS_PC5;
+        let path = process.env.PATH_ROBOT_PRECIOS_PC5 + "\\Precios2023.exe";
         const processToCheck = 'Precios2023.exe';
 
         const processes = await psList();
@@ -124,7 +156,7 @@ function checkToken(req, res){
           } else {
             // Otros errores de JWT o de verificación de token
             console.error('Error al verificar el token:', error.message);
-            return res.status(500).send({ error: 'Internal server error' });
+            return res.status(510).send({ error: 'Internal server error' });
           }
     }
 }

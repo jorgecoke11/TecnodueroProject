@@ -22,6 +22,30 @@ body > #root > div {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+/* Estilo para el estado "ON" */
+.bordered-cell-on,
+.bordered-cell-off {
+  padding: 8px;
+  background-color: #4caf50; /* Color de fondo predeterminado */
+  border: 2px solid #2e7d32; /* Color del borde predeterminado */
+  color: #fff;
+  border-radius: 12px;
+  font-weight: bold;
+  transition: background-color 0.6s ease, border-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para color de fondo, color de borde y sombra */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra predeterminada */
+}
+
+.bordered-cell-off {
+  background-color: #f44336; /* Color de fondo para el estado "OFF" */
+  border-color: #b71c1c; /* Color del borde para el estado "OFF" */
+}
+
+.icon-img {
+  width: 24px; /* Ancho del icono */
+  height: 24px; /* Alto del icono */
+  display: inline-block; /* Para que la imagen se muestre en línea */
+  vertical-align: middle; /* Para alinear verticalmente la imagen */
+}
 .atras{
   height: 5%;
   width: 5%;

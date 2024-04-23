@@ -4,13 +4,14 @@ import InputRobotPrecios from './RobotPrecios';
 import DropDownComponent from './DropDown';
 import atras from '../img/hacia-atras.png'
 import Cupones from './Cupones';
+import ConfigRobots from './ConfigRobots/ConfigRobots';
 const RobotPrecios = () =>{
     const [screenComponent, setScreenComponent] = useState(null)
-    const optionsRobots =['Robot precios']
+    const optionsRobots =['Extraccion de precios BSH']
     const handleSelectChange = (selectOption) =>{
         switch(selectOption){
-          case 'Robot precios':
-            setScreenComponent(<Cupones></Cupones>)
+          case 'Extraccion de precios BSH':
+            setScreenComponent(<ConfigRobots ejecutable='Precios2023.exe'></ConfigRobots>)
             break
           default:
             setScreenComponent('')
