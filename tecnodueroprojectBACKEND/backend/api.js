@@ -3,6 +3,7 @@ import cors from 'cors';
 import config from './dbConfig.js';
 import UsuariosRoutes from './routes.js'
 import db from './db.js'
+import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
 import loginRouter from './controllers/login.js'
 import scriptPrecios from './controllers/Robots.js';
@@ -11,7 +12,7 @@ import estadosCalls from './controllers/Estados.js'
 import cuponesCalls from './controllers/Cupones.js'
 import tiposCasoCalls from './controllers/TiposCaso.js'
 import maquinasCalls from './controllers/MaquinasController.js'
-import dotenv from 'dotenv';
+import ejecutablesCalls from './controllers/Ejecutables.js';
 
 dotenv.config();
 
@@ -34,6 +35,7 @@ app.use('/api/robots',estadosCalls)
 app.use('/api/robots/cupones',cuponesCalls)
 app.use('/api/robots/tiposcaso', tiposCasoCalls)
 app.use('/api/robots/maquinas', maquinasCalls)
+app.use('/api/robots/ejecutables', ejecutablesCalls)
 
 try {
     await db.authenticate()
