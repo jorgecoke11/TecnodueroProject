@@ -13,7 +13,24 @@ const ejecutablesCalls = express.Router();
 ejecutablesCalls.post('/get-ejecutables',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
+        console.log(req.body)
         const response = await ejecutablesModel.findAll({
+            where:{
+                id_robot_fk: req.body.idRobot
+            }
+        })
+        res.status(200).json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
+ejecutablesCalls.post('/update-status',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        const status= {status: req.body.status}
+        console.log(req.body)
+        const response = await ejecutablesModel.update( status,{
+            where: {nombre: req.body.criterio}
         })
         res.status(200).json(response)
     }catch(error){

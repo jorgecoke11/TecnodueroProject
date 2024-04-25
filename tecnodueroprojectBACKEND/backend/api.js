@@ -13,6 +13,8 @@ import cuponesCalls from './controllers/Cupones.js'
 import tiposCasoCalls from './controllers/TiposCaso.js'
 import maquinasCalls from './controllers/MaquinasController.js'
 import ejecutablesCalls from './controllers/Ejecutables.js';
+import procesosCalls from './controllers/procesos.js';
+import parametrosCalls from './controllers/parametros.js';
 
 dotenv.config();
 
@@ -36,7 +38,8 @@ app.use('/api/robots/cupones',cuponesCalls)
 app.use('/api/robots/tiposcaso', tiposCasoCalls)
 app.use('/api/robots/maquinas', maquinasCalls)
 app.use('/api/robots/ejecutables', ejecutablesCalls)
-
+app.use('/api/procesos', procesosCalls)
+app.use('/api/parametros',parametrosCalls)
 try {
     await db.authenticate()
     console.log('Conexion correcta a la base de datos')

@@ -23,19 +23,33 @@ scriptPrecios.post('/check-bsh', async(req,res)=>{
     }
 })
 scriptPrecios.post('/ejecutar-robot',async(req,res)=>{
-    Utils.checkToken(req,res)
-    let path = process.env.PATH_ROBOT_PRECIOS_PC5 + "\\"+ req.body.nombre;
-    // Si el proceso no está en ejecución, simplemente ejecutamos el programa
-    await ejecutarPrograma(path);
-    res.status(200).json({ message: 'Programa ejecutado correctamente.' });
+    try{
+        Utils.checkToken(req,res)
+        let path = process.env.PATH_ROBOT_PRECIOS_PC5 + req.body.nombre;
+        // Si el proceso no está en ejecución, simplemente ejecutamos el programa
+         ejecutarPrograma(path);
+        res.status(200).json({ message: 'Programa ejecutado correctamente.' });
+    }catch(error){
+        console.log(error)
+    }
 })
 scriptPrecios.post('/matar-robot',async(req,res)=>{
-    Utils.checkToken(req,res)
-    let path = process.env.PATH_ROBOT_PRECIOS_PC5 + "\\" + req.body.nombre;
-    const processToCheck = req.body.nombre
+    try{
 
-    const processes = await psList();
-    const matchingProcesses = processes.filter(process => process.name === processToCheck);
+        Utils.checkToken(req,res)
+        const processToCheck = req.body.nombre
+        
+        const processes = await psList();
+        const matchingProcesses = processes.filter(process => process.name === processToCheck);
+        const processId = matchingProcesses[0].pid;
+         process.kill(processId);
+        console.log(`Proceso ${processToCheck} terminado.`);
+        // Esperar hasta que el proceso anterior esté completamente terminado
+       // await waitForProcessToTerminate(processToCheck);
+        res.status(200).json({message: 1})
+    }catch(error){
+        res.status(200).json({message: 0})
+    }
 })
 scriptPrecios.post('/preciosrobot', async (req, res) => {
     try {

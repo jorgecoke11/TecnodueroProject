@@ -4,20 +4,28 @@ import ejecutablesServices from "../../services/ejecutables.js"
 import robotPrecios from "../../services/robotPrecios.js";
 import switchImg from '../../img/power-switch.png'
 import Table from 'react-bootstrap/Table';
-const Maquinas =(nombre)=>{
+const Ejecutables =({proceso})=>{
     const { jwt } = useUser();
     const [ejecutables, setEjecutables] = useState([]);
-    const [statusBSH, setStatusBSH] = useState(0)
-    const handleSwitch = async(id, status)=>{
+    const handleSwitch = async(nombre, ruta)=>{
       try{
-        const nuevosDatos = status === 0 ? 1 :0
-        const response = await maquinasServices.update(jwt,{
-            status:nuevosDatos,
-            criterio:id
+        
+        var statusTemp = await GetStatus(nombre)
+        if(statusTemp == 1){
+          const response = await robotPrecios.matarEjecutable(jwt,{
+            nombre: nombre
           })
-          await GetMaquinas()
+        }else if( statusTemp == 0){
+          const response = await robotPrecios.lanzarEjecutable(jwt,{
+            nombre: ruta
+          })
+        }
+        else{
+          console.log('status no definido')
+        }
+        await GetEjecutables()
         }catch(error){
-          if (error.response.status === 510) {
+          if (error.response === 510) {
             window.sessionStorage.clear();
             window.location = "/";
           }
@@ -26,11 +34,12 @@ const Maquinas =(nombre)=>{
       }
       const GetEjecutables = async () => {
           try {
-            const data = await ejecutablesServices.getEjecutables(jwt);
+            const data = await ejecutablesServices.getEjecutables(jwt, {idRobot: proceso.idRobot});
             setEjecutables(data);
-            const data2 = await robotPrecios.checkRobot(jwt,{nombre:nombre.nombre.ejecutable})
-            setStatusBSH(data2.message)
-            console.log(statusBSH);
+            ejecutables.map(async (ejecutable) =>{
+              await GetStatus(ejecutable.nombre)
+            })
+
           } catch (error) {
             if (error.response.status === 510) {
               window.sessionStorage.clear();
@@ -38,18 +47,33 @@ const Maquinas =(nombre)=>{
             }
           }
       }
+      const GetStatus = async (nombre) => {
+        try {
+          const data = await robotPrecios.checkRobot(jwt,{nombre:nombre})
+          await ejecutablesServices.updateStatus(jwt, {status: data.message, criterio: nombre})
+          const data2 = await ejecutablesServices.getEjecutables(jwt,{idRobot: proceso.idRobot});
+          setEjecutables(data2);
+          return data.message
+        } catch (error) {
+          if (error.response.status === 510) {
+            window.sessionStorage.clear();
+            window.location = "/"; 
+          }
+        }
+    }
       useEffect(() => {
-        GetMaquinas()
+        GetEjecutables()
       }, []);
      
     return(
         <>
-        <h3 className="col-1">Maquinas</h3>
+        <h3 className="col-1">Ejecutables</h3>
               {ejecutables.length > 0 ? (
             <Table striped> 
               <thead>
-                <th>Maquina</th>
-                <th>IP</th>
+                <th>Id #</th>
+                <th>Nombre</th>
+                <th>Ruta</th>
                 <th>Status</th>
                 <th>Acciones</th>
               </thead>
@@ -58,13 +82,14 @@ const Maquinas =(nombre)=>{
                       <tr key={index}>
                         <td>{ejecutable.id}</td>
                         <td>{ejecutable.nombre}</td>
+                        <td>{ejecutable.ruta}</td>
                         <td> 
-                        <div className={statusBSH == 1 ? "bordered-cell-on" : "bordered-cell-off"}>
-                        {statusBSH == 1 ? "ON" : "OFF"}
+                        <div className={ejecutable.status === 1 ? "bordered-cell-on" : "bordered-cell-off"}>
+                        {ejecutable.status === 1 ? "ON" : "OFF"}
                         </div>
                         </td>
                         <td>
-                            <a onClick={async()=>handleSwitch(ejecutable.id, ejecutable.status)}>
+                            <a onClick={async()=>handleSwitch(ejecutable.nombre,ejecutable.ruta, index)}>
                                 <img src={switchImg} className="icon-img"></img>
                             </a>
                         </td>
@@ -78,4 +103,4 @@ const Maquinas =(nombre)=>{
     </>
 )
 }
-export default Maquinas
+export default Ejecutables

@@ -11,6 +11,24 @@ const checkRobot = (jwt,nombre)=>{
     const request = axios.post(URI +'api/robots/check-bsh',nombre,config)
     return request.then(response => response.data)
 }
+const matarEjecutable = async(jwt, nombre) =>{
+    const config = {
+        headers: {
+            Authorization: jwt
+        }
+    }
+    const response = await axios.post(URI +'api/robots/matar-robot',nombre,config)
+    return response.data
+}
+const lanzarEjecutable = async(jwt, nombre) =>{
+    const config = {
+        headers: {
+            Authorization: jwt
+        }
+    }
+    const response = await axios.post(URI +'api/robots/ejecutar-robot',nombre,config)
+    return response.data
+}
 const lanzarRobot = (jwt) =>{
     const config = {
         headers: {
@@ -47,4 +65,4 @@ const getConmutador = (jwt,argumentos) =>{
     const request = axios.post(URI +'api/robots/get-conmutador', argumentos, config)
     return request.then(response => response.data)
 }
-export default {lanzarRobot,crearCaso,conmutarRobot, getConmutador, checkRobot}
+export default {lanzarRobot,crearCaso,conmutarRobot, getConmutador, checkRobot, matarEjecutable, lanzarEjecutable}

@@ -76,13 +76,10 @@ const leerCupon = async()=>{
 const handleCrearCaso = async(event) =>{
     try{
         event.preventDefault();
-        const cupones = await leerCupon()
-        console.log(cupones)
         const jsonNegocio = {
             "proveedor": proveedor,
             "iva": iva,
             "beneficio": beneficio,
-            "cupon": cupones,
             "producto": producto[0]
         }
         const idEstadoFK = 5

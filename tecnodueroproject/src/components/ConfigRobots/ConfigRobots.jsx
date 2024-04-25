@@ -5,11 +5,12 @@ import cuponesCalls from "../../services/cupon.js";
 import ModalComponent from "../ModalComponent.jsx";
 import robotPrecios from "../../services/robotPrecios.js";
 import useUser from "../../hooks/useUser.js";
+import Ejecutables from "./Ejecutables.jsx";
+import Conmutadores from "./Conmutadores.jsx";
+import Parametros from "./Parametros.jsx";
 
-import Maquinas from "./Maquinas.jsx";
 
-
-const ConfigRobots = (ejecutable) => {
+const ConfigRobots = ({proceso}) => {
   const [proveedor, setProveedor] = useState("");
   const [iva, setIva] = useState("");
   const [beneficio, setBeneficio] = useState("");
@@ -70,30 +71,28 @@ const ConfigRobots = (ejecutable) => {
   };
 
   useEffect(() => {
+    Cupon()
   }, []);
   return (
     <div>
       <div className="container">
         <div className="row">
-          <Maquinas nombre={ejecutable}></Maquinas>
-          <div className="col">
-            <InputComponent
-              placeholder="Cupon"
-              setInputText={setCuponBD}
-              text={cuponBD.cupon}
-            ></InputComponent>
+          <div className="mt-2">
+
+          <Ejecutables proceso={proceso}></Ejecutables>
           </div>
-          <div className="col">
-            <button className="btn btn-primary mt-3" onClick={CuponUpdate}>
-              Actualizar
-            </button>
+
+          <div className="mt-2">
+
+          <Conmutadores proceso={proceso}></Conmutadores>
+          </div>
+          <div className="mt-2">
+          <Parametros proceso={proceso}></Parametros>
+
           </div>
         </div>
       </div>
-      <ToggleSwitch idRobot="1"></ToggleSwitch>
-      <button type="submit" className="btn btn-primary" onClick={handleLanzar}>
-        Lanzar
-      </button>
+
       <ModalComponent isOpen={showModal} onClose={() => setShowModal(false)}>
         {modalContent}
       </ModalComponent>
