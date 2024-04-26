@@ -90,7 +90,7 @@ casosCalls.post('/get-casos-id-estado', async (req, res) => {
           [Sequelize.literal('casos.porcentaje'), 'porcentaje'],
           [Sequelize.literal('casos.datos'), 'datos'],
           [Sequelize.literal('casos.fh_creacion'), 'fh_creacion'],
-          [Sequelize.literal('casos.fh_tramitacion'), 'fh_tramitacion'],
+          [Sequelize.literal('casos.fh_comienzo'), 'fh_comienzo'],
           [Sequelize.literal('casos.fh_fin'), 'fh_fin']
         ],
         include: {
@@ -151,9 +151,9 @@ casosCalls.post('/update-fhtramitacion', async (req, res) => {
       // Ejecutar la actualización
       checkToken(req, res);
       const body = req.body;
-      const fh_tramitacion = body.fh_tramitacion
+      const fh_comienzo = body.fh_comienzo
       const resultado = await casosModel.update(
-          { fh_tramitacion:fh_tramitacion }, // Nuevos valores a actualizar
+          { fh_comienzo:fh_comienzo }, // Nuevos valores a actualizar
           { where: { idCaso: body.idCaso } } // Condición para seleccionar el caso a actualizar
       );
       res.status(200).json(resultado);
@@ -238,7 +238,7 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
         [Sequelize.literal('casos.porcentaje'), 'porcentaje'],
         [Sequelize.literal('casos.datos'), 'datos'],
         [Sequelize.literal('casos.fh_creacion'), 'fh_creacion'],
-        [Sequelize.literal('casos.fh_tramitacion'), 'fh_tramitacion'],
+        [Sequelize.literal('casos.fh_comienzo'), 'fh_comienzo'],
         [Sequelize.literal('casos.fh_fin'), 'fh_fin']
       ],
       include: {
@@ -254,7 +254,7 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
         )
       },
       order: [
-        ['fh_tramitacion', 'DESC'] 
+        ['fh_comienzo', 'DESC'] 
       ]
 
     });
