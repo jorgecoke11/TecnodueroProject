@@ -37,9 +37,9 @@ const RobotPrecios = () =>{
         GetProcesos()
       },[])
     return(
-        <div className="h-75 justify-content-center align-items-center">
+        <div className="">
           <img src={atras} className='atras' onClick={handleAtras} alt='atras'></img>
-            <DropDownComponent label={'Robots'} options={procesos.map(proceso=> proceso.Nombre)} onSelectChange={handleSelectChange}/>
+            <DropDownComponent label={'Configuracion de procesos'} options={procesos.map(proceso=> proceso.Nombre)} onSelectChange={handleSelectChange}/>
             {screenComponent}
         </div>
     )
