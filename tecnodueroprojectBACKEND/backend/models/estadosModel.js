@@ -10,3 +10,4 @@ export default db.define('estados', {
     timestamps: false, // Desactiva las columnas createdAt y updatedAt
     underscored: false, // Usa el estilo de nomenclatura snake_case para las columnas
 });
+ 

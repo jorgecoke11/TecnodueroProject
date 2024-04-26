@@ -134,14 +134,16 @@ casosCalls.post('/casos-disponibles', async (req, res) => {
       // Ejecutar la actualización
       //checkToken(req, res);
       const body = req.body;
-      console.log(body.idEstado);
+      console.log(body);
       const resultado = await casosModel.findOne({
         attributes: ['idCaso', 'jsonNegocio'],
-        where: { idEstadoFK: body.idEstado }
-    });
+        where: { idEstadoFK: body.idEstado,
+          idRobotFK: body.robotId}
+    }); 
       res.json(resultado)
   } catch (error) {
       console.error('Error al obtener casos disponibles', error);
+      res.status(500)
   }
 });
 casosCalls.post('/update-fhtramitacion', async (req, res) => {
