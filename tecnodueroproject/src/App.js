@@ -9,6 +9,7 @@ import Robot from "./components/Robot";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Monitorizacion from './components/Monitorizacion';
 import { UserContextProvider } from './context/UserContext';
+import Clientes from './components/CRUDClientes/Clientes';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
             <Route path='/Robots' element={<Robot></Robot>}></Route>
             <Route path='/Home' element={<MainMenu></MainMenu>}></Route>
             <Route path='/Monitorizacion' element={<Monitorizacion></Monitorizacion>}></Route>
+            <Route path='/clientes' element={<Clientes></Clientes>}></Route>
           </Routes>
         </BrowserRouter>        
       </div>
