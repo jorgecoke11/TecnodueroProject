@@ -1,6 +1,7 @@
 
 import express, { response } from 'express';
 import Utils from './Utils.js'
+import { Op } from 'sequelize';
 import clientesModel from '../models/clientesModel.js';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 const clientesCalls = express.Router();
@@ -30,10 +31,17 @@ clientesCalls.post('/create-cliente',async(req, res)=>{
 clientesCalls.post('/get-cliente',async(req, res)=>{
     try{    
         Utils.checkToken(req,res)
-        const response = await clientesModel.findAll({
-            where:{
-                id: req.body.idCliente
+        const conditions = req.body
+        const whereClause = {};
+        for (const key in conditions) {
+            if (Object.hasOwnProperty.call(conditions, key)) {
+                whereClause[key] = {
+                    [Op.like]: `%${conditions[key]}%`
+                };
             }
+        }
+        const response = await clientesModel.findAll({
+            where: whereClause
         })
         res.status(200).json(response)
     }catch(error){
@@ -59,10 +67,10 @@ clientesCalls.post('/delete-cliente',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
         const clienteId = req.body.clienteId
-        await clientesModel.destroy({
+        const response = await clientesModel.destroy({
             where: { id: clienteId }
         });
-        res.status(200).json(resultado)
+        res.status(200).json(response)
     }catch(error){
         console.log(error)
     }

@@ -12,22 +12,22 @@
         const[email, setEmail] =useState('')
         const[nif, setNif] =useState('')
         const handleEditPost = async () =>{
-            console.log(cliente)
             try{
-             clientesServices.updateCliente(jwt,{
-                 nuevosDatos:{
-                     nombre,
-                     apellidos,
-                     telefono,
+                clientesServices.updateCliente(jwt,{
+                    nuevosDatos:{
+                        nombre,
+                        apellidos,
+                        telefono,
                      email,
                      nif
-                 },
-                 criterio: {
-                    id: cliente.id
-                 }
-             })
-             getClientes()
-             handleClose()
+                    },
+                    criterio: {
+                        id: cliente.id
+                    }
+                })
+                getClientes()
+                console.log(cliente)
+                handleClose()
             }catch(error){
     
             }

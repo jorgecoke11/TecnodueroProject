@@ -22,6 +22,43 @@ body > #root > div {
     animation: App-logo-spin infinite 20s linear;
   }
 }
+.btn-create{
+  background:none;
+  border: 1px solid #4976E4;
+  color: #4976E4;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  float: left;
+  margin-left: 1%;
+}
+.btn-create:hover{
+  background: none;
+  background-color: #4976E4;
+  transform: scale(1.1,1.1);
+  float: left;
+  color: #ffffff;
+}
+.btn-search{
+  background:none;
+  border: 1px solid #a949e4;
+  color: #a949e4;
+  transition: background-color 0.3s, color 0.3s, transform 0.2s;
+  float: left;
+  margin-left: 1%;
+}
+.btn-search:hover{
+  background: none;
+  background-color: #a949e4;
+  transform: scale(1.1,1.1);
+  float: left;
+  color: #ffffff;
+}
+.prueba{
+  transition: transform 0.2s;
+  margin-left: 5%;
+}
+.prueba:hover{
+  transform: scale(1.2,1.2);
+}
 /* Estilo para el estado "ON" */
 .bordered-cell-on,
 .bordered-cell-off {
