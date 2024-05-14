@@ -4,7 +4,8 @@ import InputComponent from "../InputComponent";
 import Button from 'react-bootstrap/Button';
 import useUser from "../../hooks/useUser.js";
 import clientesServices from "../../services/clientes.js";
-const BuscadorClient = ({setClientesTable, handleCloseBuscadorCliente}) => {
+import swal from 'sweetalert'
+const BuscadorClient = ({ setClientesTable = null, handleCloseBuscadorCliente }) => {
     const { jwt } = useUser();
     const [nombre, setNombre] = useState('')
     const [apellidos, setApellidos] = useState('')
@@ -42,40 +43,48 @@ const BuscadorClient = ({setClientesTable, handleCloseBuscadorCliente}) => {
         setClienteSeleccionado(event.target.value);
         setClienteSeleccionadoTabla(JSON.parse(clientData))
     }
-    const handleMostrarInfo = () =>{
-        setClientesTable([clienteSeleccionadoTabla])
-        handleCloseBuscadorCliente()
+    const handleMostrarInfo = async (event) => {
+        await event.preventDefault();
+        if (clienteSeleccionado.length == 0) {
+            swal({
+                title: "¡Cuidado!",
+                text: "No se ha seleccionado cliente",
+                timer: 3000,
+                icon: "warning",
+                showConfirmButton: false
+            });
+        } else {
+            if(setClientesTable){
+                await setClientesTable([clienteSeleccionadoTabla])
+            }
+            await handleCloseBuscadorCliente()
+        }
     }
     return (
         <div className="row">
-            <div className="col">
+            <form onSubmit={handleMostrarInfo}>
                 <InputComponent placeHolder='Nombre' setInputText={setNombre} ></InputComponent>
-                <InputComponent placeHolder='Email' setInputText={setEmail}></InputComponent>
-            </div>
-            <div className="col">
                 <InputComponent placeHolder='Apellidos' setInputText={setApellidos} ></InputComponent>
+                <InputComponent placeHolder='Email' setInputText={setEmail}></InputComponent>
                 <InputComponent placeHolder='NIF' setInputText={setNif}></InputComponent>
-            </div>
-            <div className="col">
                 <InputComponent placeHolder='Telefono' setInputText={setTelefono} ></InputComponent>
-            </div>
-            <div className="container">
-                <select class="form-select mt-3 ml-3" size="5" aria-label="Size 3 select example" onChange={handleClientSelected}>
-                    {clientes.map((cliente, index) => (
-                        <option key={index} value={`${cliente.nombre} ${cliente.apellidos}`} data-client={JSON.stringify(cliente)}>{cliente.nombre} {cliente.apellidos}</option>
-                    ))}
-                </select>
-            </div>
-            <InputComponent placeHolder='Cliente' text={clienteSeleccionado} disabled={true} ></InputComponent>
-            <Modal.Footer className="mt-3">
-                <Button variant="secondary" onClick={handleCloseBuscadorCliente}>
-                    Cerrar
-                </Button>
-                <Button variant="primary" onClick={handleMostrarInfo}>
-                    Mostrar informacion
-                </Button>
-            </Modal.Footer>
-
+                <div className="container">
+                    <select class="form-select mt-3 ml-3" size="5" aria-label="Size 3 select example" onChange={handleClientSelected}>
+                        {clientes.map((cliente, index) => (
+                            <option key={index} value={`${cliente.nombre} ${cliente.apellidos}`} data-client={JSON.stringify(cliente)}>{cliente.nombre} {cliente.apellidos}</option>
+                        ))}
+                    </select>
+                </div>
+                <InputComponent placeHolder='Cliente' text={clienteSeleccionado} disabled={true} required></InputComponent>
+                <Modal.Footer className="mt-3">
+                    <Button variant="secondary" onClick={handleCloseBuscadorCliente}>
+                        Cerrar
+                    </Button>
+                    <Button variant="primary" type="submit">
+                        Mostrar informacion
+                    </Button>
+                </Modal.Footer>
+            </form>
         </div>
     )
 }

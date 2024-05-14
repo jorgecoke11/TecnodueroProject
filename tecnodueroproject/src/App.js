@@ -10,10 +10,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Monitorizacion from './components/Monitorizacion';
 import { UserContextProvider } from './context/UserContext';
 import Clientes from './components/CRUDClientes/Clientes';
-
+import Direcciones from './components/CRUDDirecciones/Direcciones';
 function App() {
-
-
   return (
     <UserContextProvider>
       <div className='App'>
@@ -25,6 +23,7 @@ function App() {
             <Route path='/Home' element={<MainMenu></MainMenu>}></Route>
             <Route path='/Monitorizacion' element={<Monitorizacion></Monitorizacion>}></Route>
             <Route path='/clientes' element={<Clientes></Clientes>}></Route>
+            <Route path='/direcciones' element={<Direcciones></Direcciones>}></Route>
           </Routes>
         </BrowserRouter>        
       </div>

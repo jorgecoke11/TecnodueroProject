@@ -46,7 +46,7 @@
                 <InputComponent placeHolder='Telefonos' setInputText={setTelefono} text={telefono}></InputComponent>
                 <InputComponent placeHolder='Email' setInputText={setEmail} text={email}></InputComponent>
                 <InputComponent placeHolder='Nif' setInputText={setNif} text={nif}></InputComponent>
-                <Modal.Footer>
+                <Modal.Footer className="mt-3" >
                     <Button variant="secondary" onClick={handleClose}>
                         Cerrar
                     </Button>
