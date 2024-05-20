@@ -5,6 +5,8 @@ import Button from 'react-bootstrap/Button';
 import useUser from "../../hooks/useUser.js";
 import direccionesServices from '../../services/direcciones.js'
 import BuscadorClient from "../CRUDClientes/BuscadorClient.jsx";
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 const NuevaDireccion = ({ handleClose, getClientes, setShowNotification }) => {
     const { jwt } = useUser();
     const [id_cliente, setIdCliente] = useState([])
@@ -44,16 +46,19 @@ const NuevaDireccion = ({ handleClose, getClientes, setShowNotification }) => {
         console.log(cliente)
         setIdCliente(cliente[0].id)
         setNombreCliente(cliente[0].nombre + " " + cliente[0].apellidos)
-        
+
     }
     return (
         <>
-            <button className="btn" onClick={handleBuscarCliente}>Buscar cliente</button>
+            <div className="input-group mb-3">
+                <button className="btn btn-outline-secondary" onClick={handleBuscarCliente}>Buscar cliente</button>
+                <input className="form-control" placeholder="Cliente" value={nombreCliente} required disabled={true}></input>
+                {/* <InputComponent placeHolder='Cliente' text={nombreCliente} required disabled={true} onClick={handleBuscarCliente}></InputComponent> */}
+            </div>
             <form onSubmit={handleNuevoCliente}>
-                <InputComponent placeHolder='Cliente' text={nombreCliente} required disabled={true} onClick={handleBuscarCliente}></InputComponent>
                 <InputComponent placeHolder='Calle' setInputText={setCalle} required></InputComponent>
-                <InputComponent placeHolder='Ciudad' setInputText={setCiudad} ></InputComponent>
-                <InputComponent placeHolder='Provincia' setInputText={setProvincia}></InputComponent>
+                <InputComponent placeHolder='Ciudad' setInputText={setCiudad} required></InputComponent>
+                <InputComponent placeHolder='Provincia' setInputText={setProvincia} required></InputComponent>
                 <InputComponent placeHolder='Código postal' setInputText={setCodPostal}></InputComponent>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

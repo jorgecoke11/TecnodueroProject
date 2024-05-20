@@ -3,6 +3,7 @@ import Utils from './Utils.js';
 import direccionesModel from '../models/direccionesModel.js';
 import clientesModel from '../models/clientesModel.js'
 import { INTEGER, Sequelize } from 'sequelize';
+import { Op } from 'sequelize';
 const direccionesCalls = express.Router();
 
 direccionesCalls.post('/get-direcciones', async (req, res) => {
@@ -44,12 +45,22 @@ direccionesCalls.post('/create-direccion',async(req, res)=>{
 })
 direccionesCalls.post('/get-direccion', async (req, res) => {
     try {
-        Utils.checkToken(req, res);
+        Utils.checkToken(req,res)
+        const conditions = req.body
+        const whereClause = {};
+        for (const key in conditions) {
+            if (Object.hasOwnProperty.call(conditions, key)) {
+                whereClause[key] = {
+                    [Op.like]: `%${conditions[key]}%`
+                };
+            }
+        }
         direccionesModel.belongsTo(clientesModel, { foreignKey: 'id_cliente', targetKey: 'id' });
         const response = await direccionesModel.findAll({
             attributes: [
                 [Sequelize.literal('cliente.nombre'), 'nombre'],
                 [Sequelize.literal('cliente.apellidos'), 'apellidos'],
+                [Sequelize.literal('direcciones.id'), 'id'],
                 [Sequelize.literal('direcciones.calle'), 'calle'],
                 [Sequelize.literal('direcciones.ciudad'), 'ciudad'],
                 [Sequelize.literal('direcciones.provincia'), 'provincia'],
@@ -59,9 +70,7 @@ direccionesCalls.post('/get-direccion', async (req, res) => {
                 model: clientesModel,
                 attributes: [],
               },
-              where: {
-                id: req.body.idDireccion
-            }
+              where: whereClause
         });
         res.status(200).json(response);
     } catch (error) {

@@ -9,6 +9,8 @@ import atras from '../../img/hacia-atras.png';
 import AlertaConfirmacion from "../AlertaConfirmacion.jsx";
 import swal from 'sweetalert'
 import NuevaDireccion from "./NuevaDireccion.jsx";
+import EditDireccion from "./EditDireccion.jsx";
+import BuscadorDireccion from "./BuscadorDireccion.jsx";
 const Direcciones = () => {
     const { jwt } = useUser();
     const [direcciones, setDirecciones] = useState([]);
@@ -16,8 +18,8 @@ const Direcciones = () => {
 
     const [show, setShow] = useState(false);
     const [showNotification, setShowNotification] = useState(false);
-    const [showNuevoCliente, setShowNuevoCliente] = useState(false);
-    const [showBuscadorCliente, setShowBuscadorCliente] = useState(false)
+    const [showNuevaDireccion, setShowNuevaDireccion] = useState(false);
+    const [showBuscadorDireccion, setShowBuscadorDireccion] = useState(false)
     const [showAlertaConfirmacion, setshowAlertaConfirmacion] = useState(false)
 
     const [modelContent, setModelContent] = useState('')
@@ -25,29 +27,34 @@ const Direcciones = () => {
     const [modelContentBuscadorCliente, setModelContentBuscadorCliente] = useState('')
 
     const handleClose = () => setShow(false);
-    const handleCloseNuevoCliente = () => setShowNuevoCliente(false);
-    const handleCloseBuscadorCliente = () => setShowBuscadorCliente(false);
+    const handleCloseNuevaDireccion = () => setShowNuevaDireccion(false);
+    const handleCloseBuscadorDireccion = () => setShowBuscadorDireccion(false);
     const handleCloseAlertaConfirmacion = () => setshowAlertaConfirmacion(false)
 
     const handleShow = () => setShow(true);
-    const handleEdit = (cliente) => {
+    const handleEdit = (direccion) => {
         setModelContent(
+            <EditDireccion
+                handleClose={handleClose}
+                getDirecciones={getDirecciones}
+                direccion={direccion}
+            ></EditDireccion>
         )
         handleShow()
     }
 
-    const handleNuevoCLiente = () => {
+    const handleNuevaDireccion = () => {
         setModelContentNuevoCliente(
-            <NuevaDireccion 
-                handleClose={handleCloseNuevoCliente}
+            <NuevaDireccion
+                handleClose={handleCloseNuevaDireccion}
                 getClientes={getDirecciones}
                 setShowNotification={showAlertaConfirmacion}
             ></NuevaDireccion>
         )
-        setShowNuevoCliente(true)
+        setShowNuevaDireccion(true)
     }
-    const handleBuscadorCliente = () => {
-        setShowBuscadorCliente(true)
+    const handleBuscarDireccion = () => {
+        setShowBuscadorDireccion(true)
     }
     const getDirecciones = async () => {
         try {
@@ -63,21 +70,21 @@ const Direcciones = () => {
     const handleAtras = () => {
         window.location = '/'
     }
-    const handleDelete = async (cliente) => {
+    const handleDelete = async (direccion) => {
         try {
             swal({
-                title: "Eliminar cliente",
-                text: "¿Estas seguro de que desea eliminar al cliente?",
+                title: "Eliminar dirección",
+                text: "¿Estas seguro de que desea eliminar la dirección?",
                 icon: "warning",
                 buttons: ["No", "Si"]
             }).then(async respuesta => {
                 if (respuesta) {
                     const response = await direccionesServices.deleteDireccion(jwt, {
-                        clienteId: cliente.id
+                        direccionId: direccion.id
                     })
                     getDirecciones()
                     swal({
-                        text: "El cliente se ha borrado con exito",
+                        text: "La dirección se ha borrado con exito",
                         icon: "success",
                         timer: 4000
                     })
@@ -100,10 +107,10 @@ const Direcciones = () => {
             <img src={atras} className='atras' onClick={handleAtras} alt='atras'></img>
             <div className="row mt-3">
                 <div className="col-2">
-                    <button className="btn btn-create" onClick={handleNuevoCLiente}>Nueva Direccion</button>
+                    <button className="btn btn-create" onClick={handleNuevaDireccion}>Nueva Dirección</button>
                 </div>
                 <div className="col-2">
-                    <button className="btn btn-search mb-3" onClick={handleBuscadorCliente}>Buscar cliente</button>
+                    <button className="btn btn-search mb-3" onClick={handleBuscarDireccion}>Buscar Dirección</button>
                 </div>
             </div>
             <Table striped>
@@ -147,13 +154,13 @@ const Direcciones = () => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Editar cliente</Modal.Title>
+                    <Modal.Title>Editar Direccion</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {modelContent}
                 </Modal.Body>
             </Modal>
-            <Modal show={showNuevoCliente} onHide={handleCloseNuevoCliente}>
+            <Modal show={showNuevaDireccion} onHide={handleCloseNuevaDireccion}>
                 <Modal.Header closeButton>
                     <Modal.Title>Nueva Direccion</Modal.Title>
                 </Modal.Header>
@@ -161,11 +168,15 @@ const Direcciones = () => {
                     {modelContentNuevoCliente}
                 </Modal.Body>
             </Modal>
-            <Modal className="modal-xl" show={showBuscadorCliente} onHide={handleCloseBuscadorCliente}>
+            <Modal className="modal-xl" show={showBuscadorDireccion} onHide={handleCloseBuscadorDireccion}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Buscador cliente</Modal.Title>
+                    <Modal.Title>Buscador Direccion</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <BuscadorDireccion
+                        setDireccionesTable={setDirecciones}
+                        handleCloseBuscadorDireccion={handleCloseBuscadorDireccion}
+                    ></BuscadorDireccion>
                 </Modal.Body>
             </Modal>
 
