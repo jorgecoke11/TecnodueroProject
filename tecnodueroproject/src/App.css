@@ -110,6 +110,9 @@ body > #root > div {
 .titulo-proceso{
   color: white;
 }
+.avisos-div{
+  text-align: justify;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
