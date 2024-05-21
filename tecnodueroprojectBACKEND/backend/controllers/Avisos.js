@@ -15,17 +15,22 @@ AvisosCalls.post('/get-avisos',async(req, res)=>{
 
         //estadosModel.hasMany(casosModel, { foreignKey: 'idEstadoFK' }); 
         const idtipo = req.body.idtipo; // Obtener idtipo del cuerpo de la solicitud
-        let fecha= new Date(req.body.diaSeleccionado); 
-        fecha = fecha.toLocaleDateString()
-        let partes = fecha.split("/"); // Divide la cadena en partes usando "/"
-        let formattedDate = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
-        console.log(req.body)
+        // let fecha= new Date(req.body.diaSeleccionado); 
+        // fecha = fecha.toLocaleDateString()
+        // let partes = fecha.split("/"); // Divide la cadena en partes usando "/"
+        // let formattedDate = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+        let startDatePartes = new Date(req.body.startDate).toLocaleDateString().split("/")
+        let startDate = `${startDatePartes[2]}-${startDatePartes[1].padStart(2, '0')}-${startDatePartes[0].padStart(2, '0')}`;
+
+        let endDatePartes = new Date(req.body.endDate).toLocaleDateString().split("/")
+        let endDate = `${endDatePartes[2]}-${endDatePartes[1].padStart(2, '0')}-${endDatePartes[0].padStart(2, '0')}`;
+        let estadoWhere = req.body.estado
         const avisos = await avisosModel.findAll({
           attributes: [
             [Sequelize.col('direccione.cliente.nombre'), 'nombre'],
             [Sequelize.col('direccione.cliente.apellidos'), 'apellido'],
             [Sequelize.col('direccione.calle'), 'calle'],
-            'titulo', 'fecha', 'hora', 'observaciones', 'presupuesto', 'tipo'
+            'id', 'titulo', 'fecha', 'hora', 'observaciones', 'presupuesto', 'tipo', 'estado'
           ],
           include: [
             {
@@ -39,11 +44,14 @@ AvisosCalls.post('/get-avisos',async(req, res)=>{
               attributes: [] // Ajusta según las columnas que realmente necesitas de direccionesModel
             }
           ],
-          where:{
+          where: {
             fecha: Sequelize.where(
               Sequelize.fn('DATE', Sequelize.col('fecha')),
-              formattedDate
-            )
+              {
+                [Op.between]: [startDate, endDate] // Aquí es donde se define el rango de fechas
+              }
+            ),
+            estado: estadoWhere
           }
         });
         

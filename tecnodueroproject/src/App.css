@@ -113,6 +113,30 @@ body > #root > div {
 .avisos-div{
   text-align: justify;
 }
+/* Definimos la clase para el círculo con borde difuminado */
+.circle {
+  width: 20px;
+  height: 20px;
+  background-color: rgb(255, 30, 0);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 10px;
+  box-shadow: 0 0 10px rgba(219, 223, 4, 0.5); /* Efecto de difuminado */
+  animation: pulse 2s infinite;
+}
+
+/* Animación para atenuar el círculo */
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

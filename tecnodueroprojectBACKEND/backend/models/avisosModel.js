@@ -7,7 +7,7 @@ export default db.define('avisos', {
         primaryKey: true
     },
     titulo: { type: DataTypes.STRING },
-    fecha: { type: DataTypes.DATE },
+    fecha: { type: DataTypes.STRING },
     hora: { type: DataTypes.STRING },
     id_direccion: {
         type: DataTypes.INTEGER,
