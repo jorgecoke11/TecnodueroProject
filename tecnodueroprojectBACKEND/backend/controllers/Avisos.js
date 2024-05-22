@@ -64,6 +64,7 @@ AvisosCalls.post('/create-aviso',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
         const datosAviso= req.body.aviso
+        console.log(datosAviso)
         await avisosModel.create(datosAviso, {
             fields: ['titulo', 'fecha', 'hora', 'id_direccion', 'observaciones',  'presupuesto', 'tipo']
           });

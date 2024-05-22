@@ -6,6 +6,8 @@ import atras from '../../img/hacia-atras.png';
 import Table from 'react-bootstrap/Table';
 import { Tab } from "bootstrap";
 import avisosServices from '../../services/aviso.js'
+import NuevoAviso from "./NuevoAviso.jsx";
+import Modal from 'react-bootstrap/Modal';
 const Avisos = () => {
     const { jwt } = useUser();
     const [avisos, setAvisos] = useState([])
@@ -20,11 +22,13 @@ const Avisos = () => {
 
     const [startDate, setStartDate] = useState(new Date(currentYear, currentMonth, 1));
     const [endDate, setEndDate] = useState(new Date(currentYear, currentMonth + 1, 0));
+    const [showNuevoAviso, setNuevoAviso] = useState(false)
+    const handleCloseNuevoAviso = () => setNuevoAviso(false);
     const handleAtras = () => {
         window.location = '/'
     }
     const handleNuevoAviso = () => {
-
+        setNuevoAviso(true)
     }
     const getAvisosPendientes = async () => {
         try {
@@ -281,6 +285,14 @@ const Avisos = () => {
                     </Accordion.Item>
                 </Accordion>
             </div>
+            <Modal className="modal-xl" show={showNuevoAviso} onHide={handleCloseNuevoAviso}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Nuevo aviso</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <NuevoAviso getAvisosPendientes={getAvisosPendientes} handleClose={handleCloseNuevoAviso} ></NuevoAviso>
+                </Modal.Body>
+            </Modal>
         </>
     )
 }

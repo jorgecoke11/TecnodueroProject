@@ -66,6 +66,7 @@ const createAviso = async (jwt,where) => {
                 Authorization: jwt
             }
         };
+        console.log(where)
         const response = await axios.post(baseUrl + '/create-aviso', where, config); // Assuming post request needs an empty body
         return response.data; // Assuming you want to return the data property of the response
     } catch (error) {

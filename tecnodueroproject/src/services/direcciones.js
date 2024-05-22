@@ -17,7 +17,7 @@ const getDirecciones = async (jwt) => {
         throw error; // Re-throwing the error to handle it in the component
     }
 }
-const deleteDireccion = async (jwt, where) =>{
+const deleteDireccion = async (jwt, where) => {
     try {
         const config = {
             headers: {
@@ -45,7 +45,21 @@ const getDireccionConditions = async (jwt, where) => {
         throw error; // Re-throwing the error to handle it in the component
     }
 }
-const updateDireccion = async (jwt,where) => {
+const getDireccionesPorId = async (jwt, where) => {
+    try {
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
+        const response = await axios.post(baseUrl + '/get-direcciones-id', where, config); // Assuming post request needs an empty body
+        return response.data; // Assuming you want to return the data property of the response
+    } catch (error) {
+        console.error('Error fetching clientes:', error.message); // Logging the error message for better debugging
+        throw error; // Re-throwing the error to handle it in the component
+    }
+}
+const updateDireccion = async (jwt, where) => {
     try {
         const config = {
             headers: {
@@ -59,7 +73,7 @@ const updateDireccion = async (jwt,where) => {
         throw error; // Re-throwing the error to handle it in the component
     }
 }
-const createDireccion = async (jwt,where) => {
+const createDireccion = async (jwt, where) => {
     try {
         const config = {
             headers: {
@@ -74,4 +88,4 @@ const createDireccion = async (jwt,where) => {
     }
 }
 
-export default {getDirecciones, updateDireccion, createDireccion, getDireccionConditions, deleteDireccion};
+export default { getDirecciones, updateDireccion, createDireccion, getDireccionConditions, deleteDireccion, getDireccionesPorId };

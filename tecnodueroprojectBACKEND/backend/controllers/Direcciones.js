@@ -19,33 +19,48 @@ direccionesCalls.post('/get-direcciones', async (req, res) => {
                 [Sequelize.literal('direcciones.ciudad'), 'ciudad'],
                 [Sequelize.literal('direcciones.provincia'), 'provincia'],
                 [Sequelize.literal('direcciones.cod_postal'), 'cod_postal'],
-              ],
-              include: {
+            ],
+            include: {
                 model: clientesModel,
                 attributes: [],
-              }
+            }
         });
         res.status(200).json(response);
     } catch (error) {
         console.log(error);
     }
 });
-direccionesCalls.post('/create-direccion',async(req, res)=>{
-    try{
-        Utils.checkToken(req,res)
+direccionesCalls.post('/get-direcciones-id', async (req, res) => {
+    try {
+        Utils.checkToken(req, res);
+        const criterio = req.body.id_cliente
+        console.log(criterio)
+        const response = await direccionesModel.findAll({
+            where: {
+                id_cliente: req.body.id_cliente
+            }
+        });
+        res.status(200).json(response);
+    } catch (error) {
+        console.log(error);
+    }
+});
+direccionesCalls.post('/create-direccion', async (req, res) => {
+    try {
+        Utils.checkToken(req, res)
         const datosDireccion = req.body.direccion
         console.log(datosDireccion)
         const response = await direccionesModel.create(datosDireccion, {
             fields: ['id_cliente', 'calle', 'ciudad', 'provincia', 'cod_postal']
-          });
+        });
         res.status(200).json(response)
-    }catch(error){
+    } catch (error) {
         console.log(error)
     }
 })
 direccionesCalls.post('/get-direccion', async (req, res) => {
     try {
-        Utils.checkToken(req,res)
+        Utils.checkToken(req, res)
         const conditions = req.body
         const whereClause = {};
         for (const key in conditions) {
@@ -65,12 +80,12 @@ direccionesCalls.post('/get-direccion', async (req, res) => {
                 [Sequelize.literal('direcciones.ciudad'), 'ciudad'],
                 [Sequelize.literal('direcciones.provincia'), 'provincia'],
                 [Sequelize.literal('direcciones.cod_postal'), 'cod_postal']
-              ],
-              include: {
+            ],
+            include: {
                 model: clientesModel,
                 attributes: [],
-              },
-              where: whereClause
+            },
+            where: whereClause
         });
         res.status(200).json(response);
     } catch (error) {
