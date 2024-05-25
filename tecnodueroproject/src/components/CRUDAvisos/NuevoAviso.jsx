@@ -46,7 +46,12 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                 id_cliente: cliente[0].id
             })
             setDirecciones(response)
-
+            console.log(direccciones)
+            setCalle(direccciones[0].calle);
+            setProvincia(direccciones[0].provincia);
+            setCiudad(direccciones[0].ciudad);
+            setCodPostal(direccciones[0].cod_postal);
+    
         } catch (error) {
 
         }
@@ -97,7 +102,6 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
     const handleCrearAviso = async (event) => {
         try {
             event.preventDefault()
-
             if (cliente == '' || direccionSelected == '') {
                 Swal.fire({
                     text: "Faltan campos",
@@ -107,7 +111,6 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                 handleClose()
             }
             else {
-
                 Swal.fire({
                     title: "Completar aviso",
                     text: "¿Estas seguro de que desea crear este aviso?",
@@ -214,14 +217,6 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                         <option value={'URGENTE'}>URGENTE</option>
                     </select>
                 </div>
-                <Modal className="modal-xl" show={showBuscadorCliente} onHide={handleCloseBuscadorCliente}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>Buscador cliente</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <BuscadorClient setClientesTable={handleCliente} showBuscadorCliente={showBuscadorCliente} handleCloseBuscadorCliente={handleCloseBuscadorCliente}></BuscadorClient>
-                    </Modal.Body>
-                </Modal>
                 <Modal.Footer className="mt-3" >
                     <Button variant="secondary" onClick={handleClose}>
                         Cerrar
@@ -231,6 +226,14 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                     </Button>
                 </Modal.Footer>
             </form>
+            <Modal className="modal-xl" show={showBuscadorCliente} onHide={handleCloseBuscadorCliente}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Buscador cliente</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <BuscadorClient setClientesTable={handleCliente} showBuscadorCliente={showBuscadorCliente} handleCloseBuscadorCliente={handleCloseBuscadorCliente}></BuscadorClient>
+                </Modal.Body>
+            </Modal>
         </>
     )
 }
