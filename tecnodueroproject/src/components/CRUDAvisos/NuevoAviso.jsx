@@ -47,10 +47,7 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
             })
             setDirecciones(response)
             console.log(direccciones)
-            setCalle(direccciones[0].calle);
-            setProvincia(direccciones[0].provincia);
-            setCiudad(direccciones[0].ciudad);
-            setCodPostal(direccciones[0].cod_postal);
+
     
         } catch (error) {
 
@@ -181,15 +178,7 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                     <InputComponent placeHolder='Email' setInputText={setEmail} text={email} disabled={true}></InputComponent>
                     <InputComponent placeHolder='Nif' setInputText={setNif} text={nif} disabled={true}></InputComponent>
                     <h3>Direccion: </h3>
-                    {direccciones.length === 1 &&
-                        <div>
-                            <InputComponent placeHolder='Direccion' setInputText={setCalle} text={calle} disabled={true}></InputComponent>
-                            <InputComponent placeHolder='Provincia' setInputText={setProvincia} text={provincia} disabled={true}></InputComponent>
-                            <InputComponent placeHolder='Ciudad' setInputText={setCiudad} text={ciudad} disabled={true}></InputComponent>
-                            <InputComponent placeHolder='Código postal' setInputText={setCodPostal} text={codPostal} disabled={true}></InputComponent>
-                        </div>
-                    }
-                    {direccciones.length > 1 &&
+                    {direccciones.length > 0 &&
                         <div>
                             <select value={direccionSelected} data- className='form-control' onChange={SelectDireccionChange}>
                                 <option selected key={0}></option>

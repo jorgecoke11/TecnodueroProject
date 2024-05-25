@@ -8,8 +8,9 @@ import { Tab } from "bootstrap";
 import avisosServices from '../../services/aviso.js'
 import NuevoAviso from "./NuevoAviso.jsx";
 import Modal from 'react-bootstrap/Modal';
+import AddObservacion from "./AddObservaciones.jsx";
 const Avisos = () => {
-    const { jwt } = useUser();
+    const { jwt,username } = useUser();
     const [avisos, setAvisos] = useState([])
     const [avisosPendientes, setAvisosPendientes] = useState([])
     const [avisosCompletados, setAvisosCompletados] = useState([])
@@ -19,11 +20,14 @@ const Avisos = () => {
     const today = new Date();
     const currentYear = today.getFullYear();
     const currentMonth = today.getMonth();
-
+    const [idAvisoActual, setIdAvisoActual] = useState('')
+    const [observacionActual, setObservacionActual] = useState('')
     const [startDate, setStartDate] = useState(new Date(currentYear, currentMonth, 1));
     const [endDate, setEndDate] = useState(new Date(currentYear, currentMonth + 1, 0));
     const [showNuevoAviso, setNuevoAviso] = useState(false)
+    const [showNuevaObservacion, setShowNuevaObservacion] = useState(false)
     const handleCloseNuevoAviso = () => setNuevoAviso(false);
+    const handleCloseNuevaObservacion =() => setShowNuevaObservacion(false)
     const handleAtras = () => {
         window.location = '/'
     }
@@ -125,6 +129,11 @@ const Avisos = () => {
 
         }
     }
+    const handleAddObservacion = async(idAviso, observacion) =>{
+        setIdAvisoActual(idAviso)
+        setObservacionActual(observacion)
+        setShowNuevaObservacion(true)
+    }
     useEffect(() => {
         getAvisosPendientes()
         getAvisosCompletados()
@@ -137,21 +146,21 @@ const Avisos = () => {
                 <div className="row mt-3 mb-3">
                     <div className="col">
                         <button className="btn btn-create mb-3" onClick={handleNuevoAviso}>Nuevo aviso</button>
-                            <select value={selectedMonth} className='form-control' onChange={handleMonthChange}>
-                                <option value={0}>Enero</option>
-                                <option value={1}>Febrero</option>
-                                <option value={2}>Marzo</option>
-                                <option value={3}>Abril</option>
-                                <option value={4}>Mayo</option>
-                                <option value={5}>Junio</option>
-                                <option value={6}>Julio</option>
-                                <option value={7}>Agosto</option>
-                                <option value={8}>Septiembre</option>
-                                <option value={9}>Octubre</option>
-                                <option value={10}>Noviembre</option>
-                                <option value={11}>Diciembre</option>
-                            </select>
-                        
+                        <select value={selectedMonth} className='form-control' onChange={handleMonthChange}>
+                            <option value={0}>Enero</option>
+                            <option value={1}>Febrero</option>
+                            <option value={2}>Marzo</option>
+                            <option value={3}>Abril</option>
+                            <option value={4}>Mayo</option>
+                            <option value={5}>Junio</option>
+                            <option value={6}>Julio</option>
+                            <option value={7}>Agosto</option>
+                            <option value={8}>Septiembre</option>
+                            <option value={9}>Octubre</option>
+                            <option value={10}>Noviembre</option>
+                            <option value={11}>Diciembre</option>
+                        </select>
+
                     </div>
                 </div>
                 <Accordion defaultActiveKey="0">
@@ -187,7 +196,7 @@ const Avisos = () => {
                                                 </svg>
                                                 <b> Hora: </b>{aviso.hora}</label>
                                             <b>Observaciones:</b>
-                                            <textarea disabled={true}>{aviso.observaciones}</textarea>
+                                            <textarea className="form-control mt-3" rows={7} disabled={true}>{aviso.observaciones}</textarea>
                                             <label>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash" viewBox="0 0 16 16">
                                                     <path d="M8 10a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
@@ -205,11 +214,16 @@ const Avisos = () => {
 
                                             </label>
                                             {aviso.estado === 0 &&
-                                                <div>
+                                                <div className="container">
                                                     <button className="btn btn-success" onClick={() => handleClickCambiarEstado(aviso.id, 1)}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
                                                             <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
                                                             <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
+                                                        </svg>
+                                                    </button>
+                                                    <button className="btn btn-secondary" onClick={() => handleAddObservacion(aviso.id, aviso.observaciones)}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
+                                                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z" />
                                                         </svg>
                                                     </button>
                                                 </div>}
@@ -276,6 +290,11 @@ const Avisos = () => {
                                                             <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
                                                         </svg>
                                                     </button>
+                                                    <button className="btn btn-secondary" onClick={() => handleAddObservacion()}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-left-text-fill" viewBox="0 0 16 16">
+                                                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4.414a1 1 0 0 0-.707.293L.854 15.146A.5.5 0 0 1 0 14.793zm3.5 1a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1zm0 2.5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z" />
+                                                        </svg>
+                                                    </button>
                                                 </div>}
                                         </div>
                                     </li>
@@ -291,6 +310,14 @@ const Avisos = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <NuevoAviso getAvisosPendientes={getAvisosPendientes} handleClose={handleCloseNuevoAviso} ></NuevoAviso>
+                </Modal.Body>
+            </Modal>
+            <Modal className="modal-xl" show={showNuevaObservacion} onHide={handleCloseNuevaObservacion}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Nueva observacion</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <AddObservacion idAviso={idAvisoActual} observacionActual={observacionActual} getPendientes={getAvisosPendientes} handleClose={handleCloseNuevaObservacion}></AddObservacion>
                 </Modal.Body>
             </Modal>
         </>
