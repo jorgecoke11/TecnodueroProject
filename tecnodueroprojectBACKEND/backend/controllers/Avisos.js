@@ -52,7 +52,10 @@ AvisosCalls.post('/get-avisos',async(req, res)=>{
               }
             ),
             estado: estadoWhere
-          }
+          },
+          order:[
+            ['id', 'DESC']
+          ]
         });
         
         res.json(avisos);
