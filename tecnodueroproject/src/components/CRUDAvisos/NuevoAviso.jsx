@@ -136,7 +136,7 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                             timer: 4000
                         })
                         utils.enviarEmail(jwt,{
-                            to: 'lopezcarneroj@gmail.com',
+                            to: 'tecnoduero@live.com',
                             subject: 'Nuevo aviso',
                             text: 'Nuevo aviso creado en la plataforma -> http://192.168.1.3:81'
                         })
