@@ -29,13 +29,15 @@ const AddObservacion = ({idAviso, handleClose, observacionActual, getPendientes}
                 id: idAviso
             }
            })
-           handleClose()
+           window.location.reload()
            Swal.fire({
                text: "Observacion añadida",
                icon: "success",
                timer: 4000
             })
+            
             getPendientes()
+            handleClose()
         }catch(error){
 
         }

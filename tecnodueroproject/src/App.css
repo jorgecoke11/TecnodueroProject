@@ -113,6 +113,9 @@ body > #root > div {
 .avisos-div{
   text-align: justify;
 }
+.iconos-avisos{
+  margin-left: 1%;
+}
 /* Definimos la clase para el círculo con borde difuminado */
 .circle {
   width: 20px;

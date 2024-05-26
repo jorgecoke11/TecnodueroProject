@@ -9,6 +9,7 @@ import avisosServices from '../../services/aviso.js'
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
+import utils from "../../services/utils.js";
 const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
     const { jwt } = useUser();
     const [nombreCliente, setNombreCliente] = useState([])
@@ -134,6 +135,12 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                             icon: "success",
                             timer: 4000
                         })
+                        utils.enviarEmail(jwt,{
+                            to: 'lopezcarneroj@gmail.com',
+                            subject: 'Nuevo aviso',
+                            text: 'Nuevo aviso creado en la plataforma -> http://192.168.1.3:81'
+                        })
+                        
                         getAvisosPendientes()
                         handleClose()
                     }
