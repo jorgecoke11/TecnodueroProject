@@ -1,5 +1,5 @@
 export const Constantes = {
-    URI: 'http://localhost:8000/'
+    URI: 'http://192.168.1.3:8000/'
 }
 export default Constantes
 //25.33.118.163
