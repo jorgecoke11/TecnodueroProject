@@ -37,9 +37,9 @@ const AddObservacion = ({idAviso, tituloAviso, handleClose, observacionActual, g
                timer: 4000
             })
             utils.enviarEmail(jwt,{
-                to: 'tecnoduero@live.com',
-                subject: 'Nuevo observacion en aviso',
-                text: 'Nuevo observacion en el aviso con titulo: '+ tituloAviso +'-> http://192.168.1.3:81'
+                to: 'tecnoduero@live.com;tecnoduero@tecnoduero.com;soco.carnero@gmail.com',
+                subject: 'Nueva observacion en aviso',
+                text: 'Nueva observacion en el aviso con titulo: '+ tituloAviso + 'por el usuario: '+ username +'-> http://192.168.1.3:81'
             })
             getPendientes()
             handleClose()

@@ -28,6 +28,7 @@ AvisosCalls.post('/get-avisos',async(req, res)=>{
         const avisos = await avisosModel.findAll({
           attributes: [
             [Sequelize.col('direccione.cliente.nombre'), 'nombre'],
+            [Sequelize.col('direccione.cliente.telefono'), 'telefono'],
             [Sequelize.col('direccione.cliente.apellidos'), 'apellido'],
             [Sequelize.col('direccione.calle'), 'calle'],
             'id', 'titulo', 'fecha', 'hora', 'observaciones', 'presupuesto', 'tipo', 'estado'

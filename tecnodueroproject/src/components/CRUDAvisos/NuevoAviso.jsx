@@ -11,7 +11,7 @@ import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
 import utils from "../../services/utils.js";
 const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
-    const { jwt } = useUser();
+    const { jwt, username } = useUser();
     const [nombreCliente, setNombreCliente] = useState([])
     const [cliente, setCliente] = useState('')
     const [calle, setCalle] = useState('')
@@ -136,9 +136,9 @@ const NuevoAviso = ({ handleClose, getAvisosPendientes }) => {
                             timer: 4000
                         })
                         utils.enviarEmail(jwt,{
-                            to: 'tecnoduero@live.com',
-                            subject: 'Nuevo aviso',
-                            text: 'Nuevo aviso creado en la plataforma -> http://192.168.1.3:81'
+                            to: 'tecnoduero@live.com;tecnoduero@tecnoduero.com;soco.carnero@gmail.com',
+                            subject: 'Nuevo aviso' ,
+                            text: 'Nuevo aviso añadido por '+ username+' en la plataforma -> http://192.168.1.3:81'
                         })
                         
                         getAvisosPendientes()

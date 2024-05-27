@@ -31,7 +31,7 @@ const Avisos = () => {
     const [showNuevaObservacion, setShowNuevaObservacion] = useState(false)
     const [showEditPresupuesto, setShowEditPresupuesto] = useState(false)
     const handleCloseNuevoAviso = () => setNuevoAviso(false);
-    const handleCloseEditPresupuesto= () => setShowEditPresupuesto(false);
+    const handleCloseEditPresupuesto = () => setShowEditPresupuesto(false);
     const handleCloseNuevaObservacion = () => setShowNuevaObservacion(false)
     const handleAtras = () => {
         window.location = '/'
@@ -134,13 +134,13 @@ const Avisos = () => {
 
         }
     }
-    const handleAddObservacion = async (idAviso,observacion,tituloAviso) => {
+    const handleAddObservacion = async (idAviso, observacion, tituloAviso) => {
         setIdAvisoActual(idAviso)
         setTituloAvisoActual(tituloAviso)
         setObservacionActual(observacion)
         setShowNuevaObservacion(true)
     }
-    const handleClickEditPresupuesto = (idAviso, presupuesto) =>{
+    const handleClickEditPresupuesto = (idAviso, presupuesto) => {
         setIdAvisoActual(idAviso)
         setPresupuestoActual(presupuesto)
         setShowEditPresupuesto(true)
@@ -196,6 +196,11 @@ const Avisos = () => {
                                                 </svg>
                                                 <b> Dirección: </b>{aviso.calle} {aviso.cod_postal} {aviso.ciudad} {aviso.provincia} </label>
                                             <label>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                                                </svg>
+                                                <b> Telefono: </b>{aviso.telefono}</label>
+                                            <label>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                                                     <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z" />
                                                 </svg>
@@ -232,7 +237,7 @@ const Avisos = () => {
                                                             <path d="m10.97 4.97-.02.022-3.473 4.425-2.093-2.094a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05" />
                                                         </svg>
                                                     </button>
-                                                    <button className="btn btn-secondary iconos-avisos" onClick={() =>handleClickEditPresupuesto(aviso.id, aviso.presupuesto)}>
+                                                    <button className="btn btn-secondary iconos-avisos" onClick={() => handleClickEditPresupuesto(aviso.id, aviso.presupuesto)}>
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-exchange" viewBox="0 0 16 16">
                                                             <path d="M0 5a5 5 0 0 0 4.027 4.905 6.5 6.5 0 0 1 .544-2.073C3.695 7.536 3.132 6.864 3 5.91h-.5v-.426h.466V5.05q-.001-.07.004-.135H2.5v-.427h.511C3.236 3.24 4.213 2.5 5.681 2.5c.316 0 .59.031.819.085v.733a3.5 3.5 0 0 0-.815-.082c-.919 0-1.538.466-1.734 1.252h1.917v.427h-1.98q-.004.07-.003.147v.422h1.983v.427H3.93c.118.602.468 1.03 1.005 1.229a6.5 6.5 0 0 1 4.97-3.113A5.002 5.002 0 0 0 0 5m16 5.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0m-7.75 1.322c.069.835.746 1.485 1.964 1.562V14h.54v-.62c1.259-.086 1.996-.74 1.996-1.69 0-.865-.563-1.31-1.57-1.54l-.426-.1V8.374c.54.06.884.347.966.745h.948c-.07-.804-.779-1.433-1.914-1.502V7h-.54v.629c-1.076.103-1.808.732-1.808 1.622 0 .787.544 1.288 1.45 1.493l.358.085v1.78c-.554-.08-.92-.376-1.003-.787zm1.96-1.895c-.532-.12-.82-.364-.82-.732 0-.41.311-.719.824-.809v1.54h-.005zm.622 1.044c.645.145.943.38.943.796 0 .474-.37.8-1.02.86v-1.674z" />
                                                         </svg>
