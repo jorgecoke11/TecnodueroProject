@@ -10,11 +10,13 @@ import useUser from "../hooks/useUser.js";
 const RobotPrecios = () =>{
     const [screenComponent, setScreenComponent] = useState(null)
     const [procesos, setProcesos] = useState([])
+    const [selectedOption, setSelectedOption] = useState(null)
     const { jwt } = useUser();
     const handleSelectChange = (selectOption) =>{
+      setSelectedOption(selectOption)
         var proceso = procesos.find(proceso => proceso.Nombre === selectOption)
         if(proceso != null && proceso.length != 0){
-          setScreenComponent(<ConfigRobots proceso={proceso}></ConfigRobots>)
+          setScreenComponent(<ConfigRobots key={proceso.idRobot} proceso={proceso}></ConfigRobots>)
         }
         
       }
