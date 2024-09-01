@@ -26,11 +26,12 @@ casosCalls.post('/create-casos', async (req, res) => {
           idtipo: idTipoCaso[0].dataValues.idtipo,
         }
         console.log(casoConTipo)
-        await casosModel.create(casoConTipo, {
+        const newCaso = await casosModel.create(casoConTipo, {
             fields: ['idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos',  'jsonNegocio','idtipo']
           });
         res.json({
-            "message": "Caso creado correctamente"
+            "message": "Caso creado correctamente",
+            "idCaso": newCaso.idCaso
         })
     } catch (error) {
         res.send( {message: error.message} )

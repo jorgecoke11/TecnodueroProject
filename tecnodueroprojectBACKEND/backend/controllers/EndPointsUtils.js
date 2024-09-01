@@ -1,9 +1,4 @@
-import express, { response } from 'express';
-import Utils from './Utils.js'
-import { Op, Sequelize } from 'sequelize';
-import avisosModel from '../models/avisosModel.js';
-import direccionesModel from '../models/direccionesModel.js';
-import clientesModel from '../models/clientesModel.js';
+import express from 'express';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 import nodemailer from 'nodemailer';
 const EndPointsUtils = express.Router();
