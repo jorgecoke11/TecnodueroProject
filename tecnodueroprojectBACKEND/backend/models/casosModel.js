@@ -3,7 +3,8 @@ import { DataTypes } from "sequelize";
 
 export default db.define('casos', {
     idCaso: { type: DataTypes.INTEGER,
-        primaryKey: true }, // Corregido a INTEGER
+        primaryKey: true,
+        autoIncrement: true }, // Corregido a INTEGER
     idEstadoFK: { type: DataTypes.INTEGER }, // Corregido a INTEGER
     idRobotFK: { type: DataTypes.INTEGER }, // Corregido a INTEGER
     nombre: { type: DataTypes.STRING },

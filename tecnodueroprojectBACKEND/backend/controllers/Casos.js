@@ -13,7 +13,6 @@ casosCalls.post('/create-casos', async (req, res) => {
     try {
         checkToken(req,res)
         const {...caso} = req.body
-        console.log(caso)
         const idTipoCaso = await tipoCasoModel.findAll({
           attributes: ['idtipo'],
           where:{ 
@@ -25,10 +24,10 @@ casosCalls.post('/create-casos', async (req, res) => {
           ...caso,
           idtipo: idTipoCaso[0].dataValues.idtipo,
         }
-        console.log(casoConTipo)
         const newCaso = await casosModel.create(casoConTipo, {
-            fields: ['idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos',  'jsonNegocio','idtipo']
-          });
+          fields: ['idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos',  'jsonNegocio','idtipo']
+        });
+
         res.json({
             "message": "Caso creado correctamente",
             "idCaso": newCaso.idCaso

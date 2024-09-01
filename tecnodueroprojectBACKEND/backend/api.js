@@ -19,7 +19,7 @@ import clientesCalls from './controllers/Clientes.js';
 import direccionesCalls from './controllers/Direcciones.js'
 import AvisosCalls from './controllers/Avisos.js';
 import EndPointsUtils from './controllers/EndPointsUtils.js';
-
+import ejecucionesCalls from './controllers/Ejecuciones.js'
 dotenv.config();
 
 const app = express()
@@ -41,6 +41,7 @@ app.use('/api/robots',estadosCalls)
 app.use('/api/robots/cupones',cuponesCalls)
 app.use('/api/robots/tiposcaso', tiposCasoCalls)
 app.use('/api/robots/maquinas', maquinasCalls)
+app.use('/api/robots/ejecuciones', ejecucionesCalls) 
 app.use('/api/robots/ejecutables', ejecutablesCalls)
 app.use('/api/procesos', procesosCalls)
 app.use('/api/parametros',parametrosCalls)

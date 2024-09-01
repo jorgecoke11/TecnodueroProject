@@ -9,6 +9,7 @@ import ToggleSwitch from './ToggleSwitch';
 import ModalComponent from './ModalComponent.jsx';
 import cuponCalls from '../services/cupon.js'
 import cuponesServices from '../services/cupon.js'
+import ejecucionesServices from '../services/ejecuciones.js';
 import useUser from '../hooks/useUser.js';
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
@@ -102,9 +103,28 @@ const handleCrearCaso = async(event) =>{
                </div>)
             setShowModal(true);
         }
-    }catch(exc){
-        window.sessionStorage.clear()
-        window.location= '/'
+        const idCaso = respuesta.idCaso
+        console.log(respuesta)
+        const respuestaEjecucion = await ejecucionesServices.createEjecucion(jwt,{
+            idCaso,
+            idBloque: 1,
+            idEstado: 5
+        })
+    } catch (exc) {
+        // Verifica si el error está relacionado con el token
+        if (exc.message.includes("Token") || exc.message.includes("token")) {
+            // Si el error está relacionado con el token, limpiar el almacenamiento y redirigir
+            window.sessionStorage.clear();
+            window.location = '/';
+        } else {
+            // Para cualquier otro error, muestra un modal con el mensaje de error
+            setModalContent(
+                <div>
+                    <h1>Error: {exc.message}</h1>
+                </div>
+            );
+            setShowModal(true);
+        }
     }
     
     }
