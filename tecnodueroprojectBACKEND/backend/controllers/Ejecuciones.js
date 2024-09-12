@@ -2,15 +2,28 @@
 import express, { response } from 'express';
 import ejecucionesModel from '../models/ejecucionesModels.js'
 import Utils from './Utils.js'
+import estadosEjecucionModel from '../models/estadosEjecucion.js'
+import ejecutablesModel from '../models/ejecutablesModel.js'
 const EjecucionesCalls = express.Router();
 
 EjecucionesCalls.post('/get-ejecucion-caso',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
+        ejecucionesModel.belongsTo(estadosEjecucionModel, { foreignKey: 'id_estado_fk', targetKey: 'id_estado' });
+        ejecucionesModel.belongsTo(ejecutablesModel, { foreignKey: 'id_ejecutable_fk', targetKey: 'id' });
         const response = await ejecucionesModel.findAll({
             where:{
-                id_caso_fk: req.body.idCaso
+                id_caso_fk: req.body.id_caso_fk
+            },
+            include:[ {
+                model: estadosEjecucionModel,
+                attributes: ['nombre'],
+              },
+            {
+                model: ejecutablesModel,
+                attributes: ['nombre'],
             }
+            ]
         })
         res.status(200).json(response)
     }catch(error){
@@ -24,7 +37,9 @@ EjecucionesCalls.post('/create-ejecucion',async(req,res)=>{
         const response = await ejecucionesModel.create({
             id_caso_fk: req.body.idCaso,
             id_bloque: req.body.idBloque,
-            id_estado: req.body.idEstado
+            id_estado: req.body.idEstado,
+            fh_inicio: req.body.fh_inicio,
+            fh_fin: req.body.fh_fin
         })
         res.status(200).json(response)
     }catch(error){
@@ -32,13 +47,13 @@ EjecucionesCalls.post('/create-ejecucion',async(req,res)=>{
     }
 })
 
-EjecucionesCalls.post('/update-status',async(req, res)=>{
+EjecucionesCalls.post('/get-ejecucion-by-estado',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
-        const status= {status: req.body.status}
-        console.log(req.body)
-        const response = await ejecucionesModel.update( status,{
-            where: {nombre: req.body.criterio}
+        const response = await ejecucionesModel.findAll({
+            where:{
+                id_estado_fk: req.body.id_estado
+            }
         })
         res.status(200).json(response)
     }catch(error){

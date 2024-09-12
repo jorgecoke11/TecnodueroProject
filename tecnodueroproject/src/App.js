@@ -12,6 +12,7 @@ import { UserContextProvider } from './context/UserContext';
 import Clientes from './components/CRUDClientes/Clientes';
 import Direcciones from './components/CRUDDirecciones/Direcciones';
 import Avisos from './components/CRUDAvisos/Avisos';
+import EjecucionMonitorizacion from './components/Ejecuciones/EjecucionMonitorizacion';
 function App() {
   return (
     <UserContextProvider>
@@ -26,6 +27,7 @@ function App() {
             <Route path='/clientes' element={<Clientes></Clientes>}></Route>
             <Route path='/direcciones' element={<Direcciones></Direcciones>}></Route>
             <Route path='/avisos' element={<Avisos></Avisos>}></Route>
+            <Route path='/Monitorizacion/ejecucion/:id_caso_fk' element={<EjecucionMonitorizacion></EjecucionMonitorizacion>}></Route>
           </Routes>
         </BrowserRouter>        
       </div>

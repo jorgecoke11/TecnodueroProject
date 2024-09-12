@@ -3,13 +3,13 @@ import Constantes from '../js/Constantes.js';
 
 const baseUrl = Constantes.URI + 'api/robots/ejecuciones';
 
-const getEjecuciones = async(jwt, idProceso)=>{
+const getEjecuciones = async(jwt, id_caso_fk)=>{
     const config = {
         headers: {
             Authorization: jwt
         }
     }
-    const response = await axios.post(baseUrl +'/get-ejecucion-caso',idProceso,config)
+    const response = await axios.post(baseUrl +'/get-ejecucion-caso',id_caso_fk,config)
     return response.data
 }
 const createEjecucion = async(jwt, args)=>{

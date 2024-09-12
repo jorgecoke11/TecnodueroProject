@@ -20,4 +20,21 @@ function checkToken(req, res){
       }
     }
   }
-  export default {checkToken}
+ async function updateGenerico (req, res){
+    const nuevosDatos = req.body.nuevosDatos
+    const criterio = req.body.criterio
+    console.log(nuevosDatos)
+    console.log(criterio)
+    try {
+      const resultado = await casosModel.update(nuevosDatos, {
+          where: criterio
+      });
+      
+      console.log(resultado)
+      res.status(200).json(resultado);
+    } catch (error) {
+      console.error('Error al actualizar el caso:', error);
+      return res.status(500).send({ "message": "Error al actualizar el caso" });
+    }
+  }
+  export default {checkToken, updateGenerico}
