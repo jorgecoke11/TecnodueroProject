@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
-import useUser from "../../hooks/useUser.js";
+import React from "react";
 import atras from '../../img/hacia-atras.png';
-import trazasServices from '../../services/traza.js'
-import Dropdown from "../Desplegable.jsx";
 import Ejecuciones from "./Ejecuciones.jsx";
 import { useParams } from 'react-router-dom';
+import Trazas from "./Trazas.jsx";
 
 const EjecucionMonitorizacion = () =>{
     const { id_caso_fk} = useParams(); 
@@ -15,7 +12,8 @@ const EjecucionMonitorizacion = () =>{
     return(
         <>
             <div className="container">
-                <img src={atras} onClick={handleAtras}></img>
+                <img src={atras}  className='atras' onClick={handleAtras}></img>
+                <Trazas id_caso_fk={id_caso_fk}></Trazas> 
                 <Ejecuciones id_caso_fk={id_caso_fk}></Ejecuciones>
             </div>
         </>

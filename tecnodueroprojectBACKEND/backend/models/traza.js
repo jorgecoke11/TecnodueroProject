@@ -13,7 +13,8 @@ export default db.define('traza', {
             model: 'casos', 
             key: 'idCaso' 
         }
-    }
+    },
+    ruta_foto:{type: DataTypes.STRING}
 }, {
     timestamps: false, // Desactiva las columnas createdAt y updatedAt
     underscored: false, // Usa el estilo de nomenclatura snake_case para las columnas

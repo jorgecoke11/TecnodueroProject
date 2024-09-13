@@ -28,7 +28,7 @@ const Ejecuciones = ({ id_caso_fk }) => {
         <>
             <div>
                 <Dropdown label="Ejecuciones" onClick={() => getEjecuciones()}>
-                    <Table striped bordered hover>
+                    <Table >
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -39,7 +39,7 @@ const Ejecuciones = ({ id_caso_fk }) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {ejecucion.map((e, index) => (
+                            {ejecucion.length ? ejecucion.map((e) => (
                                 <tr key={e.id}>
                                     <td>{e.id}</td>
                                     <td>{e.ejecutable.nombre}</td>
@@ -47,7 +47,11 @@ const Ejecuciones = ({ id_caso_fk }) => {
                                     <td>{UtilsDate.formatDate(e.fh_inicio)}</td>
                                     <td>{UtilsDate.formatDate(e.fh_fin)}</td>
                                 </tr>
-                            ))}
+                            )) 
+                        : 
+                        <tr><td colSpan="5"><b>No hay ejecuiones en este caso</b></td></tr>
+                        }
+
                         </tbody>
                     </Table>
                 </Dropdown>

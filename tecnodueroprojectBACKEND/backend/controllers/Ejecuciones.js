@@ -46,7 +46,24 @@ EjecucionesCalls.post('/create-ejecucion',async(req,res)=>{
         console.log(error)
     }
 })
+EjecucionesCalls.post('/update-generico', async (req, res) => {
 
+    checkToken(req, res);
+    const nuevosDatos = req.body.nuevosDatos
+    const criterio = req.body.criterio
+
+    try {
+      const resultado = await ejecucionesModel.update(nuevosDatos, {
+          where: criterio
+      });
+      
+      console.log(resultado)
+      res.status(200).json(resultado);
+    } catch (error) {
+      console.error('Error al actualizar el caso:', error);
+      return res.status(500).send({ "message": "Error al actualizar el caso" });
+    }
+});
 EjecucionesCalls.post('/get-ejecucion-by-estado',async(req, res)=>{
     try{
         Utils.checkToken(req,res)

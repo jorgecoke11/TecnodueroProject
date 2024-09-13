@@ -10,7 +10,7 @@ const getTrazas = async (jwt, where) => {
                 Authorization: jwt
             }
         };
-        const response = await axios.post(baseUrl + '/get-avisos', where, config); // Assuming post request needs an empty body
+        const response = await axios.post(baseUrl + '/get-trazas-by-caso', where, config); // Assuming post request needs an empty body
         return response.data; // Assuming you want to return the data property of the response
     } catch (error) {
         console.error('Error fetching clientes:', error.message); // Logging the error message for better debugging

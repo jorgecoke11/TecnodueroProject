@@ -11,7 +11,7 @@ import casosCalls from './controllers/Casos.js'
 import estadosCalls from './controllers/Estados.js'
 import cuponesCalls from './controllers/Cupones.js'
 import tiposCasoCalls from './controllers/TiposCaso.js'
-import maquinasCalls from './controllers/MaquinasController.js'
+import maquinasCalls from './controllers/MaquinasController.js' 
 import ejecutablesCalls from './controllers/Ejecutables.js';
 import procesosCalls from './controllers/procesos.js';
 import parametrosCalls from './controllers/parametros.js';
@@ -20,10 +20,15 @@ import direccionesCalls from './controllers/Direcciones.js'
 import AvisosCalls from './controllers/Avisos.js';
 import EndPointsUtils from './controllers/EndPointsUtils.js';
 import ejecucionesCalls from './controllers/Ejecuciones.js'
+import trazaCalls from './controllers/traza.js';
+import path from 'path';
 dotenv.config();
 
 const app = express()
-
+const ruta = path.join(process.env.PATH_ROBOT_DEBUG, 'capturas')
+app.use('/screenshots', express.static(ruta));
+console.log('Serviendo imágenes desde:', ruta);
+app.use(express.json({ limit: '10mb' }));
 app.use(cors());
 app.use(cookieParser());
 app.set('trust proxy', true);
@@ -43,6 +48,7 @@ app.use('/api/robots/tiposcaso', tiposCasoCalls)
 app.use('/api/robots/maquinas', maquinasCalls)
 app.use('/api/robots/ejecuciones', ejecucionesCalls) 
 app.use('/api/robots/ejecutables', ejecutablesCalls)
+app.use('/api/robots/trazas', trazaCalls)
 app.use('/api/procesos', procesosCalls)
 app.use('/api/parametros',parametrosCalls)
 app.use('/api/avisos/clientes', clientesCalls)

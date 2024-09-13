@@ -202,8 +202,7 @@ casosCalls.post('/update-generico', async (req, res) => {
     checkToken(req, res);
     const nuevosDatos = req.body.nuevosDatos
     const criterio = req.body.criterio
-    console.log(nuevosDatos)
-    console.log(criterio)
+
     try {
       const resultado = await casosModel.update(nuevosDatos, {
           where: criterio
