@@ -15,6 +15,7 @@ EjecucionesCalls.post('/get-ejecucion-caso',async(req, res)=>{
             where:{
                 id_caso_fk: req.body.id_caso_fk
             },
+            order: [['fh_inicio', 'ASC']],
             include:[ {
                 model: estadosEjecucionModel,
                 attributes: ['nombre'],
@@ -35,11 +36,9 @@ EjecucionesCalls.post('/create-ejecucion',async(req,res)=>{
 
         Utils.checkToken(req, res)
         const response = await ejecucionesModel.create({
-            id_caso_fk: req.body.idCaso,
-            id_bloque: req.body.idBloque,
-            id_estado: req.body.idEstado,
-            fh_inicio: req.body.fh_inicio,
-            fh_fin: req.body.fh_fin
+            id_caso_fk: req.body.id_caso_fk,
+            id_ejecutable_fk: req.body.id_ejecutable_fk,
+            id_estado_fk: req.body.id_estado_fk
         })
         res.status(200).json(response)
     }catch(error){
@@ -48,10 +47,9 @@ EjecucionesCalls.post('/create-ejecucion',async(req,res)=>{
 })
 EjecucionesCalls.post('/update-generico', async (req, res) => {
 
-    checkToken(req, res);
+    Utils.checkToken(req, res);
     const nuevosDatos = req.body.nuevosDatos
     const criterio = req.body.criterio
-
     try {
       const resultado = await ejecucionesModel.update(nuevosDatos, {
           where: criterio
@@ -59,6 +57,26 @@ EjecucionesCalls.post('/update-generico', async (req, res) => {
       
       console.log(resultado)
       res.status(200).json(resultado);
+    } catch (error) {
+      console.error('Error al actualizar el caso:', error);
+      return res.status(500).send({ "message": "Error al actualizar el caso" });
+    }
+});
+EjecucionesCalls.post('/revivir-ultima-ejecucion', async (req, res) => {
+
+    Utils.checkToken(req, res);
+    try {
+    const ultimaEjecucion = await ejecucionesModel.findOne({
+        where: { id_caso_fk: req.body.id_caso_fk },
+        order: [['fh_inicio', 'DESC']],
+      });  
+      if (ultimaEjecucion) { 
+        await ejecucionesModel.update(
+            { id_estado_fk: req.body.id_estado_fk }, // Lo que queremos actualizar
+            { where: { id: ultimaEjecucion.id } } // Condición de actualización
+          );
+      } 
+      res.status(200).json(ultimaEjecucion);
     } catch (error) {
       console.error('Error al actualizar el caso:', error);
       return res.status(500).send({ "message": "Error al actualizar el caso" });
@@ -73,6 +91,18 @@ EjecucionesCalls.post('/get-ejecucion-by-estado',async(req, res)=>{
             }
         })
         res.status(200).json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
+EjecucionesCalls.post('/get-ejecucion-generico',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        console.log(req.body)
+        const response = await ejecucionesModel.findOne({
+            where: req.body.whereGenerico    
+        })
+        res.json(response)
     }catch(error){
         console.log(error)
     }

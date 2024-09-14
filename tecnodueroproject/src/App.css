@@ -83,9 +83,13 @@ body > #root > div {
   display: inline-block; /* Para que la imagen se muestre en línea */
   vertical-align: middle; /* Para alinear verticalmente la imagen */
 }
+.custom-modal {
+  max-width: 90%; /* Ajusta según el tamaño que desees */
+  width: 90%;
+}
 .atras{
-  height: 10%;
-  width: 10%;
+  height: 5%;
+  width: 5%;
   padding: 1%;
 }
 .botones-proceso{

@@ -24,6 +24,18 @@ ejecutablesCalls.post('/get-ejecutables',async(req, res)=>{
         console.log(error)
     }
 })
+ejecutablesCalls.post('/get-ejecutable-generico',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        console.log(req.body)
+        const response = await ejecutablesModel.findOne({
+            where: req.body.whereGenerico    
+        })
+        res.json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
 ejecutablesCalls.post('/update-status',async(req, res)=>{
     try{
         Utils.checkToken(req,res)

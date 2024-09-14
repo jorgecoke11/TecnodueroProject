@@ -32,7 +32,7 @@ trazaCalls.post('/create-traza', async (req, res) => {
       // Definir el nombre y la ruta donde se guardará la imagen
       const screenshotDir = path.join(process.env.PATH_ROBOT_DEBUG, 'capturas');
       const screenshotPath = path.join(screenshotDir, ruta);
-      ruta = screenshotPath
+      ruta = path.join('screenshots', ruta)
       // Asegurarse de que el directorio exista
       if (!fs.existsSync(screenshotDir)) {
         fs.mkdirSync(screenshotDir, { recursive: true });

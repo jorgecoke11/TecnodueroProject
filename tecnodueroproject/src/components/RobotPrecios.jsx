@@ -11,6 +11,7 @@ import cuponCalls from '../services/cupon.js'
 import cuponesServices from '../services/cupon.js'
 import ejecucionesServices from '../services/ejecuciones.js';
 import useUser from '../hooks/useUser.js';
+import Constantes from '../js/Constantes.js';
 const InputRobotPrecios = () =>{
     const [proveedor, setProveedor] = useState('')
     const [iva, setIva] = useState('21')
@@ -96,6 +97,13 @@ const handleCrearCaso = async(event) =>{
             datos,
             jsonNegocio
         })
+        const id_caso_fk = respuesta.idCaso
+        console.log(respuesta)
+        const respuestaEjecucion = await ejecucionesServices.createEjecucion(jwt,{
+            id_caso_fk,
+            id_ejecutable_fk: Constantes.EJECUTABLE_PRECIOS,
+            id_estado_fk: Constantes.EJECUCIONES_SIN_ASIGNAR
+        })
         if(respuesta.message == "Caso creado correctamente"){
             setModalContent(
                 <div>
@@ -103,13 +111,6 @@ const handleCrearCaso = async(event) =>{
                </div>)
             setShowModal(true);
         }
-        const idCaso = respuesta.idCaso
-        console.log(respuesta)
-        const respuestaEjecucion = await ejecucionesServices.createEjecucion(jwt,{
-            idCaso,
-            idBloque: 1,
-            idEstado: 5
-        })
     } catch (exc) {
         // Verifica si el error está relacionado con el token
         if (exc.message.includes("Token") || exc.message.includes("token")) {

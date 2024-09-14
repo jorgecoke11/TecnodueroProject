@@ -23,7 +23,14 @@ const Ejecuciones = ({ id_caso_fk }) => {
     useEffect(() => {
         getEjecuciones();
     }, []); // Corre solo al cargar el componente por primera vez
-
+    const getRowStyle = (estado) => {
+        switch (estado) {
+            case 10: return { backgroundColor: 'rgb(173 255 128)' }; 
+            case 8: return { backgroundColor: '#f2dede' }; 
+            case 6: return { backgroundColor: 'rgb(231 255 125)' }; 
+            default: return {}; 
+        }
+    };
     return (
         <>
             <div>
@@ -40,12 +47,12 @@ const Ejecuciones = ({ id_caso_fk }) => {
                         </thead>
                         <tbody>
                             {ejecucion.length ? ejecucion.map((e) => (
-                                <tr key={e.id}>
-                                    <td>{e.id}</td>
-                                    <td>{e.ejecutable.nombre}</td>
-                                    <td>{e.estados_ejecucion.nombre}</td>
-                                    <td>{UtilsDate.formatDate(e.fh_inicio)}</td>
-                                    <td>{UtilsDate.formatDate(e.fh_fin)}</td>
+                                <tr key={e.id} style={getRowStyle(e.id_estado_fk)}>
+                                    <td style={getRowStyle(e.id_estado_fk)}>{e.id}</td>
+                                    <td style={getRowStyle(e.id_estado_fk)}>{e.ejecutable.nombre}</td>
+                                    <td style={getRowStyle(e.id_estado_fk)}>{e.estados_ejecucion.nombre}</td>
+                                    <td style={getRowStyle(e.id_estado_fk)}>{UtilsDate.formatDate(e.fh_inicio)}</td>
+                                    <td style={getRowStyle(e.id_estado_fk)}>{UtilsDate.formatDate(e.fh_fin)}</td>
                                 </tr>
                             )) 
                         : 

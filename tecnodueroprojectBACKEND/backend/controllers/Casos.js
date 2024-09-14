@@ -3,12 +3,24 @@ import express from 'express';
 import { execFile } from 'child_process';
 import { execPath } from 'process';
 import casosModel from '../models/casosModel.js';
+import Utils from './Utils.js'
 import estadosModel from '../models/estadosModel.js'
 import { INTEGER, Sequelize } from 'sequelize';
 import tipoCasoModel from '../models/tipoCasoModel.js';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 const casosCalls = express.Router();
-
+casosCalls.post('/get-caso-generico',async(req, res)=>{
+  try{
+      Utils.checkToken(req,res)
+      console.log(req.body)
+      const response = await casosModel.findOne({
+          where: req.body.whereGenerico    
+      })
+      res.json(response)
+  }catch(error){
+      console.log(error)
+  }
+})
 casosCalls.post('/create-casos', async (req, res) => {
     try {
         checkToken(req,res)
@@ -263,5 +275,6 @@ casosCalls.post('/get-casos-fecha', async (req, res) => {
     console.error('Error al actualizar el caso:', error);
   }
 });
+
 
 export default casosCalls;
