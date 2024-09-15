@@ -12,6 +12,7 @@ const EjecucionMonitorizacion = () =>{
     return(
         <>
             <div className="container">
+                {console.log(id_caso_fk)}
                 <img src={atras}  className='atras' onClick={handleAtras}></img>
                 <Trazas id_caso_fk={id_caso_fk}></Trazas> 
                 <Ejecuciones id_caso_fk={id_caso_fk}></Ejecuciones>

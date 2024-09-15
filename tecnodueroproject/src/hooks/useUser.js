@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext, useState , useEffect} from 'react'
 import Context from '../context/UserContext'
 import loginService from '../services/login'
 export default function useUser(){
@@ -11,8 +11,8 @@ export default function useUser(){
                username, 
                passWord
             })
-            window.sessionStorage.setItem('loggedAppUser', response.token)
-            window.sessionStorage.setItem('loggedAppUsername', response.username);
+            window.localStorage.setItem('loggedAppUser', response.token)
+            window.localStorage.setItem('loggedAppUsername', response.username);
             setState({loading: false, error:false})
             setJWT(response.token)
             setUsername(response.username)
@@ -22,6 +22,15 @@ export default function useUser(){
         }
             
     },[setJWT])
+    useEffect(() => {
+        const storedToken = window.localStorage.getItem('loggedAppUser')
+        const storedUsername = window.localStorage.getItem('loggedAppUsername')
+
+        if (storedToken && storedUsername) {
+            setJWT(storedToken)
+            setUsername(storedUsername)
+        }
+    }, [setJWT, setUsername])
     return {
         jwt: 'Bearer '+ jwt,
         username: username,
