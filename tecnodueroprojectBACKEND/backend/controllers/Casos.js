@@ -65,6 +65,7 @@ casosCalls.post('/get-casos', async (req, res) => {
           attributes: [
             [Sequelize.literal('estado.nombre'), 'nombre'],
             [Sequelize.literal('estado.final'), 'final'],
+            [Sequelize.literal('estado.orden'),'orden'],
             [Sequelize.literal('estado.idEstado'), 'idestado'],
             [Sequelize.fn('COUNT', Sequelize.col('*')), 'numeroCasos'],
           ],
@@ -81,7 +82,7 @@ casosCalls.post('/get-casos', async (req, res) => {
           },
           group: ['estado.nombre'],
           order: [['final', 'ASC'],
-                ['orden', 'ASC']]
+        ['orden', 'ASC']],
         });
         
         res.json(casosPorEstado);
