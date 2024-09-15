@@ -80,7 +80,8 @@ casosCalls.post('/get-casos', async (req, res) => {
             )
           },
           group: ['estado.nombre'],
-          order: [['final', 'ASC']],
+          order: [['final', 'ASC'],
+                ['orden', 'ASC']]
         });
         
         res.json(casosPorEstado);
