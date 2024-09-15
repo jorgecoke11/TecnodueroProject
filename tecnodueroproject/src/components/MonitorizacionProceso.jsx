@@ -117,7 +117,16 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
        }catch(err){
 
        }
-    
+
+    }
+    const getRowStyle= (final)=>{
+        switch(final){
+            case 1:
+                return "stylish-cell";
+            default:
+                return {backgroundColor: "transparent"};
+            
+        }
     }
     return(
         <div className="container col-4 p-3 border rounded">
@@ -146,10 +155,10 @@ const MonitorizacionProceso = ({nombreProceso, id_proceso}) =>{
                             <tbody>
                                 {casosPorTipo[key].casos.length > 0 ? (
                                     casosPorTipo[key].casos.map((caso, casoIndex) => (
-                                        <tr key={casoIndex}>
-                                            <td>{caso.nombre}</td>
-                                            <td>
-                                                <button onClick={() => handleClickCasos(caso.idestado, casosPorTipo[key].tipoCaso.idtipo)}>
+                                        <tr key={casoIndex} className= {getRowStyle(caso.final)}>
+                                            <td style={{backgroundColor: "transparent"}}>{caso.nombre}</td>
+                                            <td style={{backgroundColor: "transparent"}}>
+                                                <button className="button-17" onClick={() => handleClickCasos(caso.idestado, casosPorTipo[key].tipoCaso.idtipo)}>
                                                     {caso.numeroCasos}
                                                 </button>
                                             </td>

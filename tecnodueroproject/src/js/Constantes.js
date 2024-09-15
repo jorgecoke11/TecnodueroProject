@@ -4,4 +4,4 @@ export const Constantes = {
     EJECUTABLE_PRECIOS: 3,
 }
 export default Constantes
-//25.33.118.163
+//192.168.1.3
