@@ -22,6 +22,7 @@ import EndPointsUtils from './controllers/EndPointsUtils.js';
 import ejecucionesCalls from './controllers/Ejecuciones.js'
 import trazaCalls from './controllers/traza.js';
 import path from 'path';
+import desplieguesCalls from './controllers/Despliegue.js';
 dotenv.config();
 
 const app = express()
@@ -55,6 +56,7 @@ app.use('/api/avisos/clientes', clientesCalls)
 app.use('/api/avisos/direcciones', direccionesCalls)
 app.use('/api/avisos/avisos', AvisosCalls)
 app.use('/api/utils', EndPointsUtils)
+app.use('/api/robots/despliegues',desplieguesCalls)
 try {
     await db.authenticate()
     console.log('Conexion correcta a la base de datos')

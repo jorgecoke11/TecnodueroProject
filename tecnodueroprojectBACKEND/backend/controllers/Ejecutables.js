@@ -1,12 +1,6 @@
-import jwt from 'jsonwebtoken';
-import express, { response } from 'express';
-import { execFile } from 'child_process';
-import { execPath } from 'process';
-import casosModel from '../models/casosModel.js';
+import express from 'express';
 import ejecutablesModel from '../models/ejecutablesModel.js'
 import Utils from './Utils.js'
-import { INTEGER, Sequelize } from 'sequelize';
-import tipoCasoModel from '../models/tipoCasoModel.js';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 const ejecutablesCalls = express.Router();
 
@@ -31,6 +25,17 @@ ejecutablesCalls.post('/get-ejecutable-generico',async(req, res)=>{
         const response = await ejecutablesModel.findOne({
             where: req.body.whereGenerico    
         })
+        res.json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
+ejecutablesCalls.get('/get-all-ejecutables',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        console.log(req.body)
+        const response = await ejecutablesModel.findAll();
+        console.log(response)
         res.json(response)
     }catch(error){
         console.log(error)
