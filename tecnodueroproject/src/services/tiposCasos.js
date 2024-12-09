@@ -1,14 +1,9 @@
 import axios from "axios";
 import Constantes from '../js/Constantes.js';
-import sessionData from '../js/sessionData';
 
 const baseUrl = Constantes.URI + 'api/robots/tiposcaso/'
 
-const config = {
-    headers: {
-        Authorization: sessionData.token
-    }
-};
+
 const getTiposDeCaso = async (jwt,where) =>{
     try{
         const config = {

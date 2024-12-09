@@ -7,6 +7,7 @@ import Utils from './Utils.js'
 import estadosModel from '../models/estadosModel.js'
 import { INTEGER, Sequelize } from 'sequelize';
 import tipoCasoModel from '../models/tipoCasoModel.js';
+import { Json } from 'sequelize/lib/utils';
 const atributos = ['idCaso', 'idEstadoFK', 'idRobotFK', 'nombre', 'porcentaje', 'datos']
 const casosCalls = express.Router();
 casosCalls.post('/get-caso-generico',async(req, res)=>{
@@ -21,6 +22,26 @@ casosCalls.post('/get-caso-generico',async(req, res)=>{
       console.log(error)
   }
 })
+casosCalls.post('/update-bussiness-data', async (req, res) => {
+  try {
+    Utils.checkToken(req, res);
+    const caso = await casosModel.findOne({
+      where: req.body.whereGenerico, // Filtro dinámico
+    });
+
+    if (caso) {
+      await caso.update({
+        jsonNegocio: req.body.jsonNegocio,
+      });
+      res.status(200).send({ message: 'Datos actualizados correctamente.' });
+    } else {
+      res.status(404).send({ message: 'Caso no encontrado.' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ message: 'Error al actualizar los datos.' });
+  }
+});
 casosCalls.post('/create-casos', async (req, res) => {
     try {
         checkToken(req,res)
