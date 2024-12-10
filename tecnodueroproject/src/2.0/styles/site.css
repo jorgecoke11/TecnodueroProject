@@ -124,6 +124,78 @@
     display: inline-block;
     padding: 5px 0;
   }
+  .main-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #4a90e2; /* Azul elegante */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+}
+
+.main-button:hover {
+    background-color: #357abd; /* Azul más oscuro */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    transform: translateY(-2px); /* Leve elevación */
+}
+
+.main-button:active {
+    background-color: #2c6ba1; /* Azul aún más oscuro */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2); /* Sombra reducida */
+    transform: translateY(0); /* Restablecer elevación */
+}
+
+.main-button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.5); /* Resalte en azul */
+}
+
+.elegant-form {
+  max-width: 70%;
+  margin: 50px auto; /* Centra el formulario en la página */
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Sombra para profundidad */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.elegant-input {
+    display: block;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333; /* Texto oscuro para mejor legibilidad */
+    background-color: #f9f9f9; /* Fondo muy claro */
+    border: 1px solid #dcdcdc; /* Borde sutil */
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1); /* Sombra interna suave */
+}
+
+/* Estado al hacer focus */
+.elegant-input:focus {
+    border-color: #4a90e2; /* Borde azul elegante */
+    background-color: #ffffff; /* Fondo blanco para resaltar */
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.6); /* Resplandor azul externo */
+}
+
+/* Estilo del placeholder */
+.elegant-input::placeholder {
+    color: #a0a0a0; /* Placeholder gris suave */
+    font-style: italic;
+} 
+
+
+
+
   
   
   
