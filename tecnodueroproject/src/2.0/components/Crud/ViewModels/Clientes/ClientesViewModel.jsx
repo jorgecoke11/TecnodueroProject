@@ -1,11 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Crud from "../../Crud";
 import ActionButton from "../../../Buttons/ActionButton";
 import DynamicForm from "../../../BaseComponents/DynamicForm";
 import { Navigate, useNavigate } from 'react-router-dom';
-
-const TestCrud = () => {
+import clientesServices from '../../../../../services/clientes'
+import useUser from "../../../../../hooks/useUser.js";
+const ClientesViewModel = () => {
+  const { jwt } = useUser();
+  const [clientes, setClientes] = useState([]);
   const navigate = useNavigate();
+
+  const getClientes = async () => {
+    try {
+      const response = await clientesServices.getClientes(jwt);
+      setClientes(response); // Assuming response structure has a "data" property containing array of clients
+    } catch (error) {
+      console.error("Error fetching clientes:", error);
+    }
+  }
+  useEffect(() => {
+    getClientes()
+  }, []);
   const columns = React.useMemo(
     () => [
       {
@@ -17,12 +32,20 @@ const TestCrud = () => {
         accessor: "nombre",
       },
       {
-        Header: "Edad",
-        accessor: "edad",
+        Header: "Apellidos",
+        accessor: "apellidos",
       },
       {
-        Header: "Ciudad",
-        accessor: "ciudad",
+        Header: "Telefono",
+        accessor: "telefono",
+      },
+      {
+        Header: "Email",
+        accessor: "email",
+      },
+      {
+        Header: "Documento",
+        accessor: "nif",
       },
       {
         Header: "Acciones",
@@ -31,26 +54,12 @@ const TestCrud = () => {
     ],
     []
   );
-
-  const [data, setData] = useState([
-    { id: 1, nombre: "Juan Pérez", edad: 30, ciudad: "Madrid" },
-    { id: 2, nombre: "María López", edad: 25, ciudad: "Barcelona" },
-    { id: 3, nombre: "Carlos Gómez", edad: 40, ciudad: "Sevilla" },
-  ]);
-
   // Función para editar una fila
   const editFunction = (id) => {
-    const editData = data.find(d=> d.id === id) 
-    console.log(editData)
-    
-    navigate('/prueba/edit/', {
-      state: {
-        id:2
-      },
-    });
+    navigate('/clientes/edit/'+ id);
   };
 
-  const enrichedData = data.map((value) => ({
+  const enrichedData = clientes.map((value) => ({
     ...value,
     acciones: (
       <ActionButton
@@ -63,7 +72,7 @@ const TestCrud = () => {
 
   const Action = (
     <ActionButton
-    className={'main-button'}
+      className={'main-button'}
       oncClick={() => {
         alert("CLICK");
       }}
@@ -79,4 +88,4 @@ const TestCrud = () => {
   );
 };
 
-export default TestCrud;
+export default ClientesViewModel;

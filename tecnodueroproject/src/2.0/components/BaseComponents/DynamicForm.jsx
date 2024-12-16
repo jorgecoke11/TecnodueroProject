@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-const DynamicForm = ({fields, buttons}) => {
+const DynamicForm = ({fields, buttons, onSubmit}) => {
 
   const [formValues, setFormValues] = useState(fields);
 
@@ -23,7 +23,8 @@ const DynamicForm = ({fields, buttons}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Submitted Data:', formValues);
-    alert('Formulario enviado. Verifica la consola.');
+    onSubmit(formValues)
+    
   };
 
   const renderField = (value) => {

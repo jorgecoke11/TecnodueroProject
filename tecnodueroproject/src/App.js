@@ -14,10 +14,10 @@ import Clientes from './components/CRUDClientes/Clientes';
 import Direcciones from './components/CRUDDirecciones/Direcciones';
 import Avisos from './components/CRUDAvisos/Avisos';
 import EjecucionMonitorizacion from './components/Ejecuciones/EjecucionMonitorizacion';
-import TestCrud from './2.0/components/Crud/ViewModels/TestCrud/TestCrud';
 import DynamicForm from './2.0/components/BaseComponents/DynamicForm';
 import "bootstrap-icons/font/bootstrap-icons.css";
-import TestFormCrud from './2.0/components/Crud/Contoller/Test/TestFormCrud';
+import ClientesViewModel from './2.0/components/Crud/ViewModels/Clientes/ClientesViewModel';
+import ClientesFormCurd from './2.0/components/Crud/Contoller/ClientesFormCrud'
 function App() {
 
 
@@ -31,11 +31,11 @@ function App() {
             <Route path='/Robots' element={<Robot></Robot>}></Route>
             <Route path='/Home' element={<MainMenu></MainMenu>}></Route>
             <Route path='/Monitorizacion' element={<Monitorizacion></Monitorizacion>}></Route>
-            <Route path='/clientes' element={<Clientes></Clientes>}></Route>
+            {/* <Route path='/clientes' element={<Clientes></Clientes>}></Route> */}
             <Route path='/direcciones' element={<Direcciones></Direcciones>}></Route>
             <Route path='/avisos' element={<Avisos></Avisos>}></Route>
-            <Route path='/prueba' element={<TestCrud></TestCrud>}></Route> 
-            <Route path='/prueba/edit/:id?' element={<TestFormCrud/>} />
+            <Route path='/clientes/edit/:id?' element={<ClientesFormCurd/>} />
+            <Route path='/clientes' element={<ClientesViewModel/>} />
             <Route path='/Monitorizacion/ejecucion/:id_caso_fk' element={<EjecucionMonitorizacion></EjecucionMonitorizacion>}></Route>
           </Routes>
         </BrowserRouter>        

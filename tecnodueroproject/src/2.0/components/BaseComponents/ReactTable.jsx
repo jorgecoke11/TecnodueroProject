@@ -94,7 +94,7 @@ const ReactTable = ({ columns, data }) => {
             <div id='Pagination' className='d-flex justify-content-between pagination'>
                 <div className='pagination-text'>
                     <span>
-                        Página {pageIndex + 1} de {pageCount}
+                        Página {pageIndex + 1} de {pageCount} 
                     </span>
                 </div>
                 <div>
