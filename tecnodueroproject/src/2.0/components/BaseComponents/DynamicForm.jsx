@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-const DynamicForm = ({fields, buttons, onSubmit}) => {
+const DynamicForm = ({fields, buttons, onSubmit, title}) => {
 
   const [formValues, setFormValues] = useState(fields);
 
@@ -23,17 +23,21 @@ const DynamicForm = ({fields, buttons, onSubmit}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Submitted Data:', formValues);
-    onSubmit(formValues)
-    
+    const newData = formValues.reduce((acc, { id, content }) => {
+      acc[id] = content; 
+      return acc;
+  }, {});
+    onSubmit(newData)
   };
 
   const renderField = (value) => {
-    // Detectar el tipo de campo según el valor
     if (value.type === 'number') {
       return (
         <div key={value.label} style={{ marginBottom: '10px' }}>
           <label style={{ display: 'block', fontWeight: 'bold' }}>{value.label}:</label>
           <input
+          disabled={value.disabled || false}
+            required= {value.required || false}
             type="number"
             className='elegant-input'
             name={value.label}
@@ -50,6 +54,8 @@ const DynamicForm = ({fields, buttons, onSubmit}) => {
           <label style={{ display: 'block', fontWeight: 'bold' }}>{value.label}:</label>
           {value.length > 50 ? (
             <textarea
+            disabled={value.disabled || false}
+            required= {value.required || false}
               name={value.label}
               value={value.content}
               onChange={handleChange}
@@ -57,6 +63,8 @@ const DynamicForm = ({fields, buttons, onSubmit}) => {
             />
           ) : (
             <input
+            disabled={value.disabled || false}
+            required= {value.required || false}
               type="text"
               className='elegant-input'
               name={value.label}
@@ -73,6 +81,8 @@ const DynamicForm = ({fields, buttons, onSubmit}) => {
         <div key={value.label} style={{ marginBottom: '10px' }}>
           <label style={{ display: 'block', fontWeight: 'bold' }}>
             <input
+            disabled={value.disabled || false}
+            required= {value.required || false}
               type="checkbox"
               name={value.label}
               checked={value.content}
@@ -89,6 +99,8 @@ const DynamicForm = ({fields, buttons, onSubmit}) => {
       <div key={value.label} style={{ marginBottom: '10px' }}>
         <label style={{ display: 'block', fontWeight: 'bold' }}>{value.label}:</label>
         <input
+        disabled={value.disabled || false}
+        required= {value.required || false}
           type="text"
           name={value.label}
           value={value.content}
@@ -100,7 +112,9 @@ const DynamicForm = ({fields, buttons, onSubmit}) => {
   };
 
   return (
+   
     <form onSubmit={handleSubmit} className='elegant-form'>
+       <h2 style={{ marginBottom: "15px" }}>{title}</h2>
       {formValues.map((value) => renderField(value))}
       {buttons}
     </form>

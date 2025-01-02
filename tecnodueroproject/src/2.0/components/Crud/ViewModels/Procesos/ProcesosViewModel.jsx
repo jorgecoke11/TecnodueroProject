@@ -1,70 +1,61 @@
 import React, { useState, useEffect } from "react";
 import Crud from "../../Crud";
 import ActionButton from "../../../Buttons/ActionButton";
-import clientesServices from '../../../../../services/clientes'
+import procesosServices from '../../../../../services/Procesos.js'
 import useUser from "../../../../../hooks/useUser.js";
-const ClientesViewModel = () => {
+const ProcesosViewModel = () => {
   const { jwt } = useUser();
-  const [clientes, setClientes] = useState([]);
+  const [procesos, setProcesos] = useState([]);
 
-  const getClientes = async () => {
+  const getProcesos = async () => {
     try {
-      const response = await clientesServices.getClientes(jwt);
-      setClientes(response); // Assuming response structure has a "data" property containing array of clients
+      const response = await procesosServices.getProcesos(jwt);
+      setProcesos(response);
     } catch (error) {
-      console.error("Error fetching clientes:", error);
+      console.error("Error fetching procesos:", error);
     }
   }
   useEffect(() => {
-    getClientes()
+    getProcesos()
   }, []);
   const columns = React.useMemo(
     () => [
       {
         Header: "ID",
-        accessor: "id", // Clave del objeto
+        accessor: "idRobot", // Clave del objeto
       },
       {
         Header: "Nombre",
-        accessor: "nombre",
+        accessor: "Nombre",
       },
       {
-        Header: "Apellidos",
-        accessor: "apellidos",
-      },
-      {
-        Header: "Telefono",
-        accessor: "telefono",
-      },
-      {
-        Header: "Email",
-        accessor: "email",
-      },
-      {
-        Header: "Documento",
-        accessor: "nif",
+        Header: "Conmutador",
+        accessor: "conmutador",
       },
       {
         Header: "Acciones",
-        accessor: "acciones",
-      },
+        accessor: "acciones"
+      }
     ],
     []
   );
 
-  const enrichedData = clientes.map((value) => ({
+  const enrichedData = procesos.map((value) => ({
     ...value,
+    conmutador: (<div className={value.conmutador == 1 ? "bordered-cell-on" : "bordered-cell-off"}>
+        {value.conmutador== 1 ? "ON" : "OFF"}
+        </div>),
     acciones: (
       <>
         <ActionButton
           title={"Editar"}
-          action={'/clientes/edit/' + value.id}
+          action={'/procesos/configuracion' + value.idRobot}
           className={"btn bi bi-pencil-square"}
         >
         </ActionButton>
         <ActionButton
           title={"Eliminar"}
-          action={'/clientes/delete/' + value.id}
+          action={'/clientes/delete/' + value.idRobot}
           className={"btn bi bi-trash3-fill"}
         ></ActionButton>
       </>
@@ -87,4 +78,4 @@ const ClientesViewModel = () => {
   );
 };
 
-export default ClientesViewModel;
+export default ProcesosViewModel;

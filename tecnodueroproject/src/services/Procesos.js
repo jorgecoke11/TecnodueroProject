@@ -29,4 +29,4 @@ const updateConmutador = (jwt, args)=>{
     const request = axios.post(URI +'api/procesos/update-conmutador',args,config)
     return request.then(response => response.data)
 }
-export default { getProcesos, updateConmutador}
+export default { getProcesos, updateConmutador, getProceso}

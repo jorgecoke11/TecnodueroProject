@@ -20,7 +20,7 @@ clientesCalls.post('/create-cliente',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
         const datosCliente = req.body.cliente
-        await clientesModel.create(datosCliente, {
+        const response = await clientesModel.create(datosCliente, {
             fields: ['nombre', 'apellidos', 'telefono', 'email', 'email',  'nif']
           });
         res.status(200).json(response)
