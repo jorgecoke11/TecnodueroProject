@@ -1,8 +1,18 @@
-import React, { useState } from "react";
-import EjecutablesViewModel from '../Crud/ViewModels/Ejecutables/EjecutablesViewModel'
+import React, { useState, useEffect } from "react";
+import EjecutablesViewModel from '../Crud/ViewModels/Ejecutables/EjecutablesViewModel';
+import { useParams } from "react-router-dom";
 
 const ProcesosView = () => {
-  const [activeTab, setActiveTab] = useState("Ejecutables");
+  const { idRobot, tab } = useParams();
+  
+  const [activeTab, setActiveTab] = useState(tab || "Ejecutables");
+
+  useEffect(() => {
+    // Si el parámetro 'tab' cambia en la URL, actualizar la pestaña activa.
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [tab]);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);
@@ -29,18 +39,14 @@ const ProcesosView = () => {
         >
           Despliegue
         </button>
-        <button
-          className="tab-item disabled"
-          disabled
-        >
+        <button className="tab-item" disabled>
           Disabled
         </button>
       </div>
       <div className="tabs-content">
-        {activeTab === "Ejecutables" && <EjecutablesViewModel></EjecutablesViewModel>}
-        {activeTab === "Parametros" && <div>Profile Content</div>}
-        {activeTab === "Despliegue" && <div>Contact Content</div>}
-        {activeTab === "disabled" && <div>Disabled Content</div>}
+        {activeTab === "Ejecutables" && <EjecutablesViewModel idProcess={idRobot} activeTab={activeTab}/>}
+        {activeTab === "Parametros" && <div>Parámetros Content</div>}
+        {activeTab === "Despliegue" && <div>Despliegue Content</div>}
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ const ProcesosViewModel = () => {
       <>
         <ActionButton
           title={"Editar"}
-          action={'/procesos/configuracion' + value.idRobot}
+          action={'/procesos/configuracion/' + value.idRobot}
           className={"btn bi bi-pencil-square"}
         >
         </ActionButton>

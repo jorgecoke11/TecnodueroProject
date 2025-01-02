@@ -21,11 +21,11 @@ ejecutablesCalls.post('/get-ejecutables',async(req, res)=>{
 ejecutablesCalls.post('/get-ejecutable-generico',async(req, res)=>{
     try{
         Utils.checkToken(req,res)
-        console.log(req.body)
+        console.log(req.body.whereGenerico)
         const response = await ejecutablesModel.findOne({
             where: req.body.whereGenerico    
         })
-        res.json(response)
+        res.status(200).json(response)
     }catch(error){
         console.log(error)
     }

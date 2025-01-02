@@ -3,15 +3,23 @@ import Crud from "../../Crud";
 import ActionButton from "../../../Buttons/ActionButton";
 import ejecutablesServices from '../../../../../services/ejecutables.js'
 import useUser from "../../../../../hooks/useUser.js";
-const EjecutablesViewModel = () => {
+const EjecutablesViewModel = ({idProcess, activeTab}) => {
   const { jwt } = useUser();
   const [ejecutables, setEjecutables] = useState([]);
 
   const getEjecutables = async () => {
     try {
-      const response = await ejecutablesServices.getEjecutables(jwt,{idRobot:1});
+      const response = await ejecutablesServices.getEjecutables(jwt,{idRobot:idProcess});
       setEjecutables(response);
     } catch (error) {
+      console.error("Error fetching procesos:", error);
+    }
+  }
+  const conmutar = async (status,nombre) =>{
+    try{
+      const response = await ejecutablesServices.updateStatus(jwt, {status: status== 1 ? 0 : 1, criterio: nombre})
+      getEjecutables();
+    }catch(error){
       console.error("Error fetching procesos:", error);
     }
   }
@@ -46,20 +54,20 @@ const EjecutablesViewModel = () => {
 
   const enrichedData = ejecutables.map((value) => ({
     ...value,
-    status: (<div className={value.status == 1 ? "bordered-cell-on" : "bordered-cell-off"}>
-        {value.conmutador== 1 ? "ON" : "OFF"}
+    status: (<div className={value.status == 0 ? "bordered-cell-on" : "bordered-cell-off"}>
+        {value.status== 0 ? "ON" : "OFF"}
         </div>),
     acciones: (
       <>
         <ActionButton
-          title={"Editar"}
-          action={'/procesos/configuracion' + value.idRobot}
-          className={"btn bi bi-pencil-square"}
+          title={"Conmutar"}
+          className={"btn bi bi-power"}
+          oncClick={()=>conmutar(value.status, value.nombre)}
         >
         </ActionButton>
         <ActionButton
           title={"Eliminar"}
-          action={'/clientes/delete/' + value.idRobot}
+          action={'/ejecutables/delete/' + value.id + "/" + activeTab + "/" + idProcess}
           className={"btn bi bi-trash3-fill"}
         ></ActionButton>
       </>
