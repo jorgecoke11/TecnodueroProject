@@ -19,6 +19,21 @@ const getParametros = async (jwt,argumentos) =>{
         throw error; // Puedes relanzar el error para manejarlo en otro lugar si es necesario
     }
 }
+const getParametro = async (jwt,argumentos) =>{
+    try {
+        const config = {
+            headers: {
+                Authorization: jwt
+            }
+        };
+
+        const response = await axios.post(baseUrl + '/get-parametro-generico', argumentos, config);
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener casos:', error);
+        throw error; // Puedes relanzar el error para manejarlo en otro lugar si es necesario
+    }
+}
 const updateParametro = async (jwt,argumentos) =>{
     try{
         const config = {
@@ -33,4 +48,4 @@ const updateParametro = async (jwt,argumentos) =>{
         throw error
     }
 }
-export default {getParametros, updateParametro}
+export default {getParametros, updateParametro, getParametro}

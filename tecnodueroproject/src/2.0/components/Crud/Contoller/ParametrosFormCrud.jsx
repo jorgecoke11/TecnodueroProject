@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useParams } from "react-router-dom";
 import ActionButton from "../../../components/Buttons/ActionButton";
 import useUser from "../../../../hooks/useUser";
-import ejecutablesServices from "../../../../services/ejecutables";
+import parametrosServices from "../../../../services/parametros";
 import FormCrud from "../FromCrud";
-const EjecutablesFormCrud = ({ action }) => {
+const ParametrosFormCrud = ({ action }) => {
     const { id, activeTab, idProcess } = useParams();
     const navegate = useNavigate();
     const { jwt } = useUser();
@@ -31,7 +31,7 @@ const EjecutablesFormCrud = ({ action }) => {
             }
             let ejecutableData
             if (id && action == "edit" || action == "delete") {
-                const response = await ejecutablesServices.getEjecutable(jwt, {
+                const response = await parametrosServices.getParametro(jwt, {
                     whereGenerico: {
                         id: parseInt(id, 10)
                     }
@@ -51,18 +51,18 @@ const EjecutablesFormCrud = ({ action }) => {
             {
                 required: true,
                 disabled: isDelete,
-                id: 'nombre',
+                id: 'codigo',
                 type: 'string',
-                content: ejecutableData.nombre || '',
-                label: 'Nombre',
+                content: ejecutableData.codigo || '',
+                label: 'Código',
             },
             {
                 required: true,
                 disabled: isDelete,
-                id: 'ruta',
+                id: 'valor',
                 type: 'string',
-                content: ejecutableData.ruta || '',
-                label: 'Ruta',
+                content: ejecutableData.valor || '',
+                label: 'Valor',
             },
         ];
     
@@ -80,41 +80,11 @@ const EjecutablesFormCrud = ({ action }) => {
     };
     
     const handleEditPost = async (formValues) => {
-        try {
-            console.log(formValues)
-            await ejecutablesServices.updateEjecutable(jwt, {
-                nuevosDatos: formValues,
-                criterio: {
-                    id: id
-                }
-            })
-            navegate("/procesos/configuracion/" + activeTab + "/" + idProcess)
-        } catch (error) {
-            console.log(error)
-        }
     }
     const handleAddPost = async (formValues) => {
-        try {
-            const response = await ejecutablesServices.createEjecutable(jwt, {
-                nuevosDatos: formValues
-            })
-            console.log(response)
-            navegate("/procesos/configuracion/" + activeTab + "/" + idProcess)
-        } catch (error) {
-            console.log(error)
-        }
     }
     const handleDeletePost = async () => {
-        try {
-            const response = await ejecutablesServices.deleteEjecutable(jwt, {
-                whereGenerico: {
-                    id: id
-                }
-            })
-            navegate("/procesos/configuracion/" + activeTab + "/" + idProcess)
-        } catch (error) {
-            console.log(error)
-        }
+
     }
     const handleSubmit = (formValues) => {
         switch (action) {
@@ -143,4 +113,4 @@ const EjecutablesFormCrud = ({ action }) => {
     );
 };
 
-export default EjecutablesFormCrud;
+export default ParametrosFormCrud;

@@ -53,6 +53,20 @@ function checkToken(req, res){
       console.log(error)
     }
   });
+  parametrosCalls.post('/get-parametro-generico', async (req, res) => {
+    try {
+        // Ejecutar la actualización
+       await checkToken(req, res);
+        const body = req.body;
+        console.log(body);
+        const resultado = await parametrosModel.findOne({
+          where: body.whereGenerico 
+      });
+        res.json(resultado)
+    } catch (error) {
+      console.log(error)
+    }
+  });
   parametrosCalls.post('/update-valor', async (req, res) => {
     try {
         // Ejecutar la actualización

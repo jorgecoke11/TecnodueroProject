@@ -39,7 +39,21 @@ const ProcesosViewModel = () => {
     ],
     []
   );
-
+  const conmutar = async(conmutador, idRobot)=>{
+    try{
+        const response = await procesosServices.updateProceso(jwt,{
+            nuevosDatos: {
+                conmutador: conmutador == 1 ? 0 : 1
+            },
+            criterio: {
+                idRobot: idRobot
+            }
+        })
+        getProcesos()
+    }catch(error){
+        console.log(error)
+    }
+}
   const enrichedData = procesos.map((value) => ({
     ...value,
     conmutador: (<div className={value.conmutador == 1 ? "bordered-cell-on" : "bordered-cell-off"}>
@@ -47,15 +61,27 @@ const ProcesosViewModel = () => {
         </div>),
     acciones: (
       <>
+       <ActionButton
+          title={"Conmutar"}
+          className={"btn bi bi-power"}
+          oncClick={()=>conmutar(value.conmutador, value.idRobot)}
+        >
+        </ActionButton>
+        <ActionButton
+          title={"Configuración"}
+          action={'/procesos/configuracion/' + value.idRobot}
+          className={"btn bi bi-gear-fill"}
+        >
+        </ActionButton>
         <ActionButton
           title={"Editar"}
-          action={'/procesos/configuracion/' + value.idRobot}
+          action={'/procesos/edit/' + value.idRobot}
           className={"btn bi bi-pencil-square"}
         >
         </ActionButton>
         <ActionButton
           title={"Eliminar"}
-          action={'/clientes/delete/' + value.idRobot}
+          action={'/procesos/delete/' + value.idRobot}
           className={"btn bi bi-trash3-fill"}
         ></ActionButton>
       </>
@@ -65,7 +91,7 @@ const ProcesosViewModel = () => {
   const Action = (
     <ActionButton
       className={'main-button'}
-      action='/clientes/create'
+      action='/procesos/create'
     >
       Añadir
     </ActionButton>

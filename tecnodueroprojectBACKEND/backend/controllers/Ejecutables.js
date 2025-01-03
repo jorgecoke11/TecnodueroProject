@@ -54,4 +54,41 @@ ejecutablesCalls.post('/update-status',async(req, res)=>{
         console.log(error)
     }
 })
+ejecutablesCalls.post('/delete-ejecutable',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        const response = await ejecutablesModel.destroy({
+            where: req.body.whereGenerico
+        })
+        res.status(200).json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
+ejecutablesCalls.post('/create-ejecutable',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        let nuevosDatos = req.body.nuevosDatos
+
+        const response = await ejecutablesModel.create(nuevosDatos, {
+            fields: ['nombre', 'ruta', 'id_robot_fk']
+          });
+        res.status(200).json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
+ejecutablesCalls.post('/update-ejecutable',async(req, res)=>{
+    try{
+        Utils.checkToken(req,res)
+        let nuevosDatos = req.body.nuevosDatos
+        let criterio = req.body.criterio
+       const response =  await ejecutablesModel.update(nuevosDatos, {
+            where: criterio
+          });
+        res.status(200).json(response)
+    }catch(error){
+        console.log(error)
+    }
+})
 export default ejecutablesCalls

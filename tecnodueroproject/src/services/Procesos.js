@@ -29,4 +29,31 @@ const updateConmutador = (jwt, args)=>{
     const request = axios.post(URI +'api/procesos/update-conmutador',args,config)
     return request.then(response => response.data)
 }
-export default { getProcesos, updateConmutador, getProceso}
+const updateProceso = (jwt, args)=>{
+    const config = {
+        headers: {
+            Authorization: jwt
+        }
+    };
+    const request = axios.post(URI +'api/procesos/update-proceso',args,config)
+    return request.then(response => response.data)
+}
+const createProceso = async(jwt, args)=>{
+    const config = {
+        headers: {
+            Authorization: jwt
+        }
+    };
+    const request = await axios.post(URI +'api/procesos/create-proceso',args,config)
+    return request.data
+}
+const deleteProceso = async(jwt, args)=>{
+    const config = {
+        headers: {
+            Authorization: jwt
+        }
+    };
+    const request = await axios.post(URI +'api/procesos/delete-proceso',args,config)
+    return request.data
+}
+export default { getProcesos, updateConmutador, getProceso, updateProceso,createProceso, deleteProceso}

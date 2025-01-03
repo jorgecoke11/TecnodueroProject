@@ -62,4 +62,41 @@ function checkToken(req, res){
         console.log(error)
     }
 })
+procesosCalls.post('/update-proceso', async (req, res) => {
+  try{
+      checkToken(req, res)
+      let nuevosDatos = req.body.nuevosDatos
+      let criterio = req.body.criterio
+      const respuesta = await procesosModel.update(nuevosDatos,
+          {where: criterio}
+      )
+      res.status(200).json(respuesta)
+  } catch (error) {
+      console.log(error)
+  }
+})
+procesosCalls.post('/delete-proceso', async (req, res) => {
+  try{
+      checkToken(req, res)
+      const respuesta = await procesosModel.destroy(
+          {where: req.body.whereGenerico}
+      )
+      res.status(200).json(respuesta)
+  } catch (error) {
+      console.log(error)
+  }
+})
+procesosCalls.post('/create-proceso',async(req, res)=>{
+    try{
+        checkToken(req,res)
+        let nuevosDatos = req.body.nuevosDatos
+        console.log(req.body)
+        const response = await procesosModel.create(nuevosDatos, {
+            fields: ['Nombre']
+          });
+        res.status(200).json(response)
+    }catch(error){
+      console.log(error)
+    }
+})
   export default procesosCalls

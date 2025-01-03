@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EjecutablesViewModel from '../Crud/ViewModels/Ejecutables/EjecutablesViewModel';
 import { useParams } from "react-router-dom";
+import ParametrosViewModel from "../Crud/ViewModels/Parametros/ParametrosViewModel";
 
 const ProcesosView = () => {
   const { idRobot, tab } = useParams();
@@ -45,7 +46,7 @@ const ProcesosView = () => {
       </div>
       <div className="tabs-content">
         {activeTab === "Ejecutables" && <EjecutablesViewModel idProcess={idRobot} activeTab={activeTab}/>}
-        {activeTab === "Parametros" && <div>Parámetros Content</div>}
+        {activeTab === "Parametros" && <ParametrosViewModel idProcess={idRobot} activeTab={activeTab}></ParametrosViewModel>}
         {activeTab === "Despliegue" && <div>Despliegue Content</div>}
       </div>
     </div>

@@ -54,8 +54,8 @@ const EjecutablesViewModel = ({idProcess, activeTab}) => {
 
   const enrichedData = ejecutables.map((value) => ({
     ...value,
-    status: (<div className={value.status == 0 ? "bordered-cell-on" : "bordered-cell-off"}>
-        {value.status== 0 ? "ON" : "OFF"}
+    status: (<div className={value.status == 1 ? "bordered-cell-on" : "bordered-cell-off"}>
+        {value.status== 1 ? "ON" : "OFF"}
         </div>),
     acciones: (
       <>
@@ -63,6 +63,12 @@ const EjecutablesViewModel = ({idProcess, activeTab}) => {
           title={"Conmutar"}
           className={"btn bi bi-power"}
           oncClick={()=>conmutar(value.status, value.nombre)}
+        >
+        </ActionButton>
+        <ActionButton
+          title={"Editar"}
+          className={"btn bi bi-pencil-square"}
+          action={'/ejecutables/edit/' + value.id + "/" + activeTab + "/" + idProcess}
         >
         </ActionButton>
         <ActionButton
@@ -77,7 +83,7 @@ const EjecutablesViewModel = ({idProcess, activeTab}) => {
   const Action = (
     <ActionButton
       className={'main-button'}
-      action='/clientes/create'
+      action={'/ejecutables/create/' + activeTab + "/" + idProcess}
     >
       Añadir
     </ActionButton>

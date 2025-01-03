@@ -119,13 +119,13 @@ const ClientesFormCrud = ({action}) => {
             console.log(error)
         }
     }
-    const handleSubmit = () => {
+    const handleSubmit = (formValues) => {
         switch (action) {
           case 'edit':
-            handleEditPost();
+            handleEditPost(formValues);
             break;
           case 'create':
-            handleAddPost();
+            handleAddPost(formValues);
             break;
           case 'delete':
             handleDeletePost();

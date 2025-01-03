@@ -30,5 +30,32 @@ const getEjecutable = async(jwt, args)=>{
     const response = await axios.post( baseUrl + '/get-ejecutable-generico', args, config)
     return response.data
 }
+const deleteEjecutable = async(jwt, args)=>{
+    const config = {
+        headers:{
+            Authorization: jwt
+        }
+    }
+    const response = await axios.post(baseUrl + '/delete-ejecutable', args, config)
+    return response.data
+}
+const createEjecutable = async(jwt, args)=>{
+    const config = {
+        headers:{
+            Authorization: jwt
+        }
+    }
+    const response = await axios.post(baseUrl + '/create-ejecutable', args, config)
+    return response.data
+}
+const updateEjecutable = async(jwt, args)=>{
+    const config = {
+        headers:{
+            Authorization: jwt
+        }
+    }
+    const response = await axios.post(baseUrl + '/update-ejecutable', args, config)
+    return response.data
+}
 
-export default {getEjecutables, updateStatus,getEjecutable}
+export default {getEjecutables, updateStatus,getEjecutable, deleteEjecutable,createEjecutable, updateEjecutable}

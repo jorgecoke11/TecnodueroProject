@@ -31,6 +31,23 @@ const DynamicForm = ({fields, buttons, onSubmit, title}) => {
   };
 
   const renderField = (value) => {
+    if (value.type === 'hidden') {
+      return (
+        <div key={value.label} style={{ marginBottom: '10px', display: "none" }}>
+          <label style={{ display: 'block', fontWeight: 'bold' }}>{value.label}:</label>
+          <input
+          disabled={value.disabled || false}
+            required= {value.required || false}
+            type="hidden"
+            className='elegant-input'
+            name={value.label}
+            value={value.content}
+            onChange={handleChange}
+            style={{ width: '100%', padding: '5px' }}
+          />
+        </div>
+      );
+    }
     if (value.type === 'number') {
       return (
         <div key={value.label} style={{ marginBottom: '10px' }}>
